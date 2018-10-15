@@ -52,7 +52,7 @@ feature -- Test routines
 			l_result: STRING
 		do
 			l_result := output_of_command (jsreport_cmd, jsreport_directory)
-			assert_strings_equal ("jsreport_cli_result", jsreport_cli_result, l_result)
+			assert_32 ("rendering_success", l_result.has_substring ("rendering has finished successfully and saved in: "))
 		end
 
 feature {NONE} -- Implementation: Test Support
@@ -155,12 +155,12 @@ incoming API request.
                         <table>
                             <tr>
                                 <td class="title">
-                                    <img src="{#asset ..\tests\assets\logo.png @encoding=dataURI}" style="width:100%; max-width:300px;" />
+                                    <img src="C:\Users\LJR19\Documents\GitHub\ereport\tests\assets\logo.png" style="width:100%; max-width:300px;" />
                                 </td>
                                 <td>
                                     Invoice #: {{number}}
-                                    <br> Created: {{now}}
-                                    <br> Due: {{nowPlus20Days}}
+                                    <br> Created: {{creation_date}}
+                                    <br> Due: {{net_20_date}}
                                 </td>
                             </tr>
                         </table>
@@ -205,7 +205,7 @@ incoming API request.
                 <tr class="total ">
                     <td></td>
                     <td>
-                        Total: ${{total items}}
+                        Total: ${{item_total}}
                     </td>
                 </tr>
             </table>
@@ -217,6 +217,8 @@ incoming API request.
 	data_json: STRING = "[
 {
     "number": "123",
+    "creation_date": "10/01/2018",
+    "net_20_date": "10/21/2018",
     "seller": {
         "name": "Next Step Webs, Inc.",
         "road": "12345 Sunny Road",
@@ -227,10 +229,37 @@ incoming API request.
         "road": "16 Johnson Road",
         "country": "Paris, France 8060"
     },
-    "items": [{
-        "name": "Website design",
-        "price": 300
-    }]
+    "items": [
+    	{"name": "Website design", "price": "300.00"},
+    	{"name": "Widget #1", "price": "100.00"},
+    	{"name": "Widget #2", "price": "200.00"},
+    	{"name": "Widget #3", "price": "300.00"},
+    	{"name": "Widget #4", "price": "400.00"},
+    	{"name": "Widget #5", "price": "500.00"},
+    	{"name": "Widget #6", "price": "600.00"},
+    	{"name": "Widget #7", "price": "700.00"},
+    	{"name": "Widget #8", "price": "800.00"},
+    	{"name": "Widget #9", "price": "900.00"},
+    	{"name": "Service #1", "price": "100.00"},
+    	{"name": "Service #2", "price": "200.00"},
+    	{"name": "Service #3", "price": "300.00"},
+    	{"name": "Service #4", "price": "400.00"},
+    	{"name": "Service #5", "price": "500.00"},
+    	{"name": "Service #6", "price": "600.00"},
+    	{"name": "Service #7", "price": "700.00"},
+    	{"name": "Service #8", "price": "800.00"},
+    	{"name": "Service #9", "price": "900.00"},
+    	{"name": "Other #1", "price": "100.00"},
+    	{"name": "Other #2", "price": "200.00"},
+    	{"name": "Other #3", "price": "300.00"},
+    	{"name": "Other #4", "price": "400.00"},
+    	{"name": "Other #5", "price": "500.00"},
+    	{"name": "Other #6", "price": "600.00"},
+    	{"name": "Other #7", "price": "700.00"},
+    	{"name": "Other #8", "price": "800.00"},
+    	{"name": "Other #9", "price": "900.00"}
+    	],
+    "item_total": "13,800.00"
 }
 ]"
 
