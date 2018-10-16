@@ -208,6 +208,7 @@ incoming API request.
                         Total: ${{item_total}}
                     </td>
                 </tr>
+		        Page&nbsp;<span class="pageNumber"></span>&nbsp;of&nbsp;<span class="totalPages"></span>
             </table>
         </div>
     </body>
