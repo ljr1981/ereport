@@ -116,4 +116,9 @@ feature {NONE} -- Implementation: Delimiters
 	opening_delimiter: STRING = "<<"
 	closing_delimiter: STRING = ">>"
 
+invariant
+	type_set: type.key.pdf_out.same_string_general ("/Type")
+	pages_set: pages.key.pdf_out.same_string_general ("/Pages")
+	outlines_set: attached outlines as al_outlines implies al_outlines.key.pdf_out.same_string_general ("/Outlines")
+
 end

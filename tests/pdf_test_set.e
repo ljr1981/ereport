@@ -199,7 +199,7 @@ endobj
 			l_ind_5,
 			l_ind_6: PDF_INDIRECT_OBJECT
 
-			l_dic_1,
+			l_catalog: PDF_CATALOG
 			l_dic_2,
 			l_dic_3,
 			l_dic_4,
@@ -213,7 +213,7 @@ endobj
 
 			create l_ind_2; create l_dic_2; l_ind_2.add_object (l_dic_2)
 			create l_ind_3; create l_dic_3; l_ind_3.add_object (l_dic_3)
-			create l_ind_1; create l_dic_1.make_with_outlines ("Catalog", l_ind_3.ref, l_ind_2.ref); l_ind_1.add_object (l_dic_1)
+			create l_ind_1; create l_catalog.make_with_refs (l_ind_3.ref, l_ind_2.ref); l_ind_1.add_object (l_catalog)
 			create l_ind_4; create l_dic_4; l_ind_4.add_object (l_dic_4)
 			create l_ind_5; create l_dic_5; l_ind_5.add_object (l_dic_5)
 			create l_ind_6; create l_dic_6; l_ind_6.add_object (l_dic_6)
