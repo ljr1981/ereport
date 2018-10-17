@@ -5,7 +5,7 @@ class
 	PDF_DOCUMENT
 
 inherit
-	PDF_TOKEN
+	PDF_ANY
 		redefine
 			default_create
 		end

@@ -44,6 +44,16 @@ feature {NONE} -- Initialization
 			create items.make_from_array (a_refs)
 		end
 
+feature -- Settings
+
+	add_item (a_item: PDF_OBJECT [detachable ANY])
+			--
+		do
+			check has_items: attached items as al_items then
+				al_items.force (a_item)
+			end
+		end
+
 feature -- Output
 
 	pdf_out: STRING

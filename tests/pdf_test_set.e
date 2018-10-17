@@ -292,7 +292,7 @@ feature {NONE} -- Test Support: In-system References
 	pdf_integer: detachable PDF_INTEGER
 	pdf_decimal: detachable PDF_DECIMAL
 	pdf_string: detachable PDF_STRING
-	pdf_array: detachable PDF_ARRAY
+
 	pdf_name: detachable PDF_NAME
 
 	pdf_container: detachable PDF_OBJECT_CONTAINER
@@ -339,7 +339,7 @@ stream
 BT
 /F1 20 Tf
 120 120 Td
-(Hello from Larry Rix) Tj
+(Hello from Steve) Tj
 ET
 endstream
 endobj

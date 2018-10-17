@@ -80,6 +80,9 @@ feature -- Output
 			-- <Precursor>
 		do
 			create Result.make_empty
+			Result.append_string_general (key.pdf_out)
+			Result.append_character (' ')
+			Result.append_string_general (value.pdf_out)
 		end
 
 feature {NONE} -- Implementation: Delimiters

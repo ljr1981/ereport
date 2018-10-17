@@ -7,7 +7,7 @@ deferred class
 	PDF_OBJECT [G -> detachable ANY]
 
 inherit
-	PDF_TOKEN
+	PDF_ANY
 
 feature -- Access
 

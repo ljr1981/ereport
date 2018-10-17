@@ -7,6 +7,6 @@ deferred class
 	PDF_DOC_ELEMENT
 
 inherit
-	PDF_TOKEN
+	PDF_ANY
 
 end

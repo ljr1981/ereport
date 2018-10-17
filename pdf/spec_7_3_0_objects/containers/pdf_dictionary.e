@@ -77,6 +77,16 @@ feature -- Settings
 			objects_attached.force (obj)
 		end
 
+	add_keyed_array (a_key: STRING; a_obj: PDF_ARRAY)
+		do
+			objects_attached.force (create {PDF_KEY_VALUE}.make_as_array (a_key, a_obj))
+		end
+
+	add_keyed_array_of_refs (a_key: STRING; a_obj: PDF_ARRAY)
+		do
+			objects_attached.force (create {PDF_KEY_VALUE}.make_as_array_of_refs (a_key, a_obj))
+		end
+
 	set_pages (a_obj_ref: PDF_OBJECT_REFERENCE)
 		do
 			create pages.make_as_obj_ref ("Pages", a_obj_ref)

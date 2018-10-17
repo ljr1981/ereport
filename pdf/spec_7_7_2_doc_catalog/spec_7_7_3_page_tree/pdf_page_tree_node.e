@@ -5,7 +5,7 @@ class
 	PDF_PAGE_TREE_NODE
 
 inherit
-	PDF_TOKEN
+	PDF_ANY
 
 create
 	make_root,

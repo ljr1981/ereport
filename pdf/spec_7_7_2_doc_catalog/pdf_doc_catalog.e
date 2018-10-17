@@ -5,7 +5,7 @@ class
 	PDF_DOC_CATALOG
 
 inherit
-	PDF_TOKEN
+	PDF_ANY
 
 feature -- Access
 

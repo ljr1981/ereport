@@ -6,6 +6,35 @@ class
 
 inherit
 	PDF_OBJECT [BOOLEAN]
+		redefine
+			default_create
+		end
+
+create
+	default_create,
+	make_true,
+	make_false
+
+feature {NONE} -- Initialization
+
+	default_create
+			-- <Precursor>
+		do
+			Precursor
+			set_false
+		end
+
+	make_true
+			--
+		do
+			set_true
+		end
+
+	make_false
+			--
+		do
+			set_false
+		end
 
 feature -- Settings
 
@@ -16,10 +45,11 @@ feature -- Output
 
 	pdf_out: STRING
 		do
+			create Result.make_empty
 			if value then
-				Result := True_kw
+				Result.append_string_general (True_kw)
 			else
-				Result := False_kw
+				Result.append_string_general (False_kw)
 			end
 		end
 
