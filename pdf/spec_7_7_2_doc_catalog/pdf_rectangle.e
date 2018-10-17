@@ -5,54 +5,59 @@ class
 	PDF_RECTANGLE
 
 inherit
-	PDF_TOKEN
+	PDF_ARRAY
 		redefine
-			default_create
+			pdf_out
 		end
+
+create
+	make
 
 feature {NONE} -- Initialization
 
-	default_create
-			-- <Precursor>
+	make (llx, lly, urx, ury: STRING)
+			--
 		do
-			Precursor
-			create lower_left_x.make_zero
-			create lower_left_y.make_zero
-			create upper_right_x.make_zero
-			create upper_right_y.make_zero
+			default_create
+			set_lower_left_x (llx)
+			set_lower_left_y (lly)
+			set_upper_right_x (urx)
+			set_upper_right_y (ury)
 		end
 
-feature -- Access
-
-	lower_left_x,
-	lower_left_y,
-	upper_right_x,
-	upper_right_y: DECIMAL
 
 feature -- Settings
 
 	set_lower_left_x (s: STRING)
 			--
 		do
-			create lower_left_x.make_from_string (s)
+			if attached items as al_items then
+				al_items.force (create {PDF_DECIMAL}.make_with_string (s))
+			end
 		end
 
 	set_lower_left_y (s: STRING)
 			--
 		do
-			create lower_left_y.make_from_string (s)
+			if attached items as al_items then
+				al_items.force (create {PDF_DECIMAL}.make_with_string (s))
+			end
 		end
 
 	set_upper_right_x (s: STRING)
 			--
 		do
-			create upper_right_x.make_from_string (s)
+			if attached items as al_items then
+				al_items.force (create {PDF_DECIMAL}.make_with_string (s))
+			end
 		end
 
 	set_upper_right_y (s: STRING)
 			--
 		do
-			create upper_right_y.make_from_string (s)
+			if attached items as al_items then
+				al_items.force (create {PDF_DECIMAL}.make_with_string (s))
+			end
 		end
 
 feature -- Output
@@ -60,7 +65,7 @@ feature -- Output
 	pdf_out: STRING
 			-- <Precursor>
 		do
-			create Result.make_empty
+			Result := Precursor
 		end
 
 end

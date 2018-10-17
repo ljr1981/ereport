@@ -55,6 +55,9 @@ feature -- Output
 					al_items as ic
 				loop
 					Result.append_string_general (ic.item.pdf_out)
+					if not al_items.islast then
+						Result.append_character (' ')
+					end
 				end
 			end
 			Result.append_character (']')

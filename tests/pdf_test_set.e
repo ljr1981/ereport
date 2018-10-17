@@ -210,7 +210,7 @@ endobj
 			create l_ind_5; create l_dic_5; l_ind_5.add_object (l_dic_5)
 			create l_ind_6; create l_dic_6; l_ind_6.add_object (l_dic_6)
 
-			create l_page_4.make (l_ind_5.ref, Void)
+			create l_page_4.make (l_ind_5.ref, ["0", "0", "612", "792"], Void)
 			create l_pages_3.make_with_kids (<<l_page_4.ref>>)
 			create l_outlines_2
 			create l_catalog_1.make (l_pages_3.ref, l_outlines_2.ref)
@@ -248,7 +248,7 @@ endobj
 <<
 /Count 1
 /Type /Pages
-/Kids [4 0 R]
+/Kids [4 0 R ]
 
 >>
  
@@ -257,6 +257,7 @@ endobj
 <<
 /Type /Page
 /Contents 5 0 R
+/MediaBox [0 0 612 792 ]
 /Parent 3 0 R
 
 >>
