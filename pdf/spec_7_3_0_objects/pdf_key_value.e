@@ -13,7 +13,8 @@ inherit
 create
 	default_create,
 	make_as_name,
-	make_as_obj_ref
+	make_as_obj_ref,
+	make_as_integer
 
 feature {NONE} -- Initialization
 
@@ -27,6 +28,12 @@ feature {NONE} -- Initialization
 			--
 		do
 			item := [create {PDF_NAME}.make (a_key), a_obj_ref]
+		end
+
+	make_as_integer (a_key: STRING; a_value: INTEGER)
+			--
+		do
+			item := [create {PDF_NAME}.make (a_key), create {PDF_INTEGER}.make_with_integer (a_value)]
 		end
 
 feature -- Access

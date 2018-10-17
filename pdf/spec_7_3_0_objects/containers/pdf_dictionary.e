@@ -23,11 +23,21 @@ feature {NONE} -- Initialization
 			--
 		do
 			default_create
-			create type.make_as_name ("Type", a_type_value)
+			make_with_type (a_type_value)
 			create pages.make_as_obj_ref ("Pages", a_pages_ref)
 
+			check has_pages: attached pages as al_pages then
+				add_object (al_pages)
+			end
+		end
+
+	make_with_type (a_type_value: STRING)
+			--
+		do
+			default_create
+			create type.make_as_name ("Type", a_type_value)
+
 			add_object (type)
-			add_object (pages)
 		end
 
 	make_with_outlines (a_type_value: STRING; a_pages_ref, a_outlines_ref: PDF_OBJECT_REFERENCE)
@@ -56,10 +66,7 @@ feature -- Access
 			create Result.make_as_name ("Type", "Unknown")
 		end
 
-	pages: PDF_KEY_VALUE
-		attribute
-			create Result.make_as_name ("Pages", "Unknown")
-		end
+	pages: detachable PDF_KEY_VALUE
 
 	outlines: detachable PDF_KEY_VALUE
 
@@ -118,7 +125,7 @@ feature {NONE} -- Implementation: Delimiters
 
 invariant
 	type_set: type.key.pdf_out.same_string_general ("/Type")
-	pages_set: pages.key.pdf_out.same_string_general ("/Pages")
+	pages_set: attached pages as al_pages implies al_pages.key.pdf_out.same_string_general ("/Pages")
 	outlines_set: attached outlines as al_outlines implies al_outlines.key.pdf_out.same_string_general ("/Outlines")
 
 end
