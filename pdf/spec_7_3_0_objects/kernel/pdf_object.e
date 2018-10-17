@@ -24,6 +24,14 @@ feature -- Access
 		deferred
 		end
 
+feature -- Settings
+
+	set_value (a_value: attached like value)
+			--
+		do
+			value := a_value
+		end
+
 feature -- Queries
 
 	length: INTEGER

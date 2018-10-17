@@ -14,7 +14,9 @@ inherit
 
 create
 	default_create,
-	make_with_objects
+	make_with_objects,
+	make_with_indirects,
+	make_with_obj_refs
 
 feature {NONE} -- Initialization
 
@@ -30,11 +32,32 @@ feature {NONE} -- Initialization
 			create items.make_from_array (a_objects)
 		end
 
+	make_with_indirects (a_objects: ARRAY [PDF_INDIRECT_OBJECT])
+			-- `make_with_objects' in list `a_objects'.
+		do
+			create items.make_from_array (a_objects)
+		end
+
+	make_with_obj_refs (a_refs: ARRAY [PDF_OBJECT_REFERENCE])
+			--
+		do
+			create items.make_from_array (a_refs)
+		end
+
 feature -- Output
 
 	pdf_out: STRING
 		do
 			create Result.make_empty
+			Result.append_character ('[')
+			if attached items as al_items then
+				across
+					al_items as ic
+				loop
+					Result.append_string_general (ic.item.pdf_out)
+				end
+			end
+			Result.append_character (']')
 		end
 
 feature {NONE} -- Implementation: Delimiters

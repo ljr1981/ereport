@@ -21,6 +21,8 @@ feature -- Access
 			create Result.make_with_object (Current)
 		end
 
+	parent_ref: detachable PDF_OBJECT_REFERENCE
+
 feature -- Settings
 
 	set_object_number (n: like object_number)
@@ -41,6 +43,12 @@ feature -- Settings
 			end
 		ensure
 			set: old generation_number = 0 implies generation_number = n
+		end
+
+	set_parent_ref (a_ref: attached like parent_ref)
+			--
+		do
+			parent_ref := a_ref
 		end
 
 feature -- Output

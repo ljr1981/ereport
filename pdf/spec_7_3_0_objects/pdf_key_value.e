@@ -14,7 +14,9 @@ create
 	default_create,
 	make_as_name,
 	make_as_obj_ref,
-	make_as_integer
+	make_as_integer,
+	make_as_array,
+	make_as_array_of_refs
 
 feature {NONE} -- Initialization
 
@@ -36,6 +38,16 @@ feature {NONE} -- Initialization
 			item := [create {PDF_NAME}.make (a_key), create {PDF_INTEGER}.make_with_integer (a_value)]
 		end
 
+	make_as_array (a_key: STRING; a_value: PDF_ARRAY)
+		do
+			item := [create {PDF_NAME}.make (a_key), a_value]
+		end
+
+	make_as_array_of_refs (a_key: STRING; a_value: PDF_ARRAY)
+		do
+			item := [create {PDF_NAME}.make (a_key), a_value]
+		end
+
 feature -- Access
 
 	key: PDF_NAME
@@ -49,6 +61,16 @@ feature -- Access
 		do
 			check attached item as al_item then
 				Result := al_item.value
+			end
+		end
+
+feature -- Settings
+
+	set_key (a_key: STRING)
+			--
+		do
+			check has_item: attached item as al_item then
+				al_item.key.set_value (a_key)
 			end
 		end
 

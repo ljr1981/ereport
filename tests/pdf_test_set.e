@@ -152,7 +152,6 @@ feature -- Tests
 			l_body: PDF_BODY
 			l_item: PDF_INDIRECT_OBJECT
 			l_dict: PDF_DICTIONARY
-			l_string: PDF_STRING
 		do
 			create l_body
 			create l_item
@@ -192,35 +191,34 @@ endobj
 		local
 			l_doc: PDF_DOCUMENT
 
-			l_outlines: PDF_OUTLINES_DICTIONARY
-			l_ind_1,
-			l_ind_3,
-			l_ind_4,
 			l_ind_5,
 			l_ind_6: PDF_INDIRECT_OBJECT
 
-			l_catalog: PDF_CATALOG
+			l_page_4: PDF_PAGE
+			l_pages_3: PDF_PAGES
+			l_outlines_2: PDF_OUTLINES
+			l_catalog_1: PDF_CATALOG
+
 			l_dic_3,
 			l_dic_4,
 			l_dic_5,
 			l_dic_6: PDF_DICTIONARY
-
-			l_nam: PDF_NAME
 		do
 			create l_doc
 			l_doc.header.set_version (4)
 
-			create l_outlines.make
-			create l_ind_3; create l_dic_3; l_ind_3.add_object (l_dic_3)
-			create l_ind_1; create l_catalog.make_with_refs (l_ind_3.ref, l_outlines.ref); l_ind_1.add_object (l_catalog)
-			create l_ind_4; create l_dic_4; l_ind_4.add_object (l_dic_4)
 			create l_ind_5; create l_dic_5; l_ind_5.add_object (l_dic_5)
 			create l_ind_6; create l_dic_6; l_ind_6.add_object (l_dic_6)
 
-			l_doc.body.add_object (l_ind_1)
-			l_doc.body.add_object (l_outlines)
-			l_doc.body.add_object (l_ind_3)
-			l_doc.body.add_object (l_ind_4)
+			create l_page_4.make (l_ind_5.ref, Void)
+			create l_pages_3.make_with_kids (<<l_page_4.ref>>)
+			create l_outlines_2
+			create l_catalog_1.make (l_pages_3.ref, l_outlines_2.ref)
+
+			l_doc.body.add_object (l_catalog_1)
+			l_doc.body.add_object (l_outlines_2)
+			l_doc.body.add_object (l_pages_3)
+			l_doc.body.add_object (l_page_4)
 			l_doc.body.add_object (l_ind_5)
 			l_doc.body.add_object (l_ind_6)
 
@@ -248,12 +246,18 @@ endobj
 endobj
 3 0 obj
 <<
+/Count 1
+/Type /Pages
+/Kids [4 0 R]
 
 >>
  
 endobj
 4 0 obj
 <<
+/Type /Page
+/Contents 5 0 R
+/Parent 3 0 R
 
 >>
  

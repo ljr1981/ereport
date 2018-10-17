@@ -22,6 +22,20 @@ feature -- Access
 
 	object: PDF_INDIRECT_OBJECT
 
+	parent_ref: detachable like object.parent_ref
+			--
+		do
+			Result := object.parent_ref
+		end
+
+feature -- Settings
+
+	set_parent_ref (a_ref: attached like parent_ref)
+			--
+		do
+			object.set_parent_ref (a_ref)
+		end
+
 feature -- Output
 
 	pdf_out: STRING
