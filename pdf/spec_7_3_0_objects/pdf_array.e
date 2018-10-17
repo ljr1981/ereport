@@ -37,7 +37,12 @@ feature -- Output
 			create Result.make_empty
 		end
 
-note
+feature {NONE} -- Implementation: Delimiters
+
+	opening_delimiter: STRING once ("OBJECT") Result := left_square_bracket.out end
+	closing_delimiter: STRING once ("OBJECT") Result := right_square_bracket.out end
+
+;note
 	specification: "ISO 32000-1, section 7.3.6 Array Objects"
 	EIS: "name=pdf_spec", "protocol=pdf", "src=C:\Users\LJR19\Documents\_Moonshot\moon_training\Training Material\Specifications\PDF\PDF32000_2008.pdf"
 

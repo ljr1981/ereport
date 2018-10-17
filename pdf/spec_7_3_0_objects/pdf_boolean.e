@@ -23,7 +23,12 @@ feature -- Output
 			end
 		end
 
-note
+feature {NONE} -- Implementation: Delimiters
+
+	opening_delimiter: STRING once ("OBJECT") Result := Space.out end
+	closing_delimiter: STRING once ("OBJECT") Result := Space.out end
+
+;note
 	specification: "ISO 32000-1, section 7.3.2 Boolean Objects"
 	EIS: "name=pdf_spec", "protocol=pdf", "src=C:\Users\LJR19\Documents\_Moonshot\moon_training\Training Material\Specifications\PDF\PDF32000_2008.pdf"
 

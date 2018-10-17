@@ -5,7 +5,7 @@ class
 	PDF_DOCUMENT
 
 inherit
-	ANY
+	PDF_TOKEN
 		redefine
 			default_create
 		end
@@ -41,5 +41,17 @@ feature -- Access
 	trailer: PDF_TRAILER
 			-- `trailer' of Current.
 			-- Giving the location of the `xref_table' and of certain "special objects" in Current.
+
+feature -- Output
+
+	pdf_out: STRING
+			-- <Precursor>
+		do
+			create Result.make_empty
+			Result.append_string_general (header.pdf_out)
+			Result.append_string_general (body.pdf_out)
+			Result.append_string_general (xref_table.pdf_out)
+			Result.append_string_general (trailer.pdf_out)
+		end
 
 end

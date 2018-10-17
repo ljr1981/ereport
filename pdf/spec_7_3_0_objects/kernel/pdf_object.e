@@ -11,8 +11,18 @@ inherit
 
 feature -- Access
 
+	opening_delimiter: STRING
+			--
+		deferred
+		end
+
 	value: detachable G
 			-- The `value' (if any) of Current.
+
+	closing_delimiter: STRING
+			--
+		deferred
+		end
 
 feature -- Queries
 
@@ -28,11 +38,18 @@ feature -- Queries
 			Result := pdf_out.count.to_hex_string
 		end
 
-feature -- Output
-
-	pdf_out: STRING
-			-- Output as PDF specification.
-		deferred
+	string_to_hex (s: STRING): ARRAY [INTEGER]
+			--
+		local
+			l_codes: ARRAYED_LIST [INTEGER]
+		do
+			create l_codes.make (s.count)
+			across
+				s as ic
+			loop
+				l_codes.force (ic.item.code)
+			end
+			Result := l_codes.to_array
 		end
 
 end

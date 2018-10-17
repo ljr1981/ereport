@@ -81,7 +81,7 @@ feature -- Output
 	literal_text_out: STRING
 			--
 		do
-			Result := "("
+			Result := opening_delimiter.twin
 			if attached literal_text as al then
 				across
 					al as ic_char
@@ -115,21 +115,30 @@ feature -- Output
 					end
 				end
 			end
-			Result.append_character (')')
+			Result.append_string_general (closing_delimiter)
 		end
 
 	hex_out: STRING
+		local
+			l_hex: STRING
 		do
 			Result := "<"
 			across
 				hex_data as ic
 			loop
-				Result.append_string_general (ic.item.to_hex_string)
+				l_hex := ic.item.to_hex_string
+				l_hex.remove_head (ic.item // 16)
+				Result.append_string_general (l_hex)
 			end
 			Result.append_character ('>')
 		end
 
-note
+feature {NONE} -- Implementation: Delimiters
+
+	opening_delimiter: STRING once ("OBJECT") Result := left_parenthesis.out end
+	closing_delimiter: STRING once ("OBJECT") Result := right_parenthesis.out end
+
+;note
 	specification: "ISO 32000-1, section 7.3.4.2 Literal Strings"
 	EIS: "name=pdf_spec", "protocol=pdf", "src=C:\Users\LJR19\Documents\_Moonshot\moon_training\Training Material\Specifications\PDF\PDF32000_2008.pdf"
 

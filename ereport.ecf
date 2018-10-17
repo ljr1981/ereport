@@ -16,6 +16,7 @@
 		<library name="encoder" location="$ISE_LIBRARY\contrib\library\web\framework\ewf\text\encoder\encoder.ecf"/>
 		<library name="framework" location="..\framework\framework.ecf"/>
 		<library name="test_extension" location="..\test_extension\test_extension.ecf"/>
+		<library name="time" location="iron:time:time.ecf"/>
 		<cluster name="ereport" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/.git$</exclude>
