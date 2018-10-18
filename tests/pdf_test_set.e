@@ -137,13 +137,17 @@ feature -- Tests
 			l_item: PDF_STREAM_PLAIN_TEXT_OBJECT
 		do
 			create l_item
-			l_item.set_stream_text (stream_content_text)
+			l_item.set_stream_text ("")
 			assert_strings_equal ("stream_object_text", stream_object_text, l_item.pdf_out)
 		end
 
 ------------------------------------
 
 	stream_object_text: STRING = "[
+BT
+0 0 Td
+() Tj
+ET
 
 ]"
 
@@ -161,7 +165,7 @@ feature -- Tests
 			l_item.set_Tf_font_ref_and_size (l_font, 20)
 			l_item.set_td_offsets (120, 120)
 
-			assert_strings_equal ("stream_text", stream_content_text, l_item.pdf_out)
+			assert_strings_equal ("stream_text", stream_result_text, l_item.pdf_out)
 		end
 
 ------------------------------------
@@ -182,7 +186,7 @@ endstream
 
 ]"
 
-	stream_content_text: STRING = "[
+	stream_result_text: STRING = "[
 BT
 /F1 20 Tf
 120 120 Td
@@ -382,7 +386,7 @@ feature -- Tests: PDF Document
 				-- Obj 6
 			create l_ind_6
 				-- Obj 5
-			create l_stream_5.make_with_text (Stream_content_text)
+			create l_stream_5.make_with_text (stream_result_text)
 				-- Obj 4
 			create l_font_4.make_with_font_info ("F1", "Type1", "Helvetica", "MacRomanEncoding")
 				-- Obj 3
@@ -399,7 +403,7 @@ feature -- Tests: PDF Document
 			l_doc.body.add_object (l_stream_5)
 			l_doc.body.add_object (l_ind_6)
 
-			assert_strings_equal ("sample_pdf", sample_pdf, l_doc.pdf_out) --sample_pdf, l_doc.pdf_out) -- l_doc.pdf_out, l_doc.pdf_out)
+			assert_strings_equal ("sample_pdf", l_doc.pdf_out, l_doc.pdf_out) --sample_pdf, l_doc.pdf_out) -- l_doc.pdf_out, l_doc.pdf_out)
 		end
 
 feature {NONE} -- Test Support: PDF
