@@ -131,13 +131,37 @@ feature -- Tests
 			assert_strings_equal ("hex_pdf_out_2", "<616263>", l_item.pdf_out)
 		end
 
-	pdf_stream_test
+	pdf_stream_text_object_test
+			--
 		local
-			l_item: PDF_STREAM_PLAIN_TEXT
+			l_item: PDF_STREAM_PLAIN_TEXT_OBJECT
 		do
 			create l_item
-			l_item.set_text (stream_content_text)
-			assert_strings_equal ("stream_text", stream_text, l_item.pdf_out)
+			l_item.set_stream_text (stream_content_text)
+			assert_strings_equal ("stream_object_text", stream_object_text, l_item.pdf_out)
+		end
+
+------------------------------------
+
+	stream_object_text: STRING = "[
+
+]"
+
+------------------------------------
+
+	pdf_stream_test
+			-- Test of PDF_STREAM_PLAIN_TEXT
+		local
+			l_item: PDF_STREAM_PLAIN_TEXT_OBJECT
+			l_font: PDF_FONT
+		do
+			create l_font.make_with_font_info ("F1", "subtype", "basefontname", "encodings")
+			create l_item
+			l_item.set_stream_text ("Hello from Steve")
+			l_item.set_Tf_font_ref_and_size (l_font, 20)
+			l_item.set_td_offsets (120, 120)
+
+			assert_strings_equal ("stream_text", stream_content_text, l_item.pdf_out)
 		end
 
 ------------------------------------
@@ -164,6 +188,7 @@ BT
 120 120 Td
 (Hello from Steve) Tj
 ET
+
 ]"
 
 ------------------------------------
@@ -342,9 +367,9 @@ feature -- Tests: PDF Document
 		local
 			l_doc: PDF_DOCUMENT
 
-			l_ind_5,
 			l_ind_6: PDF_INDIRECT_OBJECT
 
+			l_stream_5: PDF_STREAM_PLAIN_TEXT_OBJECT
 			l_font_4: PDF_FONT
 			l_font_4_ref_key_value: PDF_KEY_VALUE
 			l_page_3: PDF_PAGE
@@ -357,11 +382,11 @@ feature -- Tests: PDF Document
 				-- Obj 6
 			create l_ind_6
 				-- Obj 5
-			create l_ind_5
+			create l_stream_5.make_with_text (Stream_content_text)
 				-- Obj 4
 			create l_font_4.make_with_font_info ("F1", "Type1", "Helvetica", "MacRomanEncoding")
 				-- Obj 3
-			create l_page_3.make_with_font (l_ind_5.ref, ["0", "0", "500", "500"], l_font_4)
+			create l_page_3.make_with_font (l_stream_5.ref, ["0", "0", "500", "500"], l_font_4)
 				-- Obj 2
 			create l_pages_2.make_with_kids (<<l_page_3.ref>>)
 				-- Obj 1
@@ -371,10 +396,10 @@ feature -- Tests: PDF Document
 			l_doc.body.add_object (l_pages_2)
 			l_doc.body.add_object (l_page_3)
 			l_doc.body.add_object (l_font_4)
-			l_doc.body.add_object (l_ind_5)
+			l_doc.body.add_object (l_stream_5)
 			l_doc.body.add_object (l_ind_6)
 
-			assert_strings_equal ("sample_pdf", l_doc.pdf_out, l_doc.pdf_out) --sample_pdf, l_doc.pdf_out)
+			assert_strings_equal ("sample_pdf", sample_pdf, l_doc.pdf_out) --sample_pdf, l_doc.pdf_out) -- l_doc.pdf_out, l_doc.pdf_out)
 		end
 
 feature {NONE} -- Test Support: PDF
