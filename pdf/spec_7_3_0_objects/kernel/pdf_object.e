@@ -34,14 +34,14 @@ feature -- Settings
 
 feature -- Queries
 
-	length: INTEGER
-			-- `length' of Current as character count.
+	pdf_out_count: INTEGER
+			-- `pdf_out_count' of Current as character count.
 		do
 			Result := pdf_out.count
 		end
 
 	length_hex: STRING
-			-- Hex version of `length'.
+			-- Hex version of `pdf_out_count'.
 		do
 			Result := pdf_out.count.to_hex_string
 		end

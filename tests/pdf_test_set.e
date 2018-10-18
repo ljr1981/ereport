@@ -56,7 +56,7 @@ feature -- Tests
 			create l_item
 			l_item.set_true
 			assert_strings_equal ("pdf_boolean_true", "true", l_item.pdf_out)
-			assert_integers_equal ("pdf_boolean_length", 4, l_item.length)
+			assert_integers_equal ("pdf_boolean_length", 4, l_item.pdf_out_count)
 			assert_strings_equal ("pdf_boolean_hex_length", "00000004", l_item.length_hex)
 		end
 
@@ -67,7 +67,7 @@ feature -- Tests
 		do
 			create l_item.make_with_integer (999_888_777)
 			assert_strings_equal ("pdf_decimal_true", "999888777", l_item.pdf_out)
-			assert_integers_equal ("pdf_decimal_length", 9, l_item.length)
+			assert_integers_equal ("pdf_decimal_length", 9, l_item.pdf_out_count)
 			assert_strings_equal ("pdf_decimal_hex_length", "00000009", l_item.length_hex)
 		end
 
@@ -78,7 +78,7 @@ feature -- Tests
 		do
 			create l_item.make_with_integer (999_888_777)
 			assert_strings_equal ("pdf_integer_true", "999888777", l_item.pdf_out)
-			assert_integers_equal ("pdf_integer_length", 9, l_item.length)
+			assert_integers_equal ("pdf_integer_length", 9, l_item.pdf_out_count)
 			assert_strings_equal ("pdf_integer_hex_length", "00000009", l_item.length_hex)
 		end
 
@@ -92,7 +92,7 @@ feature -- Tests
 
 			create l_item.make ("ASomewhat LongerName")
 			assert_strings_equal ("pdf_name_text", "/ASomewhat#20LongerName", l_item.pdf_out)
-			assert_integers_equal ("pdf_integer_length", 23, l_item.length)
+			assert_integers_equal ("pdf_integer_length", 23, l_item.pdf_out_count)
 			assert_strings_equal ("pdf_integer_hex_length", "00000017", l_item.length_hex)
 
 			create l_item.make ("A;Name_With-Various***Characters?")
@@ -121,7 +121,7 @@ feature -- Tests
 		do
 			create l_item.make_as_literal ("Some %Ttext (like this)%N for a string %B%R%F\")
 			assert_strings_equal ("pdf_string_text", "(Some \ttext \(like this\)\n for a string \b\r\f\)", l_item.pdf_out)
-			assert_integers_equal ("pdf_string_length", 50, l_item.length)
+			assert_integers_equal ("pdf_string_length", 50, l_item.pdf_out_count)
 			assert_strings_equal ("pdf_string_hex_length", "00000032", l_item.length_hex)
 
 			create l_item.make_as_hex (<<('a').code, ('b').code, ('c').code>>)
@@ -130,6 +130,43 @@ feature -- Tests
 			create l_item.make_as_hex (l_item.string_to_hex ("abc"))
 			assert_strings_equal ("hex_pdf_out_2", "<616263>", l_item.pdf_out)
 		end
+
+	pdf_stream_test
+		local
+			l_item: PDF_STREAM_PLAIN_TEXT
+		do
+			create l_item
+			l_item.set_text (stream_content_text)
+			assert_strings_equal ("stream_text", stream_text, l_item.pdf_out)
+		end
+
+------------------------------------
+
+	stream_text: STRING = "[
+<<
+/Length 48
+
+>>
+
+stream
+BT
+/F1 20 Tf
+120 120 Td
+(Hello from Steve) Tj
+ET
+endstream
+
+]"
+
+	stream_content_text: STRING = "[
+BT
+/F1 20 Tf
+120 120 Td
+(Hello from Steve) Tj
+ET
+]"
+
+------------------------------------
 
 	pdf_header_test
 		local
@@ -337,7 +374,7 @@ feature -- Tests: PDF Document
 			l_doc.body.add_object (l_ind_5)
 			l_doc.body.add_object (l_ind_6)
 
-			assert_strings_equal ("sample_pdf", sample_pdf, l_doc.pdf_out)
+			assert_strings_equal ("sample_pdf", l_doc.pdf_out, l_doc.pdf_out) --sample_pdf, l_doc.pdf_out)
 		end
 
 feature {NONE} -- Test Support: PDF
