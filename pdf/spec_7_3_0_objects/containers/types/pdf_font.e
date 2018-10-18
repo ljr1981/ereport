@@ -37,13 +37,17 @@ feature {NONE} -- Initialization
 		end
 
 	make_with_font_info (a_name: STRING; a_subtype, a_base_font, a_encoding: STRING)
-			-- 
+			--
 		do
 			make (a_name)
 			dictionary.add_object (create {PDF_KEY_VALUE}.make_as_name ("Subtype", a_subtype))
 			dictionary.add_object (create {PDF_KEY_VALUE}.make_as_name ("BaseFont", a_base_font))
 			dictionary.add_object (create {PDF_KEY_VALUE}.make_as_name ("Encoding", a_encoding))
 		end
+
+feature -- Access
+
+	name: PDF_KEY_VALUE
 
 feature {NONE} -- Implementation: Access
 
@@ -55,6 +59,14 @@ feature {NONE} -- Implementation: Access
 
 	dictionary: PDF_DICTIONARY
 
-	name: PDF_KEY_VALUE
+feature -- Queries
+
+	name_value: STRING
+			-- Value of `name'.
+		do
+			check has_name: attached {STRING} name.value_in_value as al_text then
+				Result := al_text
+			end
+		end
 
 end

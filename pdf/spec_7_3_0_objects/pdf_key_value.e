@@ -70,6 +70,11 @@ feature -- Access
 			end
 		end
 
+	value_in_value: detachable ANY
+		do
+			Result := value.value
+		end
+
 feature -- Settings
 
 	set_key (a_key: STRING)

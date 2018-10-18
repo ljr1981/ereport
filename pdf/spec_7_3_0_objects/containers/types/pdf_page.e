@@ -24,13 +24,13 @@ inherit
 		end
 
 create
-	make
+	make,
+	make_with_font
 
 feature {NONE} -- Initialization
 
 	make (a_contents_ref: PDF_OBJECT_REFERENCE;
-				a_media_box: TUPLE [llx, lly, urx, ury: STRING];
-				a_resources_dict: detachable PDF_DICTIONARY)
+				a_media_box: TUPLE [llx, lly, urx, ury: STRING])
 			--
 		do
 			default_create
@@ -48,6 +48,16 @@ feature {NONE} -- Initialization
 			check has_box: attached media_box as al_box then
 				dictionary.add_object (al_box)
 			end
+		end
+
+	make_with_font (a_contents_ref: PDF_OBJECT_REFERENCE;
+				a_media_box: TUPLE [llx, lly, urx, ury: STRING];
+				a_font: PDF_FONT)
+			--
+		do
+			make (a_contents_ref, a_media_box)
+			init_resources
+			set_font_reference (a_font.name_value, a_font)
 		end
 
 feature -- Access

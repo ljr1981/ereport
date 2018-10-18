@@ -208,7 +208,7 @@ endobj
 			create l_ind_5; create l_dic_5; l_ind_5.add_object (l_dic_5)
 			create l_ind_6; create l_dic_6; l_ind_6.add_object (l_dic_6)
 
-			create l_page_4.make (l_ind_5.ref, ["0", "0", "612", "792"], Void)
+			create l_page_4.make (l_ind_5.ref, ["0", "0", "612", "792"])
 			create l_pages_3.make_with_kids (<<l_page_4.ref>>)
 			create l_outlines_2
 			create l_catalog_1.make (l_pages_3.ref, l_outlines_2.ref)
@@ -311,7 +311,6 @@ feature -- Tests: PDF Document
 			l_font_4: PDF_FONT
 			l_font_4_ref_key_value: PDF_KEY_VALUE
 			l_page_3: PDF_PAGE
-			l_page_3_font_dict: PDF_DICTIONARY
 			l_pages_2: PDF_PAGES
 			l_catalog_1: PDF_CATALOG
 		do
@@ -325,9 +324,7 @@ feature -- Tests: PDF Document
 				-- Obj 4
 			create l_font_4.make_with_font_info ("F1", "Type1", "Helvetica", "MacRomanEncoding")
 				-- Obj 3
-			create l_page_3.make (l_ind_5.ref, ["0", "0", "500", "500"], create {PDF_DICTIONARY})
-			l_page_3.init_resources
-			l_page_3.set_font_reference ("F1", l_font_4)
+			create l_page_3.make_with_font (l_ind_5.ref, ["0", "0", "500", "500"], l_font_4)
 				-- Obj 2
 			create l_pages_2.make_with_kids (<<l_page_3.ref>>)
 				-- Obj 1
