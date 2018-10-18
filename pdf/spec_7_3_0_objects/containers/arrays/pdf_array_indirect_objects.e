@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_ARRAY_INDIRECT_OBJECTS}."
+	description: "General array of {PDF_INDIRECT_OBJECT} items"
 
 class
 	PDF_ARRAY_INDIRECT_OBJECTS

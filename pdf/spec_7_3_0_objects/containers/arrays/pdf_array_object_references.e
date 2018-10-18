@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_ARRAY_OBJECT_REFERENCES}."
+	description: "General array of {PDF_OBJECT_REFERENCE} items"
 
 class
 	PDF_ARRAY_OBJECT_REFERENCES

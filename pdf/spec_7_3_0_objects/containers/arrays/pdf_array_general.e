@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_ARRAY_GENERAL}."
+	description: "General array of {PDF_OBJECT} items"
 
 deferred class
 	PDF_ARRAY_GENERAL [G -> PDF_OBJECT [detachable ANY]]

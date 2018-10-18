@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_ARRAY_STRINGS}."
+	description: "General array of {PDF_STRING} items"
 
 class
 	PDF_ARRAY_STRINGS

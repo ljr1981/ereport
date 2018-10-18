@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_ARRAY_INTEGERS}."
+	description: "General array of {PDF_INTEGER} items"
 
 class
 	PDF_ARRAY_INTEGERS

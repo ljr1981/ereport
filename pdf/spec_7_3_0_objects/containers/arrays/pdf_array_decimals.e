@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_ARRAY_DECIMALS}."
+	description: "General array of PDF_DECIMAL items"
 
 class
 	PDF_ARRAY_DECIMALS

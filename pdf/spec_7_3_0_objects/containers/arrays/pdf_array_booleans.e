@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_ARRAY_BOOLEANS}."
+	description: "General array of PDF_BOOLEAN items"
 
 class
 	PDF_ARRAY_BOOLEANS

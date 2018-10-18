@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 		end
 
 	make (a_pages_ref, a_outlines_ref: PDF_OBJECT_REFERENCE)
-			--
+			-- `make' with `a_pages_ref' and `a_outlines_ref'.
 		do
 			default_create
 
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_with_pages (a_pages_ref: PDF_OBJECT_REFERENCE)
-			--
+			-- `make_with_pages' of `a_pages_ref'.
 		do
 			default_create
 
@@ -56,15 +56,23 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	type: PDF_KEY_VALUE
-			--
+			-- Key (Type) Value (Catalog) pair.
 		attribute
 			create Result.make_as_name ("Type", "Catalog")
 		end
 
 	dictionary: PDF_DICTIONARY
+			-- Contains a `dictionary'.
 
 	pages: detachable PDF_KEY_VALUE
+			-- Has possible `pages'.
 
 	outlines: detachable PDF_KEY_VALUE
+			-- Has possible `outlines'.
+
+;note
+	main_spec: "7.7.2 Document Catalog"
+	other_specs: "4.8, 7.5.2, Table 15 Trailer Dictionary Root"
+	EIS: "name=pdf_spec", "protocol=pdf", "src=C:\Users\LJR19\Documents\_Moonshot\moon_training\Training Material\Specifications\PDF\PDF32000_2008.pdf"
 
 end

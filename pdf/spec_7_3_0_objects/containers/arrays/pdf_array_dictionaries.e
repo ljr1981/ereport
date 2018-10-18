@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_ARRAY_DICTIONARIES}."
+	description: "General array of PDF_DICTIONARY items"
 
 class
 	PDF_ARRAY_DICTIONARIES
