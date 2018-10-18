@@ -73,6 +73,6 @@ feature -- Access
 ;note
 	main_spec: "7.7.2 Document Catalog"
 	other_specs: "4.8, 7.5.2, Table 15 Trailer Dictionary Root"
-	EIS: "name=pdf_spec", "protocol=pdf", "src=C:\Users\LJR19\Documents\_Moonshot\moon_training\Training Material\Specifications\PDF\PDF32000_2008.pdf"
+	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
 end

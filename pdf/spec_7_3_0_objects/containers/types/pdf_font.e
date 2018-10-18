@@ -69,4 +69,9 @@ feature -- Queries
 			end
 		end
 
+;note
+	main_spec: "9.2 Organization and Use of Fonts"
+	other_specs: ""
+	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
+
 end

@@ -141,6 +141,6 @@ feature {NONE} -- Implementation: Delimiters
 
 ;note
 	specification: "ISO 32000-1, section 7.3.4.2 Literal Strings"
-	EIS: "name=pdf_spec", "protocol=pdf", "src=C:\Users\LJR19\Documents\_Moonshot\moon_training\Training Material\Specifications\PDF\PDF32000_2008.pdf"
+	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
 end
