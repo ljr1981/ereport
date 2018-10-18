@@ -372,7 +372,7 @@ feature -- Tests: PDF Document
 				-- Obj 4
 			create l_font_4.make_with_font_info ("F1", "Type1", "Helvetica", "MacRomanEncoding")
 				-- Obj 5
-			create l_stream_5.make_with_text ("Hello fromt Steve")
+			create l_stream_5.make_with_text ("Hello from Steve")
 			l_stream_5.set_tf_font_ref_and_size (l_font_4, 20)
 			l_stream_5.set_td_offsets (120, 120)
 				-- Obj 3
@@ -389,7 +389,7 @@ feature -- Tests: PDF Document
 			l_doc.body.add_object (l_stream_5)
 			l_doc.body.add_object (l_ind_6)
 
-			assert_strings_equal ("sample_pdf", l_doc.pdf_out, l_doc.pdf_out) --sample_pdf, l_doc.pdf_out) -- l_doc.pdf_out, l_doc.pdf_out)
+			assert_strings_equal ("sample_pdf", sample_pdf, l_doc.pdf_out) --sample_pdf, l_doc.pdf_out) -- l_doc.pdf_out, l_doc.pdf_out)
 		end
 
 feature {NONE} -- Test Support: PDF
@@ -397,36 +397,44 @@ feature {NONE} -- Test Support: PDF
 	sample_pdf: STRING = "[
 %PDF-1.4
 1 0 obj
-<</Type /Catalog
+<<
+/Type /Catalog
 /Pages 2 0 R
 >>
 endobj
 2 0 obj
-<</Type /Pages
-/Kids [3 0 R]
+<<
 /Count 1
+/Type /Pages
+/Kids [3 0 R]
 >>
 endobj
 3 0 obj
-<</Type /Page
-/Parent 2 0 R
-/MediaBox [0 0 500 500]
+<<
+/Type /Page
 /Contents 5 0 R
-/Resources <</ProcSet [/PDF /Text]
-/Font <</F1 4 0 R>>
+/MediaBox [0 0 500 500]
+/Resources <<
+/ProcSet [/PDF /Text]
+/Font <<
+/F1 4 0 R
 >>
+>>
+/Parent 2 0 R
 >>
 endobj
 4 0 obj
-<</Type /Font
-/Subtype /Type1
+<<
+/Type /Font
 /Name /F1
+/Subtype /Type1
 /BaseFont /Helvetica
 /Encoding /MacRomanEncoding
 >>
 endobj
 5 0 obj
-<</Length 53
+<<
+/Length 50
 >>
 stream
 BT
@@ -434,6 +442,7 @@ BT
 120 120 Td
 (Hello from Steve) Tj
 ET
+
 endstream
 endobj
 xref
