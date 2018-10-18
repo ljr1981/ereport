@@ -150,7 +150,7 @@ feature -- Tests
 ------------------------------------
 
 	pdf_stream_test
-			-- Test of PDF_STREAM_PLAIN_TEXT
+			-- Test of PDF_STREAM_PLAIN_TEXT_OBJECT
 		local
 			l_item: PDF_STREAM_PLAIN_TEXT_OBJECT
 			l_font: PDF_FONT
