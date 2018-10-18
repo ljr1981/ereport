@@ -93,4 +93,9 @@ feature -- Access
 	vp: detachable ANY
 			-- dictionary
 
+;note
+	main_spec: ""
+	other_specs: ""
+	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
+
 end

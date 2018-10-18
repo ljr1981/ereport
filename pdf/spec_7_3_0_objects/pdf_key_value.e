@@ -102,4 +102,9 @@ feature {NONE} -- Implementation: Delimiters
 	opening_delimiter: STRING once ("OBJECT") Result := left_parenthesis.out end
 	closing_delimiter: STRING once ("OBJECT") Result := right_parenthesis.out end
 
-;end
+;note
+	main_spec: ""
+	other_specs: ""
+	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
+
+end

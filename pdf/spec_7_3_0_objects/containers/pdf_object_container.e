@@ -57,4 +57,9 @@ feature {NONE} -- Implementation
 			check attached objects as al then Result := al end
 		end
 
+;note
+	main_spec: ""
+	other_specs: ""
+	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
+
 end

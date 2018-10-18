@@ -81,7 +81,8 @@ feature {NONE} -- Implementation: Delimiters
 	closing_delimiter: STRING once ("OBJECT") Result := right_square_bracket.out end
 
 ;note
-	specification: "ISO 32000-1, section 7.3.6 Array Objects"
+	main_spec: "ISO 32000-1, section 7.3.6 Array Objects"
+	other_specs: ""
 	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
 end

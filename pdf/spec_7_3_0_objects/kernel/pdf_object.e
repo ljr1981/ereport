@@ -60,4 +60,9 @@ feature -- Queries
 			Result := l_codes.to_array
 		end
 
+;note
+	main_spec: ""
+	other_specs: ""
+	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
+
 end

@@ -151,4 +151,9 @@ invariant
 	pages_set: attached pages as al_pages implies al_pages.key.pdf_out.same_string_general ("/Pages")
 	outlines_set: attached outlines as al_outlines implies al_outlines.key.pdf_out.same_string_general ("/Outlines")
 
+;note
+	main_spec: ""
+	other_specs: ""
+	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
+
 end

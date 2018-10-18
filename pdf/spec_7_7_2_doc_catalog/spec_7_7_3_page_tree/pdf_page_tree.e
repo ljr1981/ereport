@@ -17,4 +17,9 @@ feature -- Access
 			create Result.make ("Pages")
 		end
 
+;note
+	main_spec: ""
+	other_specs: ""
+	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
+
 end
