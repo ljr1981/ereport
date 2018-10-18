@@ -7,14 +7,6 @@ class
 inherit
 	PDF_DOC_ELEMENT
 
-feature -- Access
-
---	catalog: PDF_DOC_CATALOG
---			-- `catalog' per Spec 7.7.2
---		attribute
---			create Result
---		end
-
 feature -- Output
 
 	pdf_out: STRING
@@ -24,8 +16,20 @@ feature -- Output
 		end
 
 ;note
-	main_spec: ""
+	main_spec: "7.5.5 File Trailer"
 	other_specs: ""
 	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
+
+	basic_layout: "[
+trailer
+	<< key1 value1
+		key2 value2
+		key3 value3
+		...
+		keyn valuen
+	>>
+Byte_offset_of_last_cross-reference_section
+%%EOF
+]"
 
 end
