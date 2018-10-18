@@ -59,8 +59,11 @@ feature -- Output
 			-- <Precursor>
 		do
 			create Result.make_empty
+			Result.append_string_general (version)
+			Result.append_character ('%N')
 		end
 
 invariant
 	version_set: across (<<v1_0, v1_1, v1_2, v1_3, v1_4, v1_5, v1_6, v1_7>>) as ic some ic.item.same_string (version) end
+
 end

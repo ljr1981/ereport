@@ -97,6 +97,17 @@ feature -- Settings
 			create outlines.make_as_obj_ref ("Outlines", a_obj_ref)
 		end
 
+	set_from_array (a_objects: ARRAY [PDF_KEY_VALUE])
+		do
+			check has_objects: attached objects as al_objects then
+				across
+					a_objects as ic
+				loop
+					al_objects.force (ic.item)
+				end
+			end
+		end
+
 feature -- Output
 
 	pdf_out: STRING

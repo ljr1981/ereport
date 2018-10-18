@@ -199,8 +199,6 @@ endobj
 			l_outlines_2: PDF_OUTLINES
 			l_catalog_1: PDF_CATALOG
 
-			l_dic_3,
-			l_dic_4,
 			l_dic_5,
 			l_dic_6: PDF_DICTIONARY
 		do
@@ -227,6 +225,7 @@ endobj
 
 ---------------------------------------
 	doc_text: STRING = "[
+%PDF-1.4
 1 0 obj
 <<
 /Type /Catalog
@@ -298,6 +297,51 @@ feature {NONE} -- Test Support: In-system References
 	pdf_container: detachable PDF_OBJECT_CONTAINER
 	pdf_dictionary: detachable PDF_DICTIONARY
 	pdf_indirect: detachable PDF_INDIRECT_OBJECT
+
+feature -- Tests: PDF Document
+
+	sample_pdf_generation_test
+			--
+		local
+			l_doc: PDF_DOCUMENT
+
+			l_ind_5,
+			l_ind_6: PDF_INDIRECT_OBJECT
+
+			l_font_4: PDF_FONT
+			l_font_4_ref_key_value: PDF_KEY_VALUE
+			l_page_3: PDF_PAGE
+			l_page_3_font_dict: PDF_DICTIONARY
+			l_pages_2: PDF_PAGES
+			l_catalog_1: PDF_CATALOG
+		do
+			create l_doc
+			l_doc.header.set_version (4)
+
+				-- Obj 6
+			create l_ind_6
+				-- Obj 5
+			create l_ind_5
+				-- Obj 4
+			create l_font_4.make_with_font_info ("F1", "Type1", "Helvetica", "MacRomanEncoding")
+				-- Obj 3
+			create l_page_3.make (l_ind_5.ref, ["0", "0", "500", "500"], create {PDF_DICTIONARY})
+			l_page_3.init_resources
+			l_page_3.set_font_reference ("F1", l_font_4)
+				-- Obj 2
+			create l_pages_2.make_with_kids (<<l_page_3.ref>>)
+				-- Obj 1
+			create l_catalog_1.make_with_pages (l_pages_2.ref)
+
+			l_doc.body.add_object (l_catalog_1)
+			l_doc.body.add_object (l_pages_2)
+			l_doc.body.add_object (l_page_3)
+			l_doc.body.add_object (l_font_4)
+			l_doc.body.add_object (l_ind_5)
+			l_doc.body.add_object (l_ind_6)
+
+			assert_strings_equal ("sample_pdf", sample_pdf, l_doc.pdf_out)
+		end
 
 feature {NONE} -- Test Support: PDF
 

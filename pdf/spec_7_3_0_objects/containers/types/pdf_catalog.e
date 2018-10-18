@@ -6,20 +6,30 @@ class
 
 inherit
 	PDF_INDIRECT_OBJECT
+		redefine
+			default_create
+		end
 
 create
-	make
+	make,
+	make_with_pages
 
 feature {NONE} -- Initialization
+
+	default_create
+			-- <Precursor>
+		do
+			Precursor
+			create dictionary
+			dictionary.add_object (type)
+			add_object (dictionary)
+
+		end
 
 	make (a_pages_ref, a_outlines_ref: PDF_OBJECT_REFERENCE)
 			--
 		do
 			default_create
-			
-			create dictionary
-			dictionary.add_object (type)
-			add_object (dictionary)
 
 			create pages.make_as_obj_ref ("Pages", a_pages_ref)
 			check has_pages: attached pages as al_pages then
@@ -29,6 +39,17 @@ feature {NONE} -- Initialization
 			create outlines.make_as_obj_ref ("Outlines", a_outlines_ref)
 			check has_pages: attached outlines as al_outlines then
 				dictionary.add_object (al_outlines)
+			end
+		end
+
+	make_with_pages (a_pages_ref: PDF_OBJECT_REFERENCE)
+			--
+		do
+			default_create
+
+			create pages.make_as_obj_ref ("Pages", a_pages_ref)
+			check has_pages: attached pages as al_pages then
+				dictionary.add_object (al_pages)
 			end
 		end
 

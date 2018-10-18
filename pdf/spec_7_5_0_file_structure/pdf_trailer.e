@@ -9,11 +9,11 @@ inherit
 
 feature -- Access
 
-	catalog: PDF_DOC_CATALOG
-			-- `catalog' per Spec 7.7.2
-		attribute
-			create Result
-		end
+--	catalog: PDF_DOC_CATALOG
+--			-- `catalog' per Spec 7.7.2
+--		attribute
+--			create Result
+--		end
 
 feature -- Output
 

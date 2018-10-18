@@ -16,7 +16,8 @@ create
 	make_as_obj_ref,
 	make_as_integer,
 	make_as_array,
-	make_as_array_of_refs
+	make_as_array_of_refs,
+	make_as_dictionary
 
 feature {NONE} -- Initialization
 
@@ -44,6 +45,11 @@ feature {NONE} -- Initialization
 		end
 
 	make_as_array_of_refs (a_key: STRING; a_value: PDF_ARRAY)
+		do
+			item := [create {PDF_NAME}.make (a_key), a_value]
+		end
+
+	make_as_dictionary (a_key: STRING; a_value: PDF_DICTIONARY)
 		do
 			item := [create {PDF_NAME}.make (a_key), a_value]
 		end
