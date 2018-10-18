@@ -47,6 +47,7 @@ feature -- Output
 			Result.append_string_general (object.generation_number.out)
 			Result.append_character (' ')
 			Result.append_string_general ("R")
+			Result.adjust
 		end
 
 feature {NONE} -- Implementation: Delimiters

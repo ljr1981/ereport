@@ -48,6 +48,7 @@ feature -- Output
 			else
 				create Result.make_empty
 			end
+			Result.adjust
 		end
 
 ;note

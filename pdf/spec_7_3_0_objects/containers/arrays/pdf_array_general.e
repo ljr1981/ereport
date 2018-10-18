@@ -42,8 +42,10 @@ feature -- Output
 					Result.append_string_general (ic.item.pdf_out)
 					Result.append_character (' ')
 				end
+				Result.adjust
 			end
 			Result.append_character (']')
+			Result.adjust
 		end
 
 feature {NONE} -- Implementation: Anchors

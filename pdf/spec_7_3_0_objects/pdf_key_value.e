@@ -94,6 +94,7 @@ feature -- Output
 			Result.append_string_general (key.pdf_out)
 			Result.append_character (' ')
 			Result.append_string_general (value.pdf_out)
+			Result.adjust
 		end
 
 feature {NONE} -- Implementation: Delimiters

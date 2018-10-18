@@ -51,6 +51,7 @@ feature -- Output
 			else
 				Result.append_string_general (False_kw)
 			end
+			Result.adjust
 		end
 
 feature {NONE} -- Implementation: Delimiters

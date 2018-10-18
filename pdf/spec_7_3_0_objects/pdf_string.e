@@ -76,6 +76,7 @@ feature -- Output
 			else
 				Result := hex_out
 			end
+			Result.adjust
 		end
 
 	literal_text_out: STRING

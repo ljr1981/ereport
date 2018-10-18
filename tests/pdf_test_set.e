@@ -137,17 +137,25 @@ feature -- Tests
 			l_item: PDF_STREAM_PLAIN_TEXT_OBJECT
 		do
 			create l_item
-			l_item.set_stream_text ("")
+			l_item.set_stream_text ("x")
 			assert_strings_equal ("stream_object_text", stream_object_text, l_item.pdf_out)
 		end
 
 ------------------------------------
 
 	stream_object_text: STRING = "[
+0 0 obj
+<<
+/Length 20
+>>
+stream
 BT
 0 0 Td
-() Tj
+(x) Tj
 ET
+
+endstream
+endobj
 
 ]"
 
@@ -170,28 +178,20 @@ ET
 
 ------------------------------------
 
-	stream_text: STRING = "[
+	stream_result_text: STRING = "[
+0 0 obj
 <<
-/Length 48
-
+/Length 49
 >>
-
 stream
 BT
 /F1 20 Tf
 120 120 Td
 (Hello from Steve) Tj
 ET
+
 endstream
-
-]"
-
-	stream_result_text: STRING = "[
-BT
-/F1 20 Tf
-120 120 Td
-(Hello from Steve) Tj
-ET
+endobj
 
 ]"
 
@@ -234,9 +234,7 @@ ET
 0 0 obj
 <<
 /Key /Value
-
 >>
- 
 endobj
 
 ]"
@@ -245,9 +243,7 @@ endobj
 1 0 obj
 <<
 /Key /Value
-
 >>
- 
 endobj
 
 ]"
@@ -297,48 +293,36 @@ endobj
 /Type /Catalog
 /Pages 3 0 R
 /Outlines 2 0 R
-
 >>
- 
 endobj
 2 0 obj
 <<
 /Type /Outlines
 /Count 0
-
 >>
- 
 endobj
 3 0 obj
 <<
 /Count 1
 /Type /Pages
-/Kids [4 0 R ]
-
+/Kids [4 0 R]
 >>
- 
 endobj
 4 0 obj
 <<
 /Type /Page
 /Contents 5 0 R
-/MediaBox [0 0 612 792 ]
+/MediaBox [0 0 612 792]
 /Parent 3 0 R
-
 >>
- 
 endobj
 5 0 obj
 <<
-
 >>
- 
 endobj
 6 0 obj
 <<
-
 >>
- 
 endobj
 
 ]"
@@ -385,10 +369,12 @@ feature -- Tests: PDF Document
 
 				-- Obj 6
 			create l_ind_6
-				-- Obj 5
-			create l_stream_5.make_with_text (stream_result_text)
 				-- Obj 4
 			create l_font_4.make_with_font_info ("F1", "Type1", "Helvetica", "MacRomanEncoding")
+				-- Obj 5
+			create l_stream_5.make_with_text ("Hello fromt Steve")
+			l_stream_5.set_tf_font_ref_and_size (l_font_4, 20)
+			l_stream_5.set_td_offsets (120, 120)
 				-- Obj 3
 			create l_page_3.make_with_font (l_stream_5.ref, ["0", "0", "500", "500"], l_font_4)
 				-- Obj 2

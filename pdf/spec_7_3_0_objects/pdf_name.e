@@ -45,10 +45,12 @@ feature -- Output
 						Result.append_character (ic.item)
 					end
 				end
+				Result.adjust
 			else
 				create Result.make_empty
 			end
 			Result.prepend_character (Solidus)
+			Result.adjust
 		end
 
 feature {NONE} -- Implementation: Delimiters

@@ -84,41 +84,50 @@ feature -- Output
 
 	pdf_out: STRING
 			-- <Precursor>
+		local
+			l_string,
+			l_old: STRING
 		do
-			create Result.make_empty
+			create l_string.make_empty
+			l_old := stream.text.twin
 
-			Result.append_string_general ("BT") -- Begin Text
-			Result.append_character ('%N')
+			l_string.append_string_general ("BT") -- Begin Text
+			l_string.append_character ('%N')
 
 				-- Tf
 			if attached Tf_font_ref as al_Tf_font_ref then
 				check has_value: attached al_Tf_font_ref.name_value as al_ref then
-					Result.append_character ('/')
-					Result.append_string_general (al_ref.out)
+					l_string.append_character ('/')
+					l_string.append_string_general (al_ref.out)
 				end
-				Result.append_character (' ')
-				Result.append_string_general (Tf_font_size.out)
-				Result.append_character (' ')
-				Result.append_string_general ("Tf")
-				Result.append_character ('%N')
+				l_string.append_character (' ')
+				l_string.append_string_general (Tf_font_size.out)
+				l_string.append_character (' ')
+				l_string.append_string_general ("Tf")
+				l_string.append_character ('%N')
 			end
 				-- Td
-			Result.append_string_general (Td_x_offset.out)
-			Result.append_character (' ')
-			Result.append_string_general (Td_y_offset.out)
-			Result.append_character (' ')
-			Result.append_string_general ("Td")
-			Result.append_character ('%N')
+			l_string.append_string_general (Td_x_offset.out)
+			l_string.append_character (' ')
+			l_string.append_string_general (Td_y_offset.out)
+			l_string.append_character (' ')
+			l_string.append_string_general ("Td")
+			l_string.append_character ('%N')
 				-- Tj
-			Result.append_character ('(')
-			Result.append_string_general (stream.text)
-			Result.append_character (')')
-			Result.append_character (' ')
-			Result.append_string_general ("Tj")
-			Result.append_character ('%N')
+			l_string.append_character ('(')
+			l_string.append_string_general (l_old)
+			l_string.append_character (')')
+			l_string.append_character (' ')
+			l_string.append_string_general ("Tj")
+			l_string.append_character ('%N')
 
-			Result.append_string_general ("ET") -- End Text
-			Result.append_character ('%N')
+			l_string.append_string_general ("ET") -- End Text
+			l_string.append_character ('%N')
+
+
+			stream.set_text (l_string)
+			Result := Precursor
+			stream.set_text (l_old)
 		end
 
 ;note

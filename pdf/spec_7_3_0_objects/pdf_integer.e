@@ -37,6 +37,7 @@ feature -- Output
 	pdf_out: STRING
 		do
 			Result := value.out
+			Result.adjust
 		end
 
 note

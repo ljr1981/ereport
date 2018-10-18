@@ -58,6 +58,7 @@ feature -- Output
 
 			Result.append_string_general (closing_delimiter)
 			Result.append_character ('%N')
+			Result.adjust
 		end
 
 feature {NONE} -- Implementation: Access

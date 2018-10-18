@@ -69,8 +69,10 @@ feature -- Output
 						Result.append_character (' ')
 					end
 				end
+				Result.adjust
 			end
 			Result.append_character (']')
+			Result.adjust
 		end
 
 feature {NONE} -- Implementation: Delimiters

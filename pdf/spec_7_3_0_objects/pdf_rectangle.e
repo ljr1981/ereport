@@ -66,6 +66,7 @@ feature -- Output
 			-- <Precursor>
 		do
 			Result := Precursor
+			Result.adjust
 		end
 
 end

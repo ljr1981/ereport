@@ -168,6 +168,7 @@ feature -- Output
 			-- <Precursor>
 		do
 			Result := Precursor
+			if Result [Result.count] = ' ' then Result.remove_tail (1) end
 		end
 
 end

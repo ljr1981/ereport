@@ -43,8 +43,9 @@ feature -- Output
 				Result.append_string_general (ic.item.pdf_out)
 				Result.append_character (' ')
 			end
-
+			Result.adjust
 			Result.append_character ('%N')
+
 			Result.append_string_general (closing_delimiter)
 			Result.append_character ('%N')
 		end
