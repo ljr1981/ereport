@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_CONSTANTS}."
+	description: "Representation of {PDF_CONSTANTS}."
 
 class
 	PDF_CONSTANTS
@@ -7,8 +7,13 @@ class
 feature {NONE} -- Implementation: Keywords
 
 	True_kw: STRING = "true"
+			-- Keyword "true"
+
 	False_kw: STRING = "false"
+			-- Keyword "false"
+
 	Obj_kw: STRING = "obj"
+			-- Keyword "obj" (object)
 
 feature {NONE} -- Implementation: Whitespace Characters
 
@@ -66,6 +71,7 @@ feature {NONE} -- Implementation: Delimiter Characters
 			-- Solidus or Slash, or "/". (not back-slash, but forward)
 
 	Reverse_solidus, backslash: CHARACTER once create Result; Result.code.set_item ({ASCII}.Backslash) end
+			-- Backslash
 
 	percent: CHARACTER once create Result; Result.code.set_item ({ASCII}.percent) end
 			-- Percent, or "%".
