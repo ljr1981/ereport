@@ -3043,3 +3043,48 @@ Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMA
 Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
 Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
 Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {PDF_ARRAY}.make_with_objects for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {ARRAYED_LIST}.make_from_array for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {PDF_ARRAY}.make_with_objects for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {ARRAYED_LIST}.make_from_array for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_KEY_VALUE
+Catcall detected in {PDF_ARRAY}.make_with_objects for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {ARRAYED_LIST}.make_from_array for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {PDF_ARRAY}.make_with_objects for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {ARRAYED_LIST}.make_from_array for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_KEY_VALUE
+Catcall detected in {PDF_ARRAY}.make_with_objects for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {ARRAYED_LIST}.make_from_array for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {PDF_ARRAY}.make_with_objects for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {ARRAYED_LIST}.make_from_array for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_KEY_VALUE
+Catcall detected in {PDF_ARRAY}.make_with_objects for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {ARRAYED_LIST}.make_from_array for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {PDF_ARRAY}.make_with_objects for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {ARRAYED_LIST}.make_from_array for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_KEY_VALUE
+Catcall detected in {PDF_ARRAY}.make_with_objects for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {ARRAYED_LIST}.make_from_array for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_DECIMAL
+Catcall detected in {PDF_ARRAY}.make_with_objects for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {ARRAYED_LIST}.make_from_array for arg#1: expected ARRAY [!PDF_OBJECT [ANY]] but got ARRAY [!NONE]
+Catcall detected in {SPECIAL}.extend for arg#1: expected NONE but got PDF_KEY_VALUE
