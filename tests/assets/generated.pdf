@@ -16,7 +16,7 @@ endobj
 <<
 /Type /Page
 /Contents 5 0 R
-/MediaBox [0 0 500 500]
+/MediaBox [0 0 612 792]
 /Resources <<
 /ProcSet [/PDF /Text]
 /Font <<
@@ -31,19 +31,25 @@ endobj
 /Type /Font
 /Name /F1
 /Subtype /Type1
-/BaseFont /Helvetica
+/BaseFont /CourierNew
 /Encoding /MacRomanEncoding
 >>
 endobj
 5 0 obj
 <<
-/Length 67
+/Length 105
 >>
 stream
 BT
-/F1 20 Tf
-120 120 Td
-(Hello from Larry Rix) Tj
+/F1 10 Tf
+100 400 Td
+(99.9)Tj
+0 -50 Td
+(0.1)Tj
+50 50 Td
+(333.01)Tj
+0 -50 Td
+(4.0)Tj
 ET
 
 endstream

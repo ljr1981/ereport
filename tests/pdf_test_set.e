@@ -376,21 +376,27 @@ feature -- Tests: PDF Document
 			l_page_3: PDF_PAGE
 			l_pages_2: PDF_PAGES
 			l_catalog_1: PDF_CATALOG
+			
+			l_but_got: STRING
 		do
 			create l_doc
 			l_doc.header.set_version (4)
 
-				-- Obj 4
+				-- Obj 4 - FONTS
 			create l_font_4.make_with_font_info ("F1", "Type1", "Helvetica", "MacRomanEncoding")
-				-- Obj 5
+
+				-- Obj 5 - TEXT (using FONT)
 			create l_stream_5.make_with_text ("Hello from Larry Rix")
 			l_stream_5.set_tf_font_ref_and_size (l_font_4, 20)
 			l_stream_5.set_td_offsets (120, 120)
-				-- Obj 3
+
+				-- Obj 3 - PAGE (w/TEXT.ref, RECT, FONT)
 			create l_page_3.make_with_font (l_stream_5.ref, ["0", "0", "500", "500"], l_font_4)
-				-- Obj 2
+
+				-- Obj 2 - PAGES
 			create l_pages_2.make_with_kids (<<l_page_3.ref>>)
-				-- Obj 1
+
+				-- Obj 1 - CATALOG (dictionary)
 			create l_catalog_1.make_with_pages (l_pages_2.ref)
 
 			l_doc.body.add_object (l_catalog_1)
@@ -399,7 +405,9 @@ feature -- Tests: PDF Document
 			l_doc.body.add_object (l_font_4)
 			l_doc.body.add_object (l_stream_5)
 
-			assert_strings_equal ("sample_pdf", sample_pdf, l_doc.pdf_out) --sample_pdf, l_doc.pdf_out) -- l_doc.pdf_out, l_doc.pdf_out)
+			l_but_got := l_doc.pdf_out.twin				-- Must do this because %R is a part of
+			l_but_got.replace_substring_all ("%R", "")	-- the Xref spec for EOL on each table line.
+			assert_strings_equal ("sample_pdf", sample_pdf, l_but_got)
 		end
 
 feature {NONE} -- Test Support: PDF
@@ -444,31 +452,32 @@ endobj
 endobj
 5 0 obj
 <<
-/Length 50
+/Length 53
 >>
 stream
 BT
 /F1 20 Tf
 120 120 Td
-(Hello from Steve) Tj
+(Hello from Larry Rix) Tj
 ET
 
 endstream
 endobj
 xref
-0 6
+0 5
 0000000000 65535 f
-0000000009 00000 n
-0000000063 00000 n
-0000000124 00000 n
-0000000277 00000 n
-0000000392 00000 n
+0000000049 00000 n
+0000000106 00000 n
+0000000254 00000 n
+0000000362 00000 n
+0000000465 00000 n
 trailer
-<</Size 6
+<<
+/Size 6
 /Root 1 0 R
 >>
 startxref
-502
+465
 %%EOF
 ]"
 
