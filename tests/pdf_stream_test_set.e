@@ -57,8 +57,8 @@ feature -- Tests: PDF Document
 			l_font_4a,
 			l_font_4b: PDF_FONT
 			l_font_4_ref_key_value: PDF_KEY_VALUE
-			l_page_3: PDF_US_PAGE
-			l_pages_2: PDF_PAGE_TREE
+			l_page_3: PDF_PAGE_US
+			l_pages_2: PDF_PAGE_TREE [PDF_PAGE_US]
 			l_catalog_1: PDF_CATALOG
 			l_but_got: STRING
 

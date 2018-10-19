@@ -1,8 +1,8 @@
 note
-	description: "Representationof a {PDF_US_PAGE}."
+	description: "Representationof a {PDF_PAGE_US}."
 
 class
-	PDF_US_PAGE
+	PDF_PAGE_US
 
 inherit
 	PDF_PAGE_GENERAL

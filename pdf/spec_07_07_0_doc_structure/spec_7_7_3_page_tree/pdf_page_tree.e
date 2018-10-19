@@ -2,7 +2,7 @@ note
 	description: "Representation of {PDF_PAGE_TREE}."
 
 class
-	PDF_PAGE_TREE
+	PDF_PAGE_TREE [G -> PDF_PAGE_GENERAL]
 
 inherit
 	PDF_INDIRECT_OBJECT
@@ -69,11 +69,11 @@ feature -- Basic Operations
 			across
 				a_lines as ic_lines
 			loop
-				
+
 			end
 		end
 
-	generated_pages: ARRAYED_LIST [TUPLE [page: PDF_PAGE; font: PDF_FONT]]
+	generated_pages: ARRAYED_LIST [TUPLE [page: G; font: PDF_FONT]]
 		attribute
 			create Result.make (10)
 		end
