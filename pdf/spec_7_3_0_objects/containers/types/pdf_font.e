@@ -24,7 +24,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING)
-			--
+			-- `make' with `a_name' /Name /Value key-value.
 		do
 			default_create
 
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_with_font_info (a_name: STRING; a_subtype, a_base_font, a_encoding: STRING)
-			--
+			-- `make_with_font_info' through `make', with added font-info.
 		do
 			make (a_name)
 			dictionary.add_object (create {PDF_KEY_VALUE}.make_as_name ("Subtype", a_subtype))
@@ -48,11 +48,12 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	name: PDF_KEY_VALUE
+			-- /Name /[Value]
 
 feature {NONE} -- Implementation: Access
 
 	type: PDF_KEY_VALUE
-			--
+			-- /Type /Font
 		attribute
 			create Result.make_as_name ("Type", "Font")
 		end
@@ -62,7 +63,7 @@ feature {NONE} -- Implementation: Access
 feature -- Queries
 
 	name_value: STRING
-			-- Value of `name'.
+			-- Value of `name' (/Name /[Value]).
 		do
 			check has_name: attached {STRING} name.value_in_value as al_text then
 				Result := al_text
