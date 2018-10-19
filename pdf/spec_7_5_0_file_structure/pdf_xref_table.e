@@ -7,6 +7,26 @@ class
 inherit
 	PDF_DOC_ELEMENT
 
+feature -- Access
+
+	Size: PDF_KEY_VALUE
+			--
+		attribute
+			create Result.make_as_integer ("Size", 0)
+		end
+
+	Root: PDF_KEY_VALUE
+			--
+		attribute
+			create Result.make_as_dictionary ("Root", Root_dictionary)
+		end
+
+	Root_dictionary: PDF_DICTIONARY
+			--
+		attribute
+			create Result
+		end
+
 feature -- Output
 
 	pdf_out: STRING

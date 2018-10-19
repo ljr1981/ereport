@@ -326,6 +326,24 @@ endobj
 endobj
 
 ]"
+-----------------------------
+
+	pdf_xref_line_test
+		local
+			l_item: PDF_XREF_IND_OBJ_LINE
+		do
+			create l_item
+			l_item.set_line_offset (999)
+			assert_strings_equal ("line_offset", "0000000999 00000 n%R%N", l_item.line)
+			l_item.set_generation_value (1024)
+			assert_strings_equal ("generation_1", "0000000999 01024 n%R%N", l_item.line)
+			l_item.set_generation_value (65535)
+			assert_strings_equal ("generation_2", "0000000999 65535 n%R%N", l_item.line)
+			l_item.set_free
+			assert_strings_equal ("free", "0000000999 65535 f%R%N", l_item.line)
+			l_item.set_in_use
+			assert_strings_equal ("in_use", "0000000999 65535 n%R%N", l_item.line)
+		end
 
 feature {NONE} -- Test Support: In-system References
 
@@ -333,6 +351,7 @@ feature {NONE} -- Test Support: In-system References
 	pdf_header: detachable PDF_HEADER
 	pdf_body: detachable PDF_BODY
 	pdf_xref: detachable PDF_XREF_TABLE
+	pdf_xref_line: detachable PDF_XREF_IND_OBJ_LINE
 	pdf_trailer: detachable PDF_TRAILER
 
 	pdf_comment: detachable PDF_COMMENT
