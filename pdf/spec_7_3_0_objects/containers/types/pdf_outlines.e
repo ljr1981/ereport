@@ -26,31 +26,32 @@ feature {NONE} -- Initialization
 			add_object (dictionary)
 		end
 
-	make_with_count (a_value: INTEGER)
-			--
+	make_with_count (a_count: INTEGER)
+			-- `make_with_count' of `a_count'
 		do
 			default_create
-			count.set_value ([count.key, create {PDF_INTEGER}.make_with_integer (a_value)])
+			count.set_value ([count.key, create {PDF_INTEGER}.make_with_integer (a_count)])
 		end
 
 feature -- Access
 
 	dictionary: PDF_DICTIONARY
+			-- `dictionary' for Current
 
 	type: PDF_KEY_VALUE
-			--
+			-- /Type /Outlines
 		attribute
 			create Result.make_as_name ("Type", "Outlines")
 		end
 
 	count: PDF_KEY_VALUE
-			--
+			-- `count' /Count /[Int_value]
 		attribute
 			create Result.make_as_integer ("Count", 0)
 		end
 
 ;note
-	main_spec: ""
+	main_spec: "12.3.3 Document Outline"
 	other_specs: ""
 	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
