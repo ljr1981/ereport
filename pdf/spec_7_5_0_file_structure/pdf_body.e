@@ -15,6 +15,14 @@ feature -- Access
 			Result := id
 		end
 
+feature -- Basic Operations
+
+	xref_table: PDF_XREF_TABLE
+			--
+		attribute
+			create Result
+		end
+
 feature -- Settings
 
 	add_object (o: PDF_INDIRECT_OBJECT)
@@ -41,12 +49,22 @@ feature -- Output
 
 	pdf_out: STRING
 			-- <Precursor>
+		local
+			l_obj_string: STRING
+			l_start,
+			l_end,
+			l_offset: INTEGER
 		do
 			create Result.make_empty
 			across
 				objects as ic
 			loop
-				Result.append_string_general (ic.item.pdf_out)
+				l_obj_string := ic.item.pdf_out
+				l_start := Result.count
+				l_end := l_start + l_obj_string.count
+				l_offset := l_end - l_start
+				Result.append_string_general (l_obj_string)
+				check mismatched_offset: l_offset = (Result.count - l_start) end
 			end
 		end
 

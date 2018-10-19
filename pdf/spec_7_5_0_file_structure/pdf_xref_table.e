@@ -27,6 +27,12 @@ feature -- Access
 			create Result
 		end
 
+	lines: ARRAYED_LIST [PDF_XREF_IND_OBJ_LINE]
+			-- List of `lines'
+		attribute
+			create Result.make (10)
+		end
+
 feature -- Output
 
 	pdf_out: STRING
