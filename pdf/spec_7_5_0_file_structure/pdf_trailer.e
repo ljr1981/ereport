@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_TRAILER}."
+	description: "Representation of a {PDF_TRAILER}."
 
 class
 	PDF_TRAILER
@@ -69,13 +69,15 @@ feature -- Output
 			Result.append_character ('%N')
 			Result.append_string_general (byte_offset.out)
 			Result.append_character ('%N')
-			Result.append_string_general ("%%%%EOF")
+			Result.append_character ('%%')
+			Result.append_character ('%%')
+			Result.append_string_general ("EOF")
 		end
 
 ;note
 	main_spec: "7.5.5 File Trailer"
 	other_specs: ""
-	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
+	EIS: "name=pdf_spec", "protocol=pdf", "src=PDF32000_2008.pdf"
 
 	basic_layout: "[
 trailer

@@ -1,14 +1,11 @@
 note
-	description: "Summary description for {PDF_COMMENT}."
+	description: "Representation of a {PDF_COMMENT}."
 
 class
 	PDF_COMMENT
 
 inherit
-	PDF_CONSTANTS
-		redefine
-			out
-		end
+	PDF_ANY
 
 create
 	make_with_text
@@ -24,7 +21,7 @@ feature {NONE} -- Initialization
 feature -- Settings
 
 	set_text (a_text: like text)
-			--
+			-- `set_text' with `a_text'.
 		do
 			text := a_text
 		ensure
@@ -33,7 +30,7 @@ feature -- Settings
 
 feature -- Output
 
-	out: STRING
+	pdf_out: STRING
 			-- <Precursor>
 		do
 			create Result.make (text.count + 1)
