@@ -253,22 +253,19 @@ endobj
 		local
 			l_doc: PDF_DOCUMENT
 
-			l_ind_5,
-			l_ind_6: PDF_INDIRECT_OBJECT
+			l_ind_5: PDF_INDIRECT_OBJECT
 
 			l_page_4: PDF_PAGE
 			l_pages_3: PDF_PAGES
 			l_outlines_2: PDF_OUTLINES
 			l_catalog_1: PDF_CATALOG
 
-			l_dic_5,
-			l_dic_6: PDF_DICTIONARY
+			l_dic_5: PDF_DICTIONARY
 		do
 			create l_doc
 			l_doc.header.set_version (4)
 
 			create l_ind_5; create l_dic_5; l_ind_5.add_object (l_dic_5)
-			create l_ind_6; create l_dic_6; l_ind_6.add_object (l_dic_6)
 
 			create l_page_4.make (l_ind_5.ref, ["0", "0", "612", "792"])
 			create l_pages_3.make_with_kids (<<l_page_4.ref>>)
@@ -280,7 +277,6 @@ endobj
 			l_doc.body.add_object (l_pages_3)
 			l_doc.body.add_object (l_page_4)
 			l_doc.body.add_object (l_ind_5)
-			l_doc.body.add_object (l_ind_6)
 
 			assert_strings_equal ("doc", doc_text, l_doc.pdf_out)
 		end
@@ -374,8 +370,6 @@ feature -- Tests: PDF Document
 		local
 			l_doc: PDF_DOCUMENT
 
-			l_ind_6: PDF_INDIRECT_OBJECT
-
 			l_stream_5: PDF_STREAM_PLAIN_TEXT_OBJECT
 			l_font_4: PDF_FONT
 			l_font_4_ref_key_value: PDF_KEY_VALUE
@@ -386,12 +380,10 @@ feature -- Tests: PDF Document
 			create l_doc
 			l_doc.header.set_version (4)
 
-				-- Obj 6
-			create l_ind_6
 				-- Obj 4
 			create l_font_4.make_with_font_info ("F1", "Type1", "Helvetica", "MacRomanEncoding")
 				-- Obj 5
-			create l_stream_5.make_with_text ("Hello from Steve")
+			create l_stream_5.make_with_text ("Line one of text%NLine two of text")
 			l_stream_5.set_tf_font_ref_and_size (l_font_4, 20)
 			l_stream_5.set_td_offsets (120, 120)
 				-- Obj 3
@@ -406,7 +398,6 @@ feature -- Tests: PDF Document
 			l_doc.body.add_object (l_page_3)
 			l_doc.body.add_object (l_font_4)
 			l_doc.body.add_object (l_stream_5)
-			l_doc.body.add_object (l_ind_6)
 
 			assert_strings_equal ("sample_pdf", sample_pdf, l_doc.pdf_out) --sample_pdf, l_doc.pdf_out) -- l_doc.pdf_out, l_doc.pdf_out)
 		end

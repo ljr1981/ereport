@@ -37,8 +37,23 @@ feature -- Output
 
 	pdf_out: STRING
 			-- <Precursor>
+		local
+			l_line: PDF_XREF_IND_OBJ_LINE
 		do
+			create l_line
 			create Result.make_empty
+			Result.append_string_general ("xref")
+			Result.append_character ('%N')
+			Result.append_character ('0') -- obj# of first object in subsection (0000000000)
+			Result.append_character (' ')
+			Result.append_string_general (lines.count.out) -- count of obj's in subsection (7.5.4 NOTE 2 EXAMPLE 1)
+			Result.append_character ('%N')
+			Result.append_string_general (l_line.first_line)
+			across
+				lines as ic
+			loop
+				Result.append_string_general (ic.item.line)
+			end
 		end
 
 ;note
