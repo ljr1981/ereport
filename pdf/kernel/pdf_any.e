@@ -9,6 +9,8 @@ deferred class
 inherit
 	PDF_CONSTANTS
 
+	PDF_DOCS -- General library documentation.
+
 feature -- Output
 
 	pdf_out: STRING
