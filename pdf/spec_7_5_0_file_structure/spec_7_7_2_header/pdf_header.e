@@ -5,7 +5,7 @@ class
 	PDF_HEADER
 
 inherit
-	PDF_DOC_ELEMENT
+	PDF_DOC_GENERAL
 
 feature -- Access
 
@@ -67,7 +67,7 @@ invariant
 	version_set: across (<<v1_0, v1_1, v1_2, v1_3, v1_4, v1_5, v1_6, v1_7>>) as ic some ic.item.same_string (version) end
 
 ;note
-	main_spec: ""
+	main_spec: "7.7.2"
 	other_specs: ""
 	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 

@@ -121,8 +121,8 @@ feature -- Test routines
 			l_item: PDF_ARRAY_DICTIONARIES
 		do
 			create l_item
-			l_item.add_item (create {PDF_DICTIONARY})
-			l_item.add_item (create {PDF_DICTIONARY})
+			l_item.add_item (create {PDF_DICTIONARY_GENERAL})
+			l_item.add_item (create {PDF_DICTIONARY_GENERAL})
 			assert_strings_equal ("dictionaries_text", dictionaries_text, l_item.pdf_out)
 		end
 

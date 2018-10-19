@@ -61,7 +61,7 @@ feature -- Access
 			create Result.make_as_name ("Type", "Catalog")
 		end
 
-	dictionary: PDF_DICTIONARY
+	dictionary: PDF_DICTIONARY_GENERAL
 			-- Contains a `dictionary'.
 
 	pages: detachable PDF_KEY_VALUE

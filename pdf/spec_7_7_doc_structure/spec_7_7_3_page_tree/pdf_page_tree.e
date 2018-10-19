@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	dictionary: PDF_DICTIONARY
+	dictionary: PDF_DICTIONARY_GENERAL
 			-- `dictionary' for Current.
 
 	type: PDF_KEY_VALUE

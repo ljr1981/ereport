@@ -5,7 +5,7 @@ class
 	PDF_BODY
 
 inherit
-	PDF_DOC_ELEMENT
+	PDF_DOC_GENERAL
 
 feature -- Access
 
@@ -24,7 +24,7 @@ feature -- Access
 		end
 
 	byte_offset: INTEGER
-			-- 
+			--
 
 feature -- Basic Operations
 
@@ -101,7 +101,7 @@ feature -- Output
 		end
 
 ;note
-	main_spec: ""
+	main_spec: "7.7.3"
 	other_specs: ""
 	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 

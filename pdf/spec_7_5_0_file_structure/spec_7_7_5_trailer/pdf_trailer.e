@@ -5,7 +5,7 @@ class
 	PDF_TRAILER
 
 inherit
-	PDF_DOC_ELEMENT
+	PDF_DOC_GENERAL
 
 feature -- Access
 

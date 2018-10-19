@@ -5,7 +5,7 @@ class
 	PDF_XREF_TABLE
 
 inherit
-	PDF_DOC_ELEMENT
+	PDF_DOC_GENERAL
 
 feature -- Access
 
@@ -21,7 +21,7 @@ feature -- Access
 			create Result.make_as_dictionary ("Root", Root_dictionary)
 		end
 
-	Root_dictionary: PDF_DICTIONARY
+	Root_dictionary: PDF_DICTIONARY_GENERAL
 			--
 		attribute
 			create Result

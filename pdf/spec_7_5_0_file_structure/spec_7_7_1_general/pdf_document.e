@@ -52,7 +52,7 @@ feature -- Output
 		end
 
 ;note
-	main_spec: ""
+	main_spec: "7.5.1"
 	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
 end

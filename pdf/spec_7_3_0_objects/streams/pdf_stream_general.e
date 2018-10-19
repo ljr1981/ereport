@@ -63,7 +63,7 @@ feature -- Output
 
 feature {NONE} -- Implementation: Access
 
-	dictionary: PDF_DICTIONARY
+	dictionary: PDF_DICTIONARY_GENERAL
 
 feature {NONE} -- Implementation: Delimiters
 

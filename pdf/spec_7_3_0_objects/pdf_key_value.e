@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 			item := [create {PDF_NAME}.make (a_key), a_value]
 		end
 
-	make_as_dictionary (a_key: STRING; a_value: PDF_DICTIONARY)
+	make_as_dictionary (a_key: STRING; a_value: PDF_DICTIONARY_GENERAL)
 		do
 			item := [create {PDF_NAME}.make (a_key), a_value]
 		end

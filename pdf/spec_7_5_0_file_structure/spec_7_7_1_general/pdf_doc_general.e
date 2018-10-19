@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {PDF_DOC_ELEMENT}."
+	description: "Summary description for {PDF_DOC_GENERAL}."
 
 deferred class
-	PDF_DOC_ELEMENT
+	PDF_DOC_GENERAL
 
 inherit
 	PDF_ANY

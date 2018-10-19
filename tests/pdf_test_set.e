@@ -217,7 +217,7 @@ endobj
 		local
 			l_body: PDF_BODY
 			l_item: PDF_INDIRECT_OBJECT
-			l_dict: PDF_DICTIONARY
+			l_dict: PDF_DICTIONARY_GENERAL
 			l_but_got: STRING
 		do
 			create l_body
@@ -268,7 +268,7 @@ xref
 			l_outlines_2: PDF_OUTLINES
 			l_catalog_1: PDF_CATALOG
 
-			l_dic_5: PDF_DICTIONARY
+			l_dic_5: PDF_DICTIONARY_GENERAL
 
 			l_but_got: STRING
 		do
@@ -383,7 +383,7 @@ feature {NONE} -- Test Support: In-system References
 	pdf_name: detachable PDF_NAME
 
 	pdf_container: detachable PDF_OBJECT_CONTAINER
-	pdf_dictionary: detachable PDF_DICTIONARY
+	pdf_dictionary: detachable PDF_DICTIONARY_GENERAL
 	pdf_indirect: detachable PDF_INDIRECT_OBJECT
 
 feature -- Tests: PDF Document

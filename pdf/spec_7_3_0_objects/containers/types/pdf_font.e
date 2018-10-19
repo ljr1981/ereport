@@ -58,7 +58,7 @@ feature {NONE} -- Implementation: Access
 			create Result.make_as_name ("Type", "Font")
 		end
 
-	dictionary: PDF_DICTIONARY
+	dictionary: PDF_DICTIONARY_GENERAL
 
 feature -- Queries
 

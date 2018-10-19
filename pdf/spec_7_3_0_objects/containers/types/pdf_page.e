@@ -86,7 +86,7 @@ feature -- Access
 	resources: detachable PDF_KEY_VALUE
 			-- Page `resources' (ex: fonts, etc).
 
-	resources_dictionary: detachable PDF_DICTIONARY
+	resources_dictionary: detachable PDF_DICTIONARY_GENERAL
 			-- The `resources_dictionary' contained in `resources'.
 
 feature {NONE} -- Implementation: Access
@@ -97,7 +97,7 @@ feature {NONE} -- Implementation: Access
 			create Result.make_as_name ("Type", "Page")
 		end
 
-	dictionary: PDF_DICTIONARY
+	dictionary: PDF_DICTIONARY_GENERAL
 			-- Page `dictionary'.
 
 	media_box: detachable PDF_KEY_VALUE
@@ -150,7 +150,7 @@ feature -- Settings
 				are based on simplistic single-font text-only notions for the moment.
 				]"
 		local
-			l_dict: PDF_DICTIONARY
+			l_dict: PDF_DICTIONARY_GENERAL
 		do
 			create l_dict
 			l_dict.set_from_array (<<create {PDF_KEY_VALUE}.make_as_obj_ref (a_ref_name, a_font.ref)>>)
@@ -185,7 +185,7 @@ feature {NONE} -- Implementation: Settings
 			end
 		end
 
-	set_font (a_dict: PDF_DICTIONARY)
+	set_font (a_dict: PDF_DICTIONARY_GENERAL)
 			-- `set_font' of `a_dict' into `resources_dictionary'.
 		require
 			has_resources: attached resources

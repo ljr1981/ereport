@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {PDF_DICTIONARY}."
+	description: "Summary description for {PDF_DICTIONARY_GENERAL}."
 
 class
-	PDF_DICTIONARY
+	PDF_DICTIONARY_GENERAL
 
 inherit
 	PDF_OBJECT [ARRAYED_LIST [PDF_KEY_VALUE]]
