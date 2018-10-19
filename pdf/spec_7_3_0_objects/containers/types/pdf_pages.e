@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_PAGES}."
+	description: "Representation of {PDF_PAGES}."
 
 class
 	PDF_PAGES
@@ -14,13 +14,13 @@ create
 feature {NONE} -- Initialization
 
 	make
-			--
+			-- `make' Current with no `kids'.
 		do
 			make_with_kids (<<>>)
 		end
 
 	make_with_kids (a_kids: ARRAY [PDF_OBJECT_REFERENCE])
-			--
+			-- `make_with_kids' (child PDF_PAGE items).
 		do
 			create dictionary
 
@@ -50,15 +50,19 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	dictionary: PDF_DICTIONARY
+			-- `dictionary' for Current.
 
 	type: PDF_KEY_VALUE
+			-- /Type /Pages
 
 	kids: PDF_KEY_VALUE
+			-- `kids' (child pages). /Kids /[Array_of_kid_refs]
 
 	count: PDF_KEY_VALUE
+			-- `count' /Count /[Int_value] of `kids'.
 
 ;note
-	main_spec: ""
+	main_spec: "7.7.3.2 Page Tree Nodes"
 	other_specs: ""
 	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
