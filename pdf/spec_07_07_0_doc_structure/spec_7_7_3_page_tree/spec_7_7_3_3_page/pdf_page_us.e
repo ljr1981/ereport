@@ -1,5 +1,5 @@
 note
-	description: "Representationof a {PDF_PAGE_US}."
+	description: "Representation of a {PDF_PAGE_US}."
 
 class
 	PDF_PAGE_US
