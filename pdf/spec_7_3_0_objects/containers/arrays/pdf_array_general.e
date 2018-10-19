@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 feature -- Settings
 
 	add_item (a_item: G)
-			--
+			-- `add_item' of `a_item' to `items' hash.
 		do
 			items_attached.force (a_item, a_item.out.hash_code)
 		end
@@ -32,6 +32,7 @@ feature -- Settings
 feature -- Output
 
 	pdf_out: STRING
+			-- <Precursor>
 		do
 			create Result.make_empty
 			Result.append_character ('[')
@@ -51,9 +52,10 @@ feature -- Output
 feature {NONE} -- Implementation: Anchors
 
 	items_anchor: detachable G
+			-- Type anchor for items in `items'.
 
 	items_attached: attached like items
-			--
+			-- Attached version of `items'.
 		do
 			check attached items as al_items then Result := al_items end
 		end
