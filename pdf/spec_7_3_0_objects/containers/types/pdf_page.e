@@ -12,6 +12,21 @@ note
 >>
 endobj
 ]"
+	design_warning: "[
+		This design was initially built on simple sample PDFs
+		located in the PDF ISO specification document (see ecf root folder).
+		Because the simple samples have but one page, and only
+		a smattering of text, there was only a need for one font
+		resource.
+		]"
+	TODO: "[
+		Expand this class to incorporate the following:
+		
+		- lines from top to bottom (i.e. given a list of text lines,
+			draw each line from top-of-page down to bottom).
+		- paragraphs from top to bottom.
+		- tables with headers, columns, and rows from page top-to-bottom.
+		]"
 
 class
 	PDF_PAGE
@@ -31,7 +46,13 @@ feature {NONE} -- Initialization
 
 	make (a_contents_ref: PDF_OBJECT_REFERENCE;
 				a_media_box: TUPLE [llx, lly, urx, ury: STRING])
-			--
+			-- `make' with `a_contents_ref' and `a_media_box'.
+		note
+			design: "[
+				Ex: Contents might be text and the mediabox is square area
+					of the page where the text will be drawn. Further, the
+					media area might be /MediaBox [0 0 612 792] for 8.5 x 11 page.
+				]"
 		do
 			default_create
 
@@ -53,7 +74,7 @@ feature {NONE} -- Initialization
 	make_with_font (a_contents_ref: PDF_OBJECT_REFERENCE;
 				a_media_box: TUPLE [llx, lly, urx, ury: STRING];
 				a_font: PDF_FONT)
-			--
+			-- `make_with_font' like `make', but with added font-info.
 		do
 			make (a_contents_ref, a_media_box)
 			init_resources
@@ -63,28 +84,40 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	resources: detachable PDF_KEY_VALUE
+			-- Page `resources' (ex: fonts, etc).
 
 	resources_dictionary: detachable PDF_DICTIONARY
+			-- The `resources_dictionary' contained in `resources'.
 
 feature {NONE} -- Implementation: Access
 
 	type: PDF_KEY_VALUE
-			--
+			-- /Type /Page
 		attribute
 			create Result.make_as_name ("Type", "Page")
 		end
 
 	dictionary: PDF_DICTIONARY
+			-- Page `dictionary'.
 
 	media_box: detachable PDF_KEY_VALUE
+			-- Page `media_box'.
 
 	contents: PDF_KEY_VALUE
+			-- Page `contents'.
 
 	font: detachable PDF_KEY_VALUE
+			-- Page `font'.
 
 feature -- Settings
 
 	init_resources
+			-- Initialize `resources'.
+		note
+			design: "[
+				This routine makes a lot of basic assumptions about the page.
+				For example: Presumes the page has nothng but PDF Text.
+				]"
 		require
 			no_res: not attached resources
 			no_dict: not attached resources_dictionary
@@ -110,6 +143,12 @@ feature -- Settings
 
 	set_font_reference (a_ref_name: STRING; a_font: PDF_FONT)
 			-- Set a Font obj ref into `resources_dictionary'
+		note
+			design_warning: "[
+				Presumes there is but one font for the entire page. This will not
+				be the case for more complex documents, so this class and its features
+				are based on simplistic single-font text-only notions for the moment.
+				]"
 		local
 			l_dict: PDF_DICTIONARY
 		do
@@ -130,12 +169,13 @@ feature {NONE} -- Implementation: Settings
 		end
 
 	set_media_box (obj: attached like media_box)
-			--
+			-- `set_media_box' to `obj' (`media_box').
 		do
 			media_box := obj
 		end
 
 	init_media_box (llx, lly, urx, ury: STRING)
+			-- Initialize the media box with lower-left and upper-right x,y's.
 		local
 			l_box: PDF_RECTANGLE
 		do
@@ -172,7 +212,7 @@ feature -- Output
 		end
 
 ;note
-	main_spec: ""
+	main_spec: "7.7.3.3 Page Objects"
 	other_specs: ""
 	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
