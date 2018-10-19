@@ -2,7 +2,6 @@
 Eiffel Report Generator based on PDF library code.
 
 ##		PROJECT STRUCTURE
-##		=================
 		Project is laid out per the ISO-32000:1 v2008 Specification (see EIS PDF above).
 		
 		Project folder structure roughly follows the specification outline, where
@@ -15,7 +14,6 @@ Eiffel Report Generator based on PDF library code.
 		See the corresponding "spec_nn_nn" folder in the Groups view (to right in ES IDE).
 		
 ##		EXAMPLE PDF GENERATION
-##		======================
 		A current example of how to create (generate) a working PDF file can be found here:
 		
 		{PDF_TEST_SET}.sample_pdf_generation_test
@@ -37,7 +35,6 @@ Eiffel Report Generator based on PDF library code.
 		into Text-based PDF documents.
 		
 ###		Planned Work
-###		------------
 		- Pages:		A simple class to collect and hold pages (not just PDF_PAGE_TREE).
 		- Lines:		A simple class that takes a collection of text lines and writes
 						top-to-bottom on a single page.
@@ -56,7 +53,6 @@ Eiffel Report Generator based on PDF library code.
 				job of your code, not this library.
 				
 ###		Much Later Work
-###		---------------
 		- Graphics:		For example: Adding lines for tables and perhaps logos for report
 						headers or even graphs (there is a basic graphing library written
 						completely in Eiffel that produces PNG graphs, which can then be
@@ -64,7 +60,6 @@ Eiffel Report Generator based on PDF library code.
 		- Text-opts:	Fine control of text transformations and other matters (see spec 8.x)
 		
 ##		WHAT LIBRARY WILL NOT YET DO
-##		============================
 		Graphics!
 		Encryption!
 		Compression!
