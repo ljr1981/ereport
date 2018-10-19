@@ -218,6 +218,7 @@ endobj
 			l_body: PDF_BODY
 			l_item: PDF_INDIRECT_OBJECT
 			l_dict: PDF_DICTIONARY
+			l_but_got: STRING
 		do
 			create l_body
 			create l_item
@@ -226,7 +227,10 @@ endobj
 			l_item.add_object (l_dict)
 			assert_strings_equal ("indirect_object_1", indirect_object_text, l_item.pdf_out)
 			l_body.add_object (l_item)
-			assert_strings_equal ("body_1", body_text, l_body.pdf_out)
+
+			l_but_got := l_body.pdf_out.twin
+			l_but_got.replace_substring_all ("%R", "")
+			assert_strings_equal ("body_1", body_text, l_but_got)
 		end
 
 -----------------------------------------------
@@ -245,6 +249,10 @@ endobj
 /Key /Value
 >>
 endobj
+xref
+0 1
+0000000000 65535 f
+0000000033 00000 n
 
 ]"
 -----------------------------------------------
@@ -261,6 +269,8 @@ endobj
 			l_catalog_1: PDF_CATALOG
 
 			l_dic_5: PDF_DICTIONARY
+
+			l_but_got: STRING
 		do
 			create l_doc
 			l_doc.header.set_version (4)
@@ -278,7 +288,9 @@ endobj
 			l_doc.body.add_object (l_page_4)
 			l_doc.body.add_object (l_ind_5)
 
-			assert_strings_equal ("doc", doc_text, l_doc.pdf_out)
+			l_but_got := l_doc.pdf_out.twin
+			l_but_got.replace_substring_all ("%R", "")
+			assert_strings_equal ("doc", doc_text, l_but_got)
 		end
 
 ---------------------------------------
@@ -316,11 +328,22 @@ endobj
 <<
 >>
 endobj
-6 0 obj
+xref
+0 5
+0000000000 65535 f
+0000000065 00000 n
+0000000111 00000 n
+0000000168 00000 n
+0000000255 00000 n
+0000000276 00000 n
+trailer
 <<
+/Size 6
+/Root 1 0 R
 >>
-endobj
-
+startxref
+276
+%%EOF
 ]"
 -----------------------------
 
@@ -376,7 +399,7 @@ feature -- Tests: PDF Document
 			l_page_3: PDF_PAGE
 			l_pages_2: PDF_PAGES
 			l_catalog_1: PDF_CATALOG
-			
+
 			l_but_got: STRING
 		do
 			create l_doc
