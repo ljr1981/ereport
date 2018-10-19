@@ -1,6 +1,8 @@
 # ereport
 Eiffel Report Generator based on PDF library code.
 
+See the PDF_DOC class for recent changes to this readme.
+
 ##		PROJECT STRUCTURE
 		Project is laid out per the ISO-32000:1 v2008 Specification (see EIS PDF above).
 		
