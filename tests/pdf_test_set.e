@@ -438,7 +438,7 @@ feature -- Tests: PDF Document
 			l_stream_5.set_td_offsets (120, 120)
 
 				-- Obj 3 - PAGE (w/TEXT.ref, RECT, FONT)
-			create l_page_3.make_with_font (l_stream_5.ref, ["0", "0", "612", "792"], l_font_4)
+			create l_page_3.make_with_font (l_stream_5.ref, ["0", "0", "612", "792"], <<l_font_4>>)
 
 				-- Obj 2 - PAGES
 			create l_pages_2.make_with_kids (<<l_page_3.ref>>)

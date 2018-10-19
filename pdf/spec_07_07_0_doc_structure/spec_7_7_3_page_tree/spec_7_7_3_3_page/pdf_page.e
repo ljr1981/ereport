@@ -73,12 +73,12 @@ feature {NONE} -- Initialization
 
 	make_with_font (a_contents_ref: PDF_OBJECT_REFERENCE;
 				a_media_box: TUPLE [llx, lly, urx, ury: STRING];
-				a_font: PDF_FONT)
+				a_font_array: ARRAY [PDF_FONT])
 			-- `make_with_font' like `make', but with added font-info.
 		do
 			make (a_contents_ref, a_media_box)
 			init_resources
-			set_font_reference (a_font.name_value, a_font)
+			set_font_reference (a_font_array)
 		end
 
 feature -- Access
@@ -106,8 +106,11 @@ feature {NONE} -- Implementation: Access
 	contents: PDF_KEY_VALUE
 			-- Page `contents'.
 
-	font: detachable PDF_KEY_VALUE
-			-- Page `font'.
+	font: PDF_KEY_VALUE
+			-- Page `font' list.
+		attribute
+			create Result
+		end
 
 feature -- Settings
 
@@ -141,7 +144,7 @@ feature -- Settings
 			has_dict: attached resources_dictionary
 		end
 
-	set_font_reference (a_ref_name: STRING; a_font: PDF_FONT)
+	set_font_reference (a_fonts: ARRAY [PDF_FONT])
 			-- Set a Font obj ref into `resources_dictionary'
 		note
 			design_warning: "[
@@ -151,9 +154,16 @@ feature -- Settings
 				]"
 		local
 			l_dict: PDF_DICTIONARY_GENERAL
+			l_fonts: ARRAYED_LIST [PDF_KEY_VALUE]
 		do
+			create l_fonts.make (a_fonts.count)
+			across
+				a_fonts as ic_fonts
+			loop
+				l_fonts.force (create {PDF_KEY_VALUE}.make_as_obj_ref (ic_fonts.item.name_value, ic_fonts.item.ref))
+			end
 			create l_dict
-			l_dict.set_from_array (<<create {PDF_KEY_VALUE}.make_as_obj_ref (a_ref_name, a_font.ref)>>)
+			l_dict.set_from_array (l_fonts.to_array)
 			set_font (l_dict)
 		end
 
