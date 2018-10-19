@@ -1,47 +1,11 @@
 note
 	description: "Representationof a {PDF_US_PAGE}."
-	BNFE: "[
-		Page ::=
-			Page_dictionary
-			
-		Page_dictionary ::=
-			Type_name						<-- /Type /Page
-			Parent_ref						<-- Ref to parent {PDF_PAGE_TREE}
-			Media_box_array					<-- [llx, lly, urx, ury] configuration
-			Contents_stream_ref				<-- Reference to page contents (i.e. BT ... ET obj)
-			Resources_dictionary			<-- /ProcSet and /Font configuration
-
-		Resources_dictionary ::=
-			ProcSet_array					<-- List of procedure protocols
-			Font_dictionary					<-- List of font obj references
-			
-		ProcSet_array ::=
-			Proc_name+						<-- /PDF and /Text
-			
-		Font_dictionary ::=
-			Font_key_value_ref+				<-- Object reference to {PDF_INDIRECT_OBJECT} text stream items
-
-		Example:
-			<<
-				/Type /Page
-				/Parent 2 0 R
-				/MediaBox [0 0 612 792]
-				/Contents 5 0 R
-				/Resources <<
-					/ProcSet [/PDF /Text]
-					/Font <<
-						/F1 4 0 R
-						/F2 5 0 R
-						>>
-					>>
-			>>
-		]"
 
 class
 	PDF_US_PAGE
 
 inherit
-	PDF_PAGE
+	PDF_PAGE_GENERAL
 
 create
 	make_with_contents
@@ -72,36 +36,6 @@ feature {NONE} -- Initialization
 			set_font_reference (a_font_array)
 		end
 
-feature {NONE} -- Implementation: Access: MediaBox
-
-	portrait_box: TUPLE [llx, lly, urx, ury: STRING]
-			-- `portrait_box' mediabox settings.
-			-- Lower-left and Upper-right x and y.
-		once
-			Result := ["0", "0", width_pixels.out, height_pixels.out]
-		end
-
-	landscape_box: TUPLE [llx, lly, urx, ury: STRING]
-			-- `landscape_box' mediabox settings.
-			-- Lower-left and Upper-right x and y.
-		once
-			Result := ["0", "0", height_pixels.out, width_pixels.out]
-		end
-
-feature -- Settings: MediaBox
-
-	set_portrait
-			-- Set `media_box' as `portrait_box'.
-		do
-			init_media_box (portrait_box.llx, portrait_box.lly, portrait_box.urx, portrait_box.ury)
-		end
-
-	set_landscape
-			-- Set `media_box' as `landscape_box'.
-		do
-			init_media_box (landscape_box.llx, landscape_box.lly, landscape_box.urx, landscape_box.ury)
-		end
-
 feature {NONE} -- Implementation: Constants: MediaBox
 
 	width_pixels: INTEGER = 612
@@ -110,7 +44,7 @@ feature {NONE} -- Implementation: Constants: MediaBox
 	height_pixels: INTEGER = 792
 			-- Pixel width of 11" @ 72 dpi = 792 pixels.
 
-note
+;note
 	goal: "[
 		Represent a function 8 1/2 inch x 11 inch US page in
 		portrait layout.

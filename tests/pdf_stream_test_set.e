@@ -50,32 +50,6 @@ feature -- Tests: PDF Document
 
 	sample_2_pdf_generation_test
 			-- General a very simple sample text-based PDF file content.
-		note
-			design: "[
-				The document (below) is built from specific-to-general.
-				The document presumes a single font, single page, with
-				single resources. This is as basic as it can get.
-				
-				PROCESS
-				=======
-				
-				Start with defining fonts.
-				Next, define the text with font references and parameters.
-				Next, give the text and fonts to a page.
-				Next, give the page (as a ref) to a page-tree collection.
-				Next, give the page-tree to a doc-catalog.
-				Finally, create the document and give each element
-					to it in top-down order.
-					
-				WHAT YOU GET FOR YOUR TROUBLE!
-				==============================
-				
-				What is produced is the coded specifications for a PDF file.
-				You can take what is generated, save it to a file and then
-				open it up (e.g. open the PDF file in Windows Explorer).
-				
-				See the corresponding file created by this test routine.
-				]"
 		local
 			l_doc: PDF_DOCUMENT
 
@@ -89,6 +63,7 @@ feature -- Tests: PDF Document
 			l_but_got: STRING
 
 			l_file: PLAIN_TEXT_FILE
+			l_dir: DIRECTORY
 		do
 				-- Obj 4 - FONTS
 			create l_font_4a.make_with_font_info ("F1", "Type1", "Helvetica", "MacRomanEncoding")

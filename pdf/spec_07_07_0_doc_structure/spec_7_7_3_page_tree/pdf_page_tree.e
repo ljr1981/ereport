@@ -61,6 +61,23 @@ feature -- Access
 	count: PDF_KEY_VALUE
 			-- `count' /Count /[Int_value] of `kids'.
 
+feature -- Basic Operations
+
+	generate_pages_from_lines (a_lines: ARRAY [TUPLE [line: STRING; font: PDF_FONT]])
+			--
+		do
+			across
+				a_lines as ic_lines
+			loop
+				
+			end
+		end
+
+	generated_pages: ARRAYED_LIST [TUPLE [page: PDF_PAGE; font: PDF_FONT]]
+		attribute
+			create Result.make (10)
+		end
+
 ;note
 	main_spec: "7.7.3.2 Page Tree Nodes"
 	other_specs: ""
