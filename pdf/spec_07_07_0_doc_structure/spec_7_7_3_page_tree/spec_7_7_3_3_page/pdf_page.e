@@ -40,7 +40,7 @@ inherit
 
 create
 	make,
-	make_with_font
+	make_with_fonts
 
 feature {NONE} -- Initialization
 
@@ -71,10 +71,10 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_with_font (a_contents_ref: PDF_OBJECT_REFERENCE;
+	make_with_fonts (a_contents_ref: PDF_OBJECT_REFERENCE;
 				a_media_box: TUPLE [llx, lly, urx, ury: STRING];
 				a_font_array: ARRAY [PDF_FONT])
-			-- `make_with_font' like `make', but with added font-info.
+			-- `make_with_fonts' like `make', but with added font-info.
 		do
 			make (a_contents_ref, a_media_box)
 			init_resources
