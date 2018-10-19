@@ -420,7 +420,8 @@ feature -- Tests: PDF Document
 			l_doc: PDF_DOCUMENT
 
 			l_stream_5: PDF_STREAM_PLAIN_TEXT_OBJECT
-			l_font_4: PDF_FONT
+			l_font_4,
+			l_font_4b: PDF_FONT
 			l_font_4_ref_key_value: PDF_KEY_VALUE
 			l_page_3: PDF_PAGE
 			l_pages_2: PDF_PAGE_TREE
@@ -431,6 +432,7 @@ feature -- Tests: PDF Document
 		do
 				-- Obj 4 - FONTS
 			create l_font_4.make_with_font_info ("F1", "Type1", "Helvetica", "MacRomanEncoding")
+			create l_font_4b.make_with_font_info ("F2", "Type1", "CourierNew", "MacRomanEncoding")
 
 				-- Obj 5 - TEXT (using FONT)
 			create l_stream_5.make_with_text ("See {PDF_TEST_SET}.sample_pdf_generation_test")
@@ -438,7 +440,7 @@ feature -- Tests: PDF Document
 			l_stream_5.set_td_offsets (120, 120)
 
 				-- Obj 3 - PAGE (w/TEXT.ref, RECT, FONT)
-			create l_page_3.make_with_font (l_stream_5.ref, ["0", "0", "612", "792"], <<l_font_4>>)
+			create l_page_3.make_with_font (l_stream_5.ref, ["0", "0", "612", "792"], <<l_font_4, l_font_4b>>)
 
 				-- Obj 2 - PAGES
 			create l_pages_2.make_with_kids (<<l_page_3.ref>>)
@@ -454,6 +456,7 @@ feature -- Tests: PDF Document
 			l_doc.body.add_object (l_pages_2)
 			l_doc.body.add_object (l_page_3)
 			l_doc.body.add_object (l_font_4)
+			l_doc.body.add_object (l_font_4b)
 			l_doc.body.add_object (l_stream_5)
 
 			l_but_got := l_doc.pdf_out.twin				-- Must do this because %R is a part of
@@ -485,12 +488,13 @@ endobj
 3 0 obj
 <<
 /Type /Page
-/Contents 5 0 R
+/Contents 6 0 R
 /MediaBox [0 0 612 792]
 /Resources <<
 /ProcSet [/PDF /Text]
 /Font <<
 /F1 4 0 R
+/F2 5 0 R
 >>
 >>
 /Parent 2 0 R
@@ -507,6 +511,15 @@ endobj
 endobj
 5 0 obj
 <<
+/Type /Font
+/Name /F2
+/Subtype /Type1
+/BaseFont /CourierNew
+/Encoding /MacRomanEncoding
+>>
+endobj
+6 0 obj
+<<
 /Length 78
 >>
 stream
@@ -519,20 +532,21 @@ ET
 endstream
 endobj
 xref
-0 5
+0 6
 0000000000 65535 f
 0000000049 00000 n
 0000000106 00000 n
-0000000254 00000 n
-0000000362 00000 n
-0000000490 00000 n
+0000000264 00000 n
+0000000372 00000 n
+0000000481 00000 n
+0000000609 00000 n
 trailer
 <<
-/Size 6
+/Size 7
 /Root 1 0 R
 >>
 startxref
-490
+609
 %%EOF
 ]"
 
