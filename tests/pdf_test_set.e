@@ -264,7 +264,7 @@ xref
 			l_ind_5: PDF_INDIRECT_OBJECT
 
 			l_page_4: PDF_PAGE
-			l_pages_3: PDF_PAGES
+			l_pages_3: PDF_PAGE_TREE
 			l_outlines_2: PDF_OUTLINES
 			l_catalog_1: PDF_CATALOG
 
@@ -397,7 +397,7 @@ feature -- Tests: PDF Document
 			l_font_4: PDF_FONT
 			l_font_4_ref_key_value: PDF_KEY_VALUE
 			l_page_3: PDF_PAGE
-			l_pages_2: PDF_PAGES
+			l_pages_2: PDF_PAGE_TREE
 			l_catalog_1: PDF_CATALOG
 
 			l_but_got: STRING

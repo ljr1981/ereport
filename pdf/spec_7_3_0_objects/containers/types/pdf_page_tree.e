@@ -1,8 +1,8 @@
 note
-	description: "Representation of {PDF_PAGES}."
+	description: "Representation of {PDF_PAGE_TREE}."
 
 class
-	PDF_PAGES
+	PDF_PAGE_TREE
 
 inherit
 	PDF_INDIRECT_OBJECT
