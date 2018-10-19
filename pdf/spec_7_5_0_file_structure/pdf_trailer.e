@@ -13,7 +13,7 @@ feature -- Access
 			-- `Size' of Current
 			-- spec 7.5.5 Table 15
 		attribute
-			create Result.make_as_integer ("Size", 0)
+			create Result.make_as_integer (Size_key_name, 0)
 		end
 
 	root: PDF_KEY_VALUE
@@ -30,13 +30,13 @@ feature -- Settings
 			-- `set_size' to `i' + 1
 			-- spec 7.5.5 Table 15
 		do
-			size.set_value ([create {PDF_NAME}.make ("Size"), create {PDF_INTEGER}.make_with_integer (i + 1)])
+			size.set_value ([create {PDF_NAME}.make (Size_key_name), create {PDF_INTEGER}.make_with_integer (i + 1)])
 		end
 
 	set_root (r: PDF_INDIRECT_OBJECT)
 			--
 		do
-			root.set_value ([create {PDF_NAME}.make ("Root"), r.ref])
+			root.set_value ([create {PDF_NAME}.make (Root_key_name), r.ref])
 		end
 
 	set_byte_offset (i: INTEGER)
@@ -51,10 +51,10 @@ feature -- Output
 			-- <Precursor>
 		do
 			create Result.make_empty
-			Result.append_string_general ("trailer")
+			Result.append_string_general (Trailer_kw)
 			Result.append_character ('%N')
 
-			Result.append_string_general ("<<")
+			Result.append_string_general (Opening_dictionary_marker)
 			Result.append_character ('%N')
 
 			Result.append_string_general (size.pdf_out)
@@ -62,17 +62,38 @@ feature -- Output
 			Result.append_string_general (root.pdf_out)
 			Result.append_character ('%N')
 
-			Result.append_string_general (">>")
+			Result.append_string_general (Closing_dictionary_marker)
 			Result.append_character ('%N')
 
-			Result.append_string_general ("startxref")
+			Result.append_string_general (Startxref_kw)
 			Result.append_character ('%N')
 			Result.append_string_general (byte_offset.out)
 			Result.append_character ('%N')
-			Result.append_character ('%%')
-			Result.append_character ('%%')
-			Result.append_string_general ("EOF")
+			Result.append_string_general (EOF_marker)
 		end
+
+feature {NONE} -- Implementation: Constants
+
+	Size_key_name: STRING = "Size"
+	Root_key_name: STRING = "Root"
+
+	Trailer_kw: STRING = "trailer"
+
+	Opening_dictionary_marker: STRING = "<<"
+	Closing_dictionary_marker: STRING = ">>"
+
+	Startxref_kw: STRING = "startxref"
+
+	EOF_marker: STRING
+			-- End-of-file marker.
+		once
+			create Result.make_empty
+			Result.append_character ('%%')
+			Result.append_character ('%%')
+			Result.append_string_general (EOF_kw)
+		end
+
+	EOF_kw: STRING = "EOF"
 
 ;note
 	main_spec: "7.5.5 File Trailer"
