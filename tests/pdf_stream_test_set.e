@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 
 feature -- Tests: PDF Document
 
-	sample_pdf_generation_test
+	sample_2_pdf_generation_test
 			-- General a very simple sample text-based PDF file content.
 		note
 			design: "[
@@ -83,7 +83,7 @@ feature -- Tests: PDF Document
 			l_font_4a,
 			l_font_4b: PDF_FONT
 			l_font_4_ref_key_value: PDF_KEY_VALUE
-			l_page_3: PDF_PAGE
+			l_page_3: PDF_US_PAGE
 			l_pages_2: PDF_PAGE_TREE
 			l_catalog_1: PDF_CATALOG
 			l_but_got: STRING
@@ -100,7 +100,8 @@ feature -- Tests: PDF Document
 			l_stream_5.set_td_offsets (120, 120)
 
 				-- Obj 3 - PAGE (w/TEXT.ref, RECT, FONT)
-			create l_page_3.make_with_fonts (l_stream_5.ref, ["0", "0", "612", "792"], <<l_font_4a>>)
+			create l_page_3.make_with_contents (l_stream_5.ref, <<l_font_4a>>)
+			l_page_3.set_portrait
 
 				-- Obj 2 - PAGES
 			create l_pages_2.make_with_kids (<<l_page_3.ref>>)
@@ -121,16 +122,16 @@ feature -- Tests: PDF Document
 
 			l_but_got := l_doc.pdf_out.twin				-- Must do this because %R is a part of
 			l_but_got.replace_substring_all ("%R", "")	-- the Xref spec for EOL on each table line.
-			assert_strings_equal ("sample_pdf", sample_pdf, l_but_got)
+			assert_strings_equal ("sample_pdf", sample_2_pdf, l_but_got)
 
-			create l_file.make_create_read_write (".\tests\assets\generated_sample.pdf")
+			create l_file.make_create_read_write (".\tests\assets\generated_sample_2.pdf")
 			l_file.put_string (l_doc.pdf_out)
 			l_file.close
 		end
 
 feature {NONE} -- Test Support: PDF
 
-	sample_pdf: STRING = "[
+	sample_2_pdf: STRING = "[
 %PDF-1.4
 1 0 obj
 <<
@@ -149,7 +150,6 @@ endobj
 <<
 /Type /Page
 /Contents 6 0 R
-/MediaBox [0 0 612 792]
 /Resources <<
 /ProcSet [/PDF /Text]
 /Font <<
@@ -195,17 +195,17 @@ xref
 0000000000 65535 f
 0000000049 00000 n
 0000000106 00000 n
-0000000254 00000 n
-0000000362 00000 n
-0000000471 00000 n
-0000000599 00000 n
+0000000230 00000 n
+0000000338 00000 n
+0000000447 00000 n
+0000000575 00000 n
 trailer
 <<
 /Size 7
 /Root 1 0 R
 >>
 startxref
-599
+575
 %%EOF
 ]"
 

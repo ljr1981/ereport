@@ -48,7 +48,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_with_contents (a_contents_ref: PDF_OBJECT_REFERENCE)
+	make_with_contents (a_contents_ref: PDF_OBJECT_REFERENCE; a_font_array: ARRAY [PDF_FONT])
 			-- `make_with_contents' with `a_contents_ref'.
 		note
 			design: "[
@@ -68,6 +68,8 @@ feature {NONE} -- Initialization
 			check has_contents: attached contents as al_contents then
 				dictionary.add_object (al_contents)
 			end
+			init_resources
+			set_font_reference (a_font_array)
 		end
 
 feature {NONE} -- Implementation: Access: MediaBox
@@ -86,7 +88,7 @@ feature {NONE} -- Implementation: Access: MediaBox
 			Result := ["0", "0", height_pixels.out, width_pixels.out]
 		end
 
-feature {NONE} -- Implementation: Settings: MediaBox
+feature -- Settings: MediaBox
 
 	set_portrait
 			-- Set `media_box' as `portrait_box'.
