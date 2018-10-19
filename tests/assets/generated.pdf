@@ -37,14 +37,13 @@ endobj
 endobj
 5 0 obj
 <<
-/Length 66
+/Length 67
 >>
 stream
 BT
 /F1 20 Tf
 120 120 Td
-(Line one of text
-Line two of text) Tj
+(Hello from Larry Rix) Tj
 ET
 
 endstream
@@ -56,12 +55,12 @@ xref
 0000000106 00000 n
 0000000254 00000 n
 0000000362 00000 n
-0000000478 00000 n
+0000000479 00000 n
 trailer
 <<
 /Size 6
 /Root 1 0 R
 >>
 startxref
-478
+479
 %%EOF

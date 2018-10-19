@@ -383,7 +383,7 @@ feature -- Tests: PDF Document
 				-- Obj 4
 			create l_font_4.make_with_font_info ("F1", "Type1", "Helvetica", "MacRomanEncoding")
 				-- Obj 5
-			create l_stream_5.make_with_text ("Line one of text%NLine two of text")
+			create l_stream_5.make_with_text ("Hello from Larry Rix")
 			l_stream_5.set_tf_font_ref_and_size (l_font_4, 20)
 			l_stream_5.set_td_offsets (120, 120)
 				-- Obj 3
