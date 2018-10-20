@@ -158,10 +158,10 @@ feature {NONE} -- Implementation: Basic Operations
 			-- Create a `new_font' with `a_index', `a_basefont', for `a_point_size'.
 		do
 			Result := new_font_ind_obj
-			Result.name := "F" + a_index.out
-			Result.subtype := "Type1"
+			Result.name := Font_prefix + a_index.out
+			Result.subtype := Subtype_type1
 			Result.basefont := a_basefont
-			Result.encoding := "MacRomanEncoding"
+			Result.encoding := MacRomanEncoding
 			Result.size := a_point_size
 		end
 
@@ -199,6 +199,12 @@ feature {NONE} -- Implementation: Basic Operations
 		do
 			a_stream.entries.force (a_entry)
 		end
+
+feature {NONE} -- Implementation: Constants
+
+	Font_prefix: STRING = "F"
+	Subtype_type1: STRING = "Type1"
+	MacRomanEncoding: STRING = "MacRomanEncoding"
 
 ;note
 	design: "[
