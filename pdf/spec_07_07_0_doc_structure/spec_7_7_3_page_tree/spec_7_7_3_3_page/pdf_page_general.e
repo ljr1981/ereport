@@ -73,7 +73,7 @@ feature {NONE} -- Implementation: Access
 			-- Page `contents'.
 
 	font: PDF_KEY_VALUE
-			-- Page `font' list.
+			-- Page `font' /Font <<dictionary>>.
 		attribute
 			create Result
 		end

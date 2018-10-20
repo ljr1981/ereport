@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 			set_stream_text (a_text)
 		end
 
-feature {NONE} -- Implementation: Access
+feature -- Access
 
 	stream: PDF_STREAM_PLAIN_TEXT
 
@@ -43,14 +43,16 @@ feature -- Settings
 			stream.set_text (a_text)
 		end
 
+feature -- Access
+
+	Tf_font_size: INTEGER
+
 feature {NONE} -- Implementation: Access
 
 	Td_x_offset,
 	Td_y_offset: INTEGER
 
 	Tf_font_ref: detachable PDF_FONT
-
-	Tf_font_size: INTEGER
 
 feature -- Settings
 
