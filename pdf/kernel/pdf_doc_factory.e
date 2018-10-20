@@ -33,16 +33,11 @@ feature -- Access: Page
 
 feature -- Access: Stream
 
-	streams: ARRAYED_LIST [like new_stream_ind_obj]
-			-- List of `streams' to generate.
-		attribute
-			create Result.make (10)
-		end
-
 	new_stream_ind_obj: TUPLE [ length: INTEGER; entries: ARRAYED_LIST [like new_stream_entry] ]
 			-- Make one and give to caller.
 		do
 			create Result
+			Result.entries := (create {ARRAYED_LIST [like new_stream_entry]}.make (10))
 		end
 
 	new_stream_entry: TUPLE [Tf_font_name: STRING;
@@ -113,7 +108,7 @@ feature -- Basic Operations
 					-- O3-4
 					-- Prep-work
 				l_new_page := new_page_ind_obj; put_new_page (l_new_page)
-				l_new_stream := new_stream_ind_obj; put_new_stream (l_new_stream)
+				l_new_stream := new_stream_ind_obj; put_new_stream (l_new_page, l_new_stream)
 				l_used_y := 0
 			loop
 				across
@@ -133,7 +128,7 @@ feature -- Basic Operations
 					else
 						l_used_y := 0
 						l_new_page := new_page_ind_obj; put_new_page (l_new_page)
-						l_new_stream := new_stream_ind_obj; put_new_stream (l_new_stream)
+						l_new_stream := new_stream_ind_obj; put_new_stream (l_new_page, l_new_stream)
 					end
 					put_new_stream_entry (l_new_stream, l_new_entry)
 				end
@@ -187,11 +182,10 @@ feature {NONE} -- Implementation: Basic Operations
 			page_tree_ind_obj.page_count := page_tree_ind_obj.kids.count
 		end
 
-	put_new_stream (a_stream: like new_stream_ind_obj)
+	put_new_stream (a_page: like new_page_ind_obj; a_stream: like new_stream_ind_obj)
 			-- Put an initialized `a_stream' into `streams'.
 		do
-			a_stream.entries := (create {ARRAYED_LIST [like new_stream_entry]}.make (10))
-			streams.force (a_stream)
+			a_page.stream := a_stream
 		end
 
 	put_new_stream_entry (a_stream: like new_stream_ind_obj; a_entry: like new_stream_entry)
