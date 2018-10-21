@@ -61,40 +61,6 @@ feature -- Access
 	count: PDF_KEY_VALUE
 			-- `count' /Count /[Int_value] of `kids'.
 
-feature -- Basic Operations
-
-	generate_pages_from_lines (a_lines: ARRAY [TUPLE [line: PDF_STREAM_PLAIN_TEXT_OBJECT; font: PDF_FONT]])
-			--
-		local
-			l_line: STRING
-			l_font: PDF_FONT
-			x,y,
-			l_pixels,
-			l_points: INTEGER
-			l_page: PDF_PAGE_US
-			l_content: PDF_INDIRECT_OBJECT
-			l_max_pixels: INTEGER
-		do
-			across
-				a_lines as ic_lines
-			from
-				x := 0
-				y := 792
-				create l_content
---				create l_page
---				l_max_pixels := l_page
-			loop
-				l_line := ic_lines.item.line.stream.text
-				l_points := ic_lines.item.line.Tf_font_size
-				l_pixels := (l_points / 0.75).truncated_to_integer -- pt / 0.75 = px
-			end
-		end
-
-	generated_pages: ARRAYED_LIST [TUPLE [page: G; font: PDF_FONT]]
-		attribute
-			create Result.make (10)
-		end
-
 ;note
 	main_spec: "7.7.3.2 Page Tree Nodes"
 	other_specs: ""

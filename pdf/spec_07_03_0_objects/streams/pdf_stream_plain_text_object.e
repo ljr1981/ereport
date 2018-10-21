@@ -13,7 +13,7 @@ inherit
 
 create
 	default_create,
-	make_with_text
+	make_with_entries
 
 feature {NONE} -- Initialization
 
@@ -25,103 +25,116 @@ feature {NONE} -- Initialization
 			add_object (stream)
 		end
 
-	make_with_text (a_text: attached like stream.value)
-			--
+	make_with_entries (a_list: ARRAY [TUPLE [Tf_font_name: STRING;
+							Tf_font_size: INTEGER;
+							Td_x, Td_y: INTEGER;
+							Tj_text: STRING]])
 		do
 			default_create
-			set_stream_text (a_text)
+			across
+				a_list as ic
+			loop
+				entries.force (ic.item)
+			end
 		end
 
 feature -- Access
 
 	stream: PDF_STREAM_PLAIN_TEXT
 
-feature -- Settings
-
-	set_stream_text (a_text: STRING)
-		do
-			stream.set_text (a_text)
-		end
-
-feature -- Access
-
-	Tf_font_size: INTEGER
-
-feature {NONE} -- Implementation: Access
-
-	Td_x_offset,
-	Td_y_offset: INTEGER
-
-	Tf_font_ref: detachable PDF_FONT
-
-feature -- Settings
-
-	set_Td_offsets (x,y: INTEGER)
+	entries: ARRAYED_LIST [TUPLE [Tf_font_name: STRING;
+							Tf_font_size: INTEGER;
+							Td_x, Td_y: INTEGER;
+							Tj_text: STRING]]
 			--
-		do
-			Td_x_offset := x
-			Td_y_offset := y
+		attribute
+			create Result.make (10)
 		end
 
-	set_Tf_font_ref_and_size (a_ref: attached like Tf_font_ref; i: INTEGER)
-			--
-		do
-			set_Tf_font_ref (a_ref)
-			set_Tf_font_size (i)
-		end
+--feature -- Settings
 
-	set_Tf_font_ref (a_ref: attached like Tf_font_ref)
-			--
-		do
-			Tf_font_ref := a_ref
-		end
+--	set_stream_text (a_text: STRING)
+--		do
+--			stream.set_text (a_text)
+--		end
 
-	set_Tf_font_size (i: INTEGER)
-			--
-		do
-			Tf_font_size := i
-		end
+--feature -- Access
+
+--	Tf_font_size: INTEGER
+
+--feature {NONE} -- Implementation: Access
+
+--	Td_x_offset,
+--	Td_y_offset: INTEGER
+
+--	Tf_font_ref: detachable PDF_FONT
+
+--feature -- Settings
+
+--	set_Td_offsets (x,y: INTEGER)
+--			--
+--		do
+--			Td_x_offset := x
+--			Td_y_offset := y
+--		end
+
+--	set_Tf_font_ref_and_size (a_ref: attached like Tf_font_ref; i: INTEGER)
+--			--
+--		do
+--			set_Tf_font_ref (a_ref)
+--			set_Tf_font_size (i)
+--		end
+
+--	set_Tf_font_ref (a_ref: attached like Tf_font_ref)
+--			--
+--		do
+--			Tf_font_ref := a_ref
+--		end
+
+--	set_Tf_font_size (i: INTEGER)
+--			--
+--		do
+--			Tf_font_size := i
+--		end
 
 feature -- Output
 
 	pdf_out: STRING
 			-- <Precursor>
 		local
-			l_string,
-			l_old: STRING
+			l_string: STRING
 		do
 			create l_string.make_empty
-			l_old := stream.text.twin
 
 			l_string.append_string_general ("BT") -- Begin Text
 			l_string.append_character ('%N')
 
-				-- Tf
-			if attached Tf_font_ref as al_Tf_font_ref then
-				check has_value: attached al_Tf_font_ref.name_value as al_ref then
-					l_string.append_character ('/')
-					l_string.append_string_general (al_ref.out)
-				end
+			across
+				entries as ic_entries
+			loop
+					-- Tf
+				l_string.append_character ('/')
+				l_string.append_string_general (ic_entries.item.Tf_font_name)
 				l_string.append_character (' ')
-				l_string.append_string_general (Tf_font_size.out)
+				l_string.append_string_general (ic_entries.item.Tf_font_size.out)
 				l_string.append_character (' ')
 				l_string.append_string_general ("Tf")
 				l_string.append_character ('%N')
+					-- Td
+				l_string.append_string_general (ic_entries.item.Td_x.out)
+				l_string.append_character (' ')
+				l_string.append_string_general (ic_entries.item.Td_y.out)
+				l_string.append_character (' ')
+				l_string.append_string_general ("Td")
+				l_string.append_character ('%N')
+					-- Tj
+				l_string.append_character ('(')
+				l_string.append_string_general (ic_entries.item.Tj_text)
+				l_string.append_character (')')
+				l_string.append_character (' ')
+				l_string.append_string_general ("Tj")
+				l_string.append_character ('%N')
 			end
-				-- Td
-			l_string.append_string_general (Td_x_offset.out)
-			l_string.append_character (' ')
-			l_string.append_string_general (Td_y_offset.out)
-			l_string.append_character (' ')
-			l_string.append_string_general ("Td")
-			l_string.append_character ('%N')
-				-- Tj
-			l_string.append_character ('(')
-			l_string.append_string_general (l_old)
-			l_string.append_character (')')
-			l_string.append_character (' ')
-			l_string.append_string_general ("Tj")
-			l_string.append_character ('%N')
 
 			l_string.append_string_general ("ET") -- End Text
 			l_string.append_character ('%N')
@@ -129,7 +142,6 @@ feature -- Output
 
 			stream.set_text (l_string)
 			Result := Precursor
-			stream.set_text (l_old)
 		end
 
 ;note

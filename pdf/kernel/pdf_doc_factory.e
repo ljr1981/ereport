@@ -66,81 +66,6 @@ feature -- Access: Font
 			create Result
 		end
 
-feature -- Basic Operations
-
-	build (a_text_blocks: ARRAY [TUPLE [text, basefont: STRING; size: INTEGER]])
-		local
-			l_blocks: ARRAYED_LIST [TUPLE [text, basefont: STRING; size: INTEGER; font: detachable like new_font_ind_obj; page: detachable like new_page_ind_obj; stream: detachable like new_stream_ind_obj]]
-			l_new_font: like new_font_ind_obj
-			l_new_page: attached like new_page_ind_obj
-			l_new_stream: attached like new_stream_ind_obj
-			l_new_entry: attached like new_stream_entry
-			l_used_y: INTEGER
-			l_media_box: TUPLE [llx, lly, urx, ury: INTEGER]
-			l_block_sizings: TUPLE [width: INTEGER_32; height: INTEGER_32; left_offset: INTEGER_32; right_offset: INTEGER_32]
-		do
-				-- Prep work
-			create l_blocks.make (a_text_blocks.count)
-			across a_text_blocks as ic loop
-				l_blocks.force ([ic.item.text, ic.item.basefont, ic.item.size, Void, Void, Void])
-			end
-			l_media_box := [0, 0, 612, 792]
-
-				-- O3-1
-			create catalog_ind_obj
-
-				-- O3-2
-			catalog_ind_obj.pages := page_tree_ind_obj
-			page_tree_ind_obj.kids := (create {ARRAYED_LIST [attached like new_page_ind_obj]}.make (10))
-
-				-- O3-3
-			across
-				l_blocks as ic_blocks
-			loop
-				l_new_font := new_font (ic_blocks.cursor_index, ic_blocks.item.basefont, ic_blocks.item.size)
-				put_new_font (ic_blocks.item, l_new_font)
-			end
-
-				-- O3-4a
-			across
-				l_blocks as ic_blocks
-			from
-					-- O3-4
-					-- Prep-work
-				l_new_page := new_page_ind_obj; put_new_page (l_new_page)
-				l_new_stream := new_stream_ind_obj; put_new_stream (l_new_page, l_new_stream)
-				l_used_y := 0
-			loop
-				across
-					ic_blocks.item.text.split ('%N') as ic_line
-				loop
-					l_block_sizings := block_sizings (ic_line.item, ic_blocks.item.size)
-					l_new_entry := new_stream_entry
-					check has_font: attached ic_blocks.item.font as al_font then
-						l_new_entry.tf_font_name := al_font.name
-						l_new_entry.tf_font_size := al_font.size
-					end
-					l_new_entry.td_x := 0
-					l_new_entry.tj_text := ic_line.item
-					if is_room_for_another (l_media_box.ury, l_block_sizings.height, l_used_y) then
-						l_new_entry.td_y := -(l_block_sizings.height)
-						l_used_y := l_used_y + l_block_sizings.height
-					else
-						l_used_y := 0
-						l_new_page := new_page_ind_obj; put_new_page (l_new_page)
-						l_new_stream := new_stream_ind_obj; put_new_stream (l_new_page, l_new_stream)
-					end
-					put_new_stream_entry (l_new_stream, l_new_entry)
-				end
-			end
-
-				-- O3-4b
-
-				-- O3-4c
-
-				-- O3-4d
-		end
-
 feature {NONE} -- Implementation: Basic Operations
 
 	is_room_for_another (a_total_height, a_total_needed, a_total_used: INTEGER): BOOLEAN
@@ -199,6 +124,89 @@ feature {NONE} -- Implementation: Constants
 	Font_prefix: STRING = "F"
 	Subtype_type1: STRING = "Type1"
 	MacRomanEncoding: STRING = "MacRomanEncoding"
+
+feature -- Basic Operations
+
+	build (a_text_blocks: ARRAY [TUPLE [text, basefont: STRING; size: INTEGER]])
+		local
+			l_blocks: ARRAYED_LIST [TUPLE [text, basefont: STRING; size: INTEGER; font: detachable like new_font_ind_obj; page: detachable like new_page_ind_obj; stream: detachable like new_stream_ind_obj]]
+			l_new_font: like new_font_ind_obj
+			l_new_page: attached like new_page_ind_obj
+			l_new_stream: attached like new_stream_ind_obj
+			l_new_entry: attached like new_stream_entry
+			l_used_y,
+			l_top: INTEGER
+			l_is_top: BOOLEAN
+			l_media_box: TUPLE [llx, lly, urx, ury: INTEGER]
+			l_block_sizings: TUPLE [width: INTEGER_32; height: INTEGER_32; left_offset: INTEGER_32; right_offset: INTEGER_32]
+		do
+				-- Prep work
+			create l_blocks.make (a_text_blocks.count)
+			across a_text_blocks as ic loop
+				l_blocks.force ([ic.item.text, ic.item.basefont, ic.item.size, Void, Void, Void])
+			end
+			l_media_box := [0, 0, 612, 792]
+
+				-- O3-1
+			create catalog_ind_obj
+
+				-- O3-2
+			catalog_ind_obj.pages := page_tree_ind_obj
+			page_tree_ind_obj.kids := (create {ARRAYED_LIST [attached like new_page_ind_obj]}.make (10))
+
+				-- O3-3
+			across
+				l_blocks as ic_blocks
+			loop
+				l_new_font := new_font (ic_blocks.cursor_index, ic_blocks.item.basefont, ic_blocks.item.size)
+				put_new_font (ic_blocks.item, l_new_font)
+			end
+
+				-- O3-4a
+			across
+				l_blocks as ic_blocks
+			from
+					-- O3-4
+					-- Prep-work
+				-- O3-4b
+				l_new_page := new_page_ind_obj; put_new_page (l_new_page)
+				l_new_stream := new_stream_ind_obj; put_new_stream (l_new_page, l_new_stream)
+				l_used_y := 0
+				l_top := 748
+				l_is_top := True
+			loop
+				across
+					ic_blocks.item.text.split ('%N') as ic_line
+				loop
+					l_block_sizings := block_sizings (ic_line.item, ic_blocks.item.size)
+					l_new_entry := new_stream_entry
+					check has_font: attached ic_blocks.item.font as al_font then
+						l_new_entry.tf_font_name := al_font.name
+						l_new_entry.tf_font_size := al_font.size
+					end
+					l_new_entry.tj_text := ic_line.item
+					if is_room_for_another (l_media_box.ury, l_block_sizings.height, l_used_y) then
+						if l_is_top then
+							l_new_entry.td_x := 36
+							l_new_entry.td_y := l_top
+							l_is_top := False
+						else
+							l_new_entry.td_x := 0
+							l_new_entry.td_y := -(l_block_sizings.height)
+						end
+						l_used_y := l_used_y + l_block_sizings.height
+					else
+						l_used_y := 0
+						l_is_top := True
+							-- O3-4d
+						l_new_page := new_page_ind_obj; put_new_page (l_new_page)
+							-- O3-4c
+						l_new_stream := new_stream_ind_obj; put_new_stream (l_new_page, l_new_stream)
+					end
+					put_new_stream_entry (l_new_stream, l_new_entry)
+				end
+			end
+		end
 
 ;note
 	design: "[

@@ -136,8 +136,7 @@ feature -- Tests
 		local
 			l_item: PDF_STREAM_PLAIN_TEXT_OBJECT
 		do
-			create l_item
-			l_item.set_stream_text ("x")
+			create l_item.make_with_entries (<<["", 0, 0, 0, ""]>>)
 			assert_strings_equal ("stream_object_text", stream_object_text, l_item.pdf_out)
 		end
 
@@ -146,12 +145,13 @@ feature -- Tests
 	stream_object_text: STRING = "[
 0 0 obj
 <<
-/Length 20
+/Length 26
 >>
 stream
 BT
+/ 0 Tf
 0 0 Td
-(x) Tj
+() Tj
 ET
 
 endstream
@@ -168,10 +168,7 @@ endobj
 			l_font: PDF_FONT
 		do
 			create l_font.make_with_font_info ("F1", "subtype", "basefontname", "encodings")
-			create l_item
-			l_item.set_stream_text ("Hello from Steve")
-			l_item.set_Tf_font_ref_and_size (l_font, 20)
-			l_item.set_td_offsets (120, 120)
+			create l_item.make_with_entries (<<[l_font.name_value, 20, 120, 120, "Hello from Steve"]>>)
 
 			assert_strings_equal ("stream_text", stream_result_text, l_item.pdf_out)
 		end
@@ -435,9 +432,7 @@ feature -- Tests: PDF Document
 			create l_font_4b.make_with_font_info ("F2", "Type1", "CourierNew", "MacRomanEncoding")
 
 				-- Obj 5 - TEXT (using FONT)
-			create l_stream_5.make_with_text ("See {PDF_TEST_SET}.sample_pdf_generation_test")
-			l_stream_5.set_tf_font_ref_and_size (l_font_4, 20)
-			l_stream_5.set_td_offsets (120, 120)
+			create l_stream_5.make_with_entries (<<[l_font_4.name_value, 20, 120, 120, "See {PDF_TEST_SET}.sample_pdf_generation_test"]>>)
 
 				-- Obj 3 - PAGE (w/TEXT.ref, RECT, FONT)
 			create l_page_3.make_with_fonts (l_stream_5.ref, ["0", "0", "612", "792"], <<l_font_4, l_font_4b>>)

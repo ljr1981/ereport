@@ -70,9 +70,7 @@ feature -- Tests: PDF Document
 			create l_font_4b.make_with_font_info ("F2", "Type1", "CourierNew", "MacRomanEncoding")
 
 				-- Obj 5 - TEXT (using FONT)
-			create l_stream_5.make_with_text ("See {PDF_TEST_SET}.sample_pdf_generation_test")
-			l_stream_5.set_tf_font_ref_and_size (l_font_4a, 20)
-			l_stream_5.set_td_offsets (120, 120)
+			create l_stream_5.make_with_entries (<<[l_font_4a.name_value, 20, 120, 120, "See {PDF_TEST_SET}.sample_pdf_generation_test"]>>)
 
 				-- Obj 3 - PAGE (w/TEXT.ref, RECT, FONT)
 			create l_page_3.make_with_contents (l_stream_5.ref, <<l_font_4a>>)
