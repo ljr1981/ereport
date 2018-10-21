@@ -99,7 +99,7 @@ feature -- Test routines
 			l_item.generate_from_build
 
 			create l_file.make_create_read_write (".\tests\assets\generated_sample_4.pdf")
-			l_file.put_string (l_item.last_generated_pdf_attached.pdf_out)
+			l_file.put_string (l_item.generated_pdf_attached.pdf_out)
 			l_file.close
 		end
 
@@ -118,12 +118,12 @@ feature -- Test routines
 					["123", "CourierNew", 10]
 					>>)
 			l_item.generate_from_build
-			l_but_got := l_item.last_generated_pdf_attached.pdf_out.twin
+			l_but_got := l_item.generated_pdf_attached.pdf_out.twin
 			l_but_got.replace_substring_all ("%R", "")
 			assert_strings_equal ("test_pdf_text", test_pdf_text, l_but_got)
 
 			create l_file.make_create_read_write (".\tests\assets\generated_sample_3.pdf")
-			l_file.put_string (l_item.last_generated_pdf_attached.pdf_out)
+			l_file.put_string (l_item.generated_pdf_attached.pdf_out)
 			l_file.close
 		end
 
@@ -148,7 +148,7 @@ endobj
 <<
 /Type /Page
 /Contents 6 0 R
-/MediaBox [0 0 612 748]
+/MediaBox [0 0 612 792]
 /Resources <<
 /ProcSet [/PDF /Text]
 /Font <<

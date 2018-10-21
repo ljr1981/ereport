@@ -119,6 +119,12 @@ feature {NONE} -- Implementation: Basic Operations
 			a_stream.entries.force (a_entry)
 		end
 
+feature {NONE} -- Implementation: Constants
+
+	Font_prefix: STRING = "F"
+	Subtype_type1: STRING = "Type1"
+	MacRomanEncoding: STRING = "MacRomanEncoding"
+
 feature -- Basic Operations
 
 	generate_from_build
@@ -161,7 +167,7 @@ feature -- Basic Operations
 						create l_stream.make_with_entries (al_stream.entries.to_array)
 						l_streams.force (l_stream)
 					end
-					create l_page.make_with_fonts (l_stream.ref, ["0", "0", max_x_us_8_x_11_width.out, max_y_us_8_x_11_height.out], l_fonts.to_array)
+					create l_page.make_with_fonts (l_stream.ref, ["0", "0", "612", "792"], l_fonts.to_array)
 					l_pages.force (l_page)
 				end
 			end
@@ -190,15 +196,15 @@ feature -- Basic Operations
 				l_doc.body.add_object (ic_stream.item)
 			end
 
-			last_generated_pdf := l_doc
+			generated_pdf := l_doc
 		end
 
-	last_generated_pdf: detachable PDF_DOCUMENT
+	generated_pdf: detachable PDF_DOCUMENT
 
-	last_generated_pdf_attached: attached like last_generated_pdf
-			-- Attached version of `last_generated_pdf'
+	generated_pdf_attached: attached like generated_pdf
+			-- Attached version of `generated_pdf'
 		do
-			check has_pdf: attached last_generated_pdf as al_pdf then Result := al_pdf end
+			check has_pdf: attached generated_pdf as al_pdf then Result := al_pdf end
 		end
 
 	build (a_text_blocks: ARRAY [TUPLE [text, basefont: STRING; size: INTEGER]])
@@ -219,7 +225,7 @@ feature -- Basic Operations
 			across a_text_blocks as ic loop
 				l_blocks.force ([ic.item.text, ic.item.basefont, ic.item.size, Void, Void, Void])
 			end
-			l_media_box := [0, 0, max_x_us_8_x_11_width, max_y_us_8_x_11_height]
+			l_media_box := [0, 0, 612, 792]
 
 				-- O3-1
 			create catalog_ind_obj
@@ -245,8 +251,8 @@ feature -- Basic Operations
 				-- O3-4b
 				l_new_page := new_page_ind_obj; put_new_page (l_new_page)
 				l_new_stream := new_stream_ind_obj; put_new_stream (l_new_page, l_new_stream)
-				l_used_y := Reset_y_used_value
-				l_top := max_y_us_8_x_11_height
+				l_used_y := 0
+				l_top := 748
 				l_is_top := True
 			loop
 				across
@@ -261,23 +267,23 @@ feature -- Basic Operations
 					l_new_entry.tj_text := ic_line.item
 					if is_room_for_another (l_media_box.ury, l_block_sizings.height, l_used_y) then
 						if l_is_top then
-							l_new_entry.td_x := Starting_x_left_margin
+							l_new_entry.td_x := 36
 							l_new_entry.td_y := l_top
 							l_is_top := False
 						else
-							l_new_entry.td_x := x_move_straight_down
+							l_new_entry.td_x := 0
 							l_new_entry.td_y := -(l_block_sizings.height)
 						end
 						l_used_y := l_used_y + l_block_sizings.height
 					else
-						l_used_y := Reset_y_used_value
+						l_used_y := 0
 						l_is_top := True
 						if l_is_top then
-							l_new_entry.td_x := Starting_x_left_margin
+							l_new_entry.td_x := 36
 							l_new_entry.td_y := l_top
 							l_is_top := False
 						else
-							l_new_entry.td_x := X_move_straight_down
+							l_new_entry.td_x := 0
 							l_new_entry.td_y := -(l_block_sizings.height)
 						end
 						l_used_y := l_used_y + l_block_sizings.height
@@ -290,18 +296,6 @@ feature -- Basic Operations
 				end
 			end
 		end
-
-feature {NONE} -- Implementation: Constants
-
-	Font_prefix: STRING = "F"
-	Subtype_type1: STRING = "Type1"
-	MacRomanEncoding: STRING = "MacRomanEncoding"
-
-	Starting_x_left_margin: INTEGER = 36
-	X_move_straight_down: INTEGER = 0
-	Reset_y_used_value: INTEGER = 0
-	max_x_us_8_x_11_width: INTEGER = 612
-	max_y_us_8_x_11_height: INTEGER = 748
 
 ;note
 	design: "[
