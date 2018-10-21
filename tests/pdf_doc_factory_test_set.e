@@ -51,82 +51,15 @@ feature -- Test routines
 			testing:  "execution/isolated"
 		local
 			l_item: PDF_DOC_FACTORY
-				-- Supporting types
-			l_font: PDF_FONT
-			l_fonts: ARRAYED_LIST [PDF_FONT]
-
-			l_page_tree: PDF_PAGE_TREE [PDF_PAGE_US]
-
-			l_page: PDF_PAGE_US
-			l_pages: ARRAYED_LIST [PDF_PAGE_US]
-			l_page_refs: ARRAYED_LIST [PDF_OBJECT_REFERENCE]
-
-			l_stream: PDF_STREAM_PLAIN_TEXT_OBJECT
-			l_streams: ARRAYED_LIST [PDF_STREAM_PLAIN_TEXT_OBJECT]
-			l_catalog: PDF_CATALOG
-
-			l_doc: PDF_DOCUMENT
-			
 			l_but_got: STRING
 		do
-				-- Builder
 			create l_item
 			l_item.build (<<
 					["abc", "TimesNewRoman", 12],
 					["123", "CourierNew", 10]
 					>>)
-
-				-- List of PDF_FONT items
-			create l_fonts.make (l_item.fonts.count)
-			across
-				l_item.fonts as ic_fonts
-			loop
-				create l_font.make_with_font_info (ic_fonts.item.name, ic_fonts.item.subtype, ic_fonts.item.basefont, ic_fonts.item.encoding)
-			end
-
-				-- List of PDF_STREAM_PLAIN_TEXT_OBJECT items
-			create l_streams.make (10)
-
-				-- List of PDF_PAGE items
-			check attached l_item.page_tree_ind_obj as al_page_tree then
-				create l_pages.make (al_page_tree.kids.count)
-				across
-					l_item.catalog_ind_obj.pages.kids as ic_pages
-				loop
-					check has_stream: attached ic_pages.item.stream as al_stream then
-						create l_stream.make_with_entries (al_stream.entries.to_array)
-						l_streams.force (l_stream)
-					end
-					create l_page.make_with_contents (l_stream.ref, l_fonts.to_array)
-					l_pages.force (l_page)
-				end
-			end
-
-				-- PDF_PAGE_TREE
-			create l_page_refs.make (l_pages.count)
-			across l_pages as ic loop
-				l_page_refs.force (ic.item.ref)
-			end
-			create l_page_tree.make_with_kids (l_page_refs.to_array)
-
-				-- Catalog
-			create l_catalog.make_with_pages (l_page_tree.ref)
-
-				-- Document
-			create l_doc
-			l_doc.body.add_object (l_catalog)
-			l_doc.body.add_object (l_page_tree)
-			across l_pages as ic loop
-				l_doc.body.add_object (ic.item)
-			end
-			across l_fonts as ic loop
-				l_doc.body.add_object (ic.item)
-			end
-			across l_streams as ic loop
-				l_doc.body.add_object (ic.item)
-			end
-
-			l_but_got := l_doc.pdf_out.twin
+			l_item.generate_from_build
+			l_but_got := l_item.generated_pdf_attached.pdf_out.twin
 			l_but_got.replace_substring_all ("%R", "")
 			assert_strings_equal ("test_pdf_text", test_pdf_text, l_but_got)
 		end
