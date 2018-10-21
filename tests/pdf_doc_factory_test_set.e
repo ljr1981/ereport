@@ -45,7 +45,16 @@ feature {NONE} -- Initialization
 
 feature -- Test routines
 
-
+	build_multi_page_random_4_pdf_file_test
+			--
+		note
+			testing:  "execution/isolated"
+		local
+			l_item: PDF_DOC_FACTORY
+			l_file: PLAIN_TEXT_FILE
+		do
+			create l_item
+		end
 
 	build_multi_page_4_pdf_file_test
 			-- New test routine
