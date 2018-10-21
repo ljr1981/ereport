@@ -41,6 +41,7 @@ feature {NONE} -- Initialization
 			-- <Precursor>
 		do
 			Precursor
+			fonts_list.do_nothing
 		end
 
 feature -- Test routines
@@ -78,8 +79,10 @@ feature -- Test routines
 			l_file.close
 		end
 
+feature {NONE} -- Implementation: Test Support
+
 	fonts_list: ARRAY [STRING]
-		do
+		once ("OBJECT")
 			Result := <<
 						"CourierNew",
 						"Times New Roman",
@@ -88,6 +91,8 @@ feature -- Test routines
 						"Federation Classic"
 						>>
 		end
+
+feature -- Test routines
 
 	build_multi_page_4_pdf_file_test
 			-- New test routine
@@ -171,6 +176,7 @@ feature -- Test routines
 			l_file.close
 		end
 
+feature {NONE} -- Implementation: Test Support
 -------------------------------------------------
 
 	test_pdf_text: STRING = "[
@@ -231,7 +237,7 @@ BT
 36 748 Td
 (abc) Tj
 /F2 10 Tf
-0 -12 Td
+0 -17 Td
 (123) Tj
 ET
 
@@ -258,6 +264,7 @@ startxref
 
 -------------------------------------------------
 
+feature -- Test routines
 
 	build_single_page_tuple_item_test
 			-- New test routine
@@ -318,7 +325,7 @@ startxref
 					assert_strings_equal ("name_F2", "F2", al_entry.Tf_font_name)
 					assert_integers_equal ("size_10", 10, al_entry.Tf_font_size)
 					assert_integers_equal ("Td_x", 0, al_entry.Td_x)
-					assert_integers_equal ("Td_y", -12, al_entry.Td_y)
+					assert_integers_equal ("Td_y", -17, al_entry.Td_y)
 					assert_strings_equal ("text", "123", al_entry.Tj_text)
 				end
 			end
