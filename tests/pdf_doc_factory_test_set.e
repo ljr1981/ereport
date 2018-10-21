@@ -52,6 +52,7 @@ feature -- Test routines
 		local
 			l_item: PDF_DOC_FACTORY
 			l_but_got: STRING
+			l_file: PLAIN_TEXT_FILE
 		do
 			create l_item
 			l_item.build (<<
@@ -62,6 +63,10 @@ feature -- Test routines
 			l_but_got := l_item.generated_pdf_attached.pdf_out.twin
 			l_but_got.replace_substring_all ("%R", "")
 			assert_strings_equal ("test_pdf_text", test_pdf_text, l_but_got)
+
+			create l_file.make_create_read_write (".\tests\assets\generated_sample_3.pdf")
+			l_file.put_string (l_item.generated_pdf_attached.pdf_out)
+			l_file.close
 		end
 
 -------------------------------------------------
@@ -180,8 +185,8 @@ startxref
 				check has_entry_1: attached al_stream.entries [1] as al_entry then
 					assert_strings_equal ("name_F1", "F1", al_entry.Tf_font_name)
 					assert_integers_equal ("size_12", 12, al_entry.Tf_font_size)
-					assert_integers_equal ("Td_x", 0, al_entry.Td_x)
-					assert_integers_equal ("Td_y", -15, al_entry.Td_y)
+					assert_integers_equal ("Td_x", 36, al_entry.Td_x)
+					assert_integers_equal ("Td_y", 748, al_entry.Td_y)
 					assert_strings_equal ("text", "abc", al_entry.Tj_text)
 				end
 				check has_entry_1: attached al_stream.entries [2] as al_entry then
