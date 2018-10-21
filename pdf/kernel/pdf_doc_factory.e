@@ -167,7 +167,7 @@ feature -- Basic Operations
 						create l_stream.make_with_entries (al_stream.entries.to_array)
 						l_streams.force (l_stream)
 					end
-					create l_page.make_with_fonts (l_stream.ref, ["0", "0", "612", "792"], l_fonts.to_array)
+					create l_page.make_with_fonts (l_stream.ref, [Bottom_x_starting_point.out, Bottom_y_starting_point.out, Page_x_width_us_8_x_11.out, Page_y_height_us_8_x_11.out], l_fonts.to_array)
 					l_pages.force (l_page)
 				end
 			end
@@ -225,7 +225,7 @@ feature -- Basic Operations
 			across a_text_blocks as ic loop
 				l_blocks.force ([ic.item.text, ic.item.basefont, ic.item.size, Void, Void, Void])
 			end
-			l_media_box := [0, 0, 612, 792]
+			l_media_box := [Bottom_x_starting_point, Bottom_y_starting_point, Page_x_width_us_8_x_11, Page_y_height_us_8_x_11]
 
 				-- O3-1
 			create catalog_ind_obj
@@ -251,8 +251,8 @@ feature -- Basic Operations
 				-- O3-4b
 				l_new_page := new_page_ind_obj; put_new_page (l_new_page)
 				l_new_stream := new_stream_ind_obj; put_new_stream (l_new_page, l_new_stream)
-				l_used_y := 0
-				l_top := 748
+				l_used_y := Used_y_points_starting_value
+				l_top := Top_margin_y
 				l_is_top := True
 			loop
 				across
@@ -267,23 +267,23 @@ feature -- Basic Operations
 					l_new_entry.tj_text := ic_line.item
 					if is_room_for_another (l_media_box.ury, l_block_sizings.height, l_used_y) then
 						if l_is_top then
-							l_new_entry.td_x := 36
+							l_new_entry.td_x := Left_margin_x
 							l_new_entry.td_y := l_top
 							l_is_top := False
 						else
-							l_new_entry.td_x := 0
+							l_new_entry.td_x := Move_x_straight_down
 							l_new_entry.td_y := -(l_block_sizings.height)
 						end
 						l_used_y := l_used_y + l_block_sizings.height
 					else
-						l_used_y := 0
+						l_used_y := Bottom_y_starting_point
 						l_is_top := True
 						if l_is_top then
-							l_new_entry.td_x := 36
+							l_new_entry.td_x := Left_margin_x
 							l_new_entry.td_y := l_top
 							l_is_top := False
 						else
-							l_new_entry.td_x := 0
+							l_new_entry.td_x := Move_x_straight_down
 							l_new_entry.td_y := -(l_block_sizings.height)
 						end
 						l_used_y := l_used_y + l_block_sizings.height
@@ -296,6 +296,17 @@ feature -- Basic Operations
 				end
 			end
 		end
+
+feature -- {NONE} -- Implementation: Basic Operations: Constants
+
+	Move_x_straight_down: INTEGER = 0
+	Bottom_y_starting_point: INTEGER = 0
+	Bottom_x_starting_point: INTEGER = 0
+	Left_margin_x: INTEGER = 36
+	Top_margin_y: INTEGER = 748
+	Page_x_width_us_8_x_11: INTEGER = 612
+	Page_y_height_us_8_x_11: INTEGER = 792
+	Used_y_points_starting_value: INTEGER = 0
 
 ;note
 	design: "[
