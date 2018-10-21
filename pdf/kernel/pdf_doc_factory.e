@@ -1,6 +1,7 @@
 note
 	description: "Representation of a {PDF_DOC_FACTORY}."
-
+	design: "See end of class notes"
+	
 class
 	PDF_DOC_FACTORY
 
