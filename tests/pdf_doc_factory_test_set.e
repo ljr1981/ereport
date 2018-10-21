@@ -294,11 +294,11 @@ feature -- Test routines
 
 				-- Tests: Fonts
 			assert_integers_equal ("font_count", 2, l_item.fonts.count)
-			check has_f1: attached l_item.fonts ["F1"] as al_font_item then
+			check has_f1: attached l_item.fonts ["TimesNewRoman12"] as al_font_item then
 				assert_strings_equal ("F1", "F1", al_font_item.name)
 				assert_strings_equal ("TimesNewRoman", "TimesNewRoman", al_font_item.basefont)
 			end
-			check has_f2: attached l_item.fonts ["F2"] as al_font_item then
+			check has_f2: attached l_item.fonts ["CourierNew10"] as al_font_item then
 				assert_strings_equal ("F2", "F2", al_font_item.name)
 				assert_strings_equal ("CourierNew", "CourierNew", al_font_item.basefont)
 			end
