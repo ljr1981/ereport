@@ -272,9 +272,9 @@ feature -- Basic Operations
 							l_is_top := False
 						else
 							l_new_entry.td_x := Move_x_straight_down
-							l_new_entry.td_y := -(l_block_sizings.height)
+							l_new_entry.td_y := -(l_block_sizings.height + Height_adjustment)
 						end
-						l_used_y := l_used_y + l_block_sizings.height
+						l_used_y := l_used_y + l_block_sizings.height + Height_adjustment
 					else
 						l_used_y := Bottom_y_starting_point
 						l_is_top := True
@@ -284,9 +284,9 @@ feature -- Basic Operations
 							l_is_top := False
 						else
 							l_new_entry.td_x := Move_x_straight_down
-							l_new_entry.td_y := -(l_block_sizings.height)
+							l_new_entry.td_y := -(l_block_sizings.height + Height_adjustment)
 						end
-						l_used_y := l_used_y + l_block_sizings.height
+						l_used_y := l_used_y + l_block_sizings.height + Height_adjustment
 							-- O3-4d
 						l_new_page := new_page_ind_obj; put_new_page (l_new_page)
 							-- O3-4c
@@ -299,6 +299,7 @@ feature -- Basic Operations
 
 feature -- {NONE} -- Implementation: Basic Operations: Constants
 
+	Height_adjustment: INTEGER = 5
 	Move_x_straight_down: INTEGER = 0
 	Bottom_y_starting_point: INTEGER = 0
 	Bottom_x_starting_point: INTEGER = 0

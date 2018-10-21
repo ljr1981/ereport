@@ -45,15 +45,48 @@ feature {NONE} -- Initialization
 
 feature -- Test routines
 
-	build_multi_page_random_4_pdf_file_test
-			--
+	build_multi_page_random_5_pdf_file_test
+			-- Build a smaple multi-page report using
+			-- random number of randomly generated words.
 		note
 			testing:  "execution/isolated"
 		local
 			l_item: PDF_DOC_FACTORY
 			l_file: PLAIN_TEXT_FILE
+			l_rand: RANDOMIZER
+			l_list: ARRAYED_LIST [TUPLE [STRING, STRING, INTEGER]]
+			l_font_name: STRING
+			l_font_number,
+			l_font_size: INTEGER
 		do
 			create l_item
+			create l_rand
+			create l_list.make (200)
+			across
+				1 |..| l_rand.random_integer_in_range (100 |..| 200) as ic
+			loop
+				l_font_number := l_rand.random_integer_in_range (1 |..| fonts_list.count)
+				l_font_name := fonts_list [l_font_number]
+				l_font_size := l_rand.random_integer_in_range (6 |..| 20)
+				l_list.force ([ic.item.out + ": " + l_rand.random_word + "(" + l_font_name + " #" + l_font_number.out + ")", l_font_name, l_font_size])
+			end
+			l_item.build (l_list.to_array)
+			l_item.generate_from_build
+
+			create l_file.make_create_read_write (".\tests\assets\generated_sample_5.pdf")
+			l_file.put_string (l_item.generated_pdf_attached.pdf_out)
+			l_file.close
+		end
+
+	fonts_list: ARRAY [STRING]
+		do
+			Result := <<
+						"CourierNew",
+						"Times New Roman",
+						"Calibri",
+						"Star Next",
+						"Federation Classic"
+						>>
 		end
 
 	build_multi_page_4_pdf_file_test
