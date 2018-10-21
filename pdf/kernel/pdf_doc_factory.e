@@ -71,7 +71,7 @@ feature {NONE} -- Implementation: Basic Operations
 	is_room_for_another (a_total_height, a_total_needed, a_total_used: INTEGER): BOOLEAN
 			-- Is there room for `a_total_needed', given `a_total_height' less `a_total_used'?
 		do
-			Result := (a_total_height - a_total_used) > a_total_needed
+			Result := (a_total_height - a_total_used - 50) > a_total_needed
 		end
 
 	new_font (a_index: INTEGER; a_basefont: STRING; a_point_size: INTEGER): like new_font_ind_obj
@@ -276,6 +276,15 @@ feature -- Basic Operations
 					else
 						l_used_y := 0
 						l_is_top := True
+						if l_is_top then
+							l_new_entry.td_x := 36
+							l_new_entry.td_y := l_top
+							l_is_top := False
+						else
+							l_new_entry.td_x := 0
+							l_new_entry.td_y := -(l_block_sizings.height)
+						end
+						l_used_y := l_used_y + l_block_sizings.height
 							-- O3-4d
 						l_new_page := new_page_ind_obj; put_new_page (l_new_page)
 							-- O3-4c

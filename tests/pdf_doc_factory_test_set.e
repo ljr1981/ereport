@@ -45,7 +45,65 @@ feature {NONE} -- Initialization
 
 feature -- Test routines
 
-	build_single_page_pdf_file_test
+	build_single_page_4_pdf_file_test
+			-- New test routine
+		note
+			testing:  "execution/isolated"
+		local
+			l_item: PDF_DOC_FACTORY
+			l_but_got: STRING
+			l_file: PLAIN_TEXT_FILE
+		do
+			create l_item
+			l_item.build (<<
+					["01", "CourierNew", 10],
+					["02", "CourierNew", 11],
+					["03", "CourierNew", 12],
+					["04", "CourierNew", 13],
+					["05", "CourierNew", 14],
+					["06", "CourierNew", 15],
+					["07", "CourierNew", 16],
+					["08", "CourierNew", 17],
+					["09", "CourierNew", 18],
+					["10", "CourierNew", 19],
+					["11", "CourierNew", 20],
+					["12", "CourierNew", 21],
+					["13", "CourierNew", 22],
+					["14", "CourierNew", 23],
+					["15", "CourierNew", 24],
+					["16", "CourierNew", 25],
+					["17", "CourierNew", 26],
+					["18", "CourierNew", 27],
+					["19", "CourierNew", 28],
+					["20", "CourierNew", 29],
+					["21", "CourierNew", 30],
+					["22", "CourierNew", 31],
+					["23", "CourierNew", 32],
+					["24", "CourierNew", 33],
+					["25", "CourierNew", 34],
+					["26", "CourierNew", 35],
+					["27", "CourierNew", 36],
+					["28", "CourierNew", 37],
+					["29", "CourierNew", 38],
+					["30", "CourierNew", 39],
+					["31", "CourierNew", 40],
+					["32", "CourierNew", 41],
+					["33", "CourierNew", 42],
+					["34", "CourierNew", 43],
+					["35", "CourierNew", 44],
+					["36", "CourierNew", 45],
+					["37", "CourierNew", 46],
+					["38", "CourierNew", 47],
+					["39", "CourierNew", 48]
+					>>)
+			l_item.generate_from_build
+
+			create l_file.make_create_read_write (".\tests\assets\generated_sample_4.pdf")
+			l_file.put_string (l_item.generated_pdf_attached.pdf_out)
+			l_file.close
+		end
+
+	build_single_page_3_pdf_file_test
 			-- New test routine
 		note
 			testing:  "execution/isolated"
