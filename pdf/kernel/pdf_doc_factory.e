@@ -96,7 +96,7 @@ feature {NONE} -- Implementation: Basic Operations
 					a_font: like new_font_ind_obj)
 			-- Put `a_font' into `fonts' and set `a_block_item' "font" to `a_font'.
 		do
-			fonts.force (a_font, a_font.basefont + a_font.size.out)
+			fonts.force (a_font, a_font.basefont)
 			a_block_item.font := a_font -- assoc font with block-list item
 		end
 
@@ -171,6 +171,7 @@ feature -- Basic Operations
 					create l_page.make_with_fonts (l_stream.ref, [Bottom_x_starting_point.out, Bottom_y_starting_point.out, Page_x_width_us_8_x_11.out, Page_y_height_us_8_x_11.out], l_fonts.to_array)
 					l_pages.force (l_page)
 				end
+				check page_tree_kids_loaded: catalog_ind_obj.pages.kids.count = l_pages.count end
 			end
 
 				-- PDF_PAGE_TREE
