@@ -1,7 +1,7 @@
 note
 	description: "Representation of a {PDF_DOC_FACTORY}."
 	design: "See end of class notes"
-	
+
 class
 	PDF_DOC_FACTORY
 
@@ -96,7 +96,7 @@ feature {NONE} -- Implementation: Basic Operations
 					a_font: like new_font_ind_obj)
 			-- Put `a_font' into `fonts' and set `a_block_item' "font" to `a_font'.
 		do
-			fonts.force (a_font, a_font.name)
+			fonts.force (a_font, a_font.basefont + a_font.size.out)
 			a_block_item.font := a_font -- assoc font with block-list item
 		end
 
