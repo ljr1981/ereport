@@ -132,10 +132,10 @@ feature -- Basic Operations
 			l_font: PDF_FONT
 			l_fonts: ARRAYED_LIST [PDF_FONT]
 
-			l_page_tree: PDF_PAGE_TREE [PDF_PAGE_US]
+			l_page_tree: PDF_PAGE_TREE [PDF_PAGE]
 
-			l_page: PDF_PAGE_US
-			l_pages: ARRAYED_LIST [PDF_PAGE_US]
+			l_page: PDF_PAGE
+			l_pages: ARRAYED_LIST [PDF_PAGE]
 			l_page_refs: ARRAYED_LIST [PDF_OBJECT_REFERENCE]
 
 			l_stream: PDF_STREAM_PLAIN_TEXT_OBJECT
@@ -150,7 +150,9 @@ feature -- Basic Operations
 				fonts as ic_fonts
 			loop
 				create l_font.make_with_font_info (ic_fonts.item.name, ic_fonts.item.subtype, ic_fonts.item.basefont, ic_fonts.item.encoding)
+				l_fonts.force (l_font)
 			end
+			check fonts_transferred: not fonts.is_empty implies (not l_fonts.is_empty and then l_fonts.count = fonts.count) end
 
 				-- List of PDF_STREAM_PLAIN_TEXT_OBJECT items
 			create l_streams.make (10)
@@ -165,7 +167,7 @@ feature -- Basic Operations
 						create l_stream.make_with_entries (al_stream.entries.to_array)
 						l_streams.force (l_stream)
 					end
-					create l_page.make_with_contents (l_stream.ref, l_fonts.to_array)
+					create l_page.make_with_fonts (l_stream.ref, ["0", "0", "612", "792"], l_fonts.to_array)
 					l_pages.force (l_page)
 				end
 			end
@@ -184,14 +186,14 @@ feature -- Basic Operations
 			create l_doc
 			l_doc.body.add_object (l_catalog)
 			l_doc.body.add_object (l_page_tree)
-			across l_pages as ic loop
-				l_doc.body.add_object (ic.item)
+			across l_pages as ic_page loop
+				l_doc.body.add_object (ic_page.item)
 			end
-			across l_fonts as ic loop
-				l_doc.body.add_object (ic.item)
+			across l_fonts as ic_font loop
+				l_doc.body.add_object (ic_font.item)
 			end
-			across l_streams as ic loop
-				l_doc.body.add_object (ic.item)
+			across l_streams as ic_stream loop
+				l_doc.body.add_object (ic_stream.item)
 			end
 
 			generated_pdf := l_doc

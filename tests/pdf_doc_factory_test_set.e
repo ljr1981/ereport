@@ -147,16 +147,37 @@ endobj
 3 0 obj
 <<
 /Type /Page
-/Contents 4 0 R
+/Contents 6 0 R
+/MediaBox [0 0 612 792]
 /Resources <<
 /ProcSet [/PDF /Text]
 /Font <<
+/F1 4 0 R
+/F2 5 0 R
 >>
 >>
 /Parent 2 0 R
 >>
 endobj
 4 0 obj
+<<
+/Type /Font
+/Name /F1
+/Subtype /Type1
+/BaseFont /TimesNewRoman
+/Encoding /MacRomanEncoding
+>>
+endobj
+5 0 obj
+<<
+/Type /Font
+/Name /F2
+/Subtype /Type1
+/BaseFont /CourierNew
+/Encoding /MacRomanEncoding
+>>
+endobj
+6 0 obj
 <<
 /Length 63
 >>
@@ -173,19 +194,21 @@ ET
 endstream
 endobj
 xref
-0 4
+0 6
 0000000000 65535 f
 0000000049 00000 n
 0000000106 00000 n
-0000000220 00000 n
-0000000333 00000 n
+0000000264 00000 n
+0000000376 00000 n
+0000000485 00000 n
+0000000598 00000 n
 trailer
 <<
-/Size 5
+/Size 7
 /Root 1 0 R
 >>
 startxref
-333
+598
 %%EOF
 ]"
 
