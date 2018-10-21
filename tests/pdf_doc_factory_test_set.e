@@ -45,7 +45,9 @@ feature {NONE} -- Initialization
 
 feature -- Test routines
 
-	build_single_page_4_pdf_file_test
+
+
+	build_multi_page_4_pdf_file_test
 			-- New test routine
 		note
 			testing:  "execution/isolated"
