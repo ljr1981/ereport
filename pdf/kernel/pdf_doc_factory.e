@@ -61,7 +61,7 @@ feature -- Access: Font
 			create Result.make (10)
 		end
 
-	new_font_ind_obj: TUPLE [name, subtype, basefont, encoding: STRING; size: INTEGER]
+	new_font_ind_obj: TUPLE [name, subtype, basefont, encoding: STRING]
 			-- Make one and give to caller.
 		do
 			create Result
@@ -75,15 +75,20 @@ feature {NONE} -- Implementation: Basic Operations
 			Result := (a_total_height - a_total_used - 50) > a_total_needed
 		end
 
-	new_font (a_index: INTEGER; a_basefont: STRING; a_point_size: INTEGER): like new_font_ind_obj
+	new_font (a_index: INTEGER; a_basefont: STRING): like new_font_ind_obj
 			-- Create a `new_font' with `a_index', `a_basefont', for `a_point_size'.
+		local
+			l_new_font: like new_font_ind_obj
 		do
-			Result := new_font_ind_obj
-			Result.name := Font_prefix + a_index.out
-			Result.subtype := Subtype_type1
-			Result.basefont := a_basefont
-			Result.encoding := MacRomanEncoding
-			Result.size := a_point_size
+			if fonts.has (a_basefont) then
+				check has_font: attached fonts.item (a_basefont) as al_new_font then Result := al_new_font end
+			else
+				Result := new_font_ind_obj
+				Result.name := Font_prefix + a_index.out
+				Result.subtype := Subtype_type1
+				Result.basefont := a_basefont
+				Result.encoding := MacRomanEncoding
+			end
 		end
 
 	block_sizings (a_text: STRING; a_height: INTEGER): TUPLE [width: INTEGER_32; height: INTEGER_32; left_offset: INTEGER_32; right_offset: INTEGER_32]
@@ -240,7 +245,7 @@ feature -- Basic Operations
 			across
 				l_blocks as ic_blocks
 			loop
-				l_new_font := new_font (ic_blocks.cursor_index, ic_blocks.item.basefont, ic_blocks.item.size)
+				l_new_font := new_font (ic_blocks.cursor_index, ic_blocks.item.basefont)
 				put_new_font (ic_blocks.item, l_new_font)
 			end
 
@@ -264,7 +269,7 @@ feature -- Basic Operations
 					l_new_entry := new_stream_entry
 					check has_font: attached ic_blocks.item.font as al_font then
 						l_new_entry.tf_font_name := al_font.name
-						l_new_entry.tf_font_size := al_font.size
+						l_new_entry.tf_font_size := ic_blocks.item.size
 					end
 					l_new_entry.tj_text := ic_line.item
 					if is_room_for_another (l_media_box.ury, l_block_sizings.height, l_used_y) then

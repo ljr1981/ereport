@@ -66,12 +66,12 @@ feature -- Test routines
 			create l_rand
 			create l_list.make (200)
 			across
-				1 |..| l_rand.random_integer_in_range (100 |..| 200) as ic
+				1 |..| 100 as ic
 			loop
---				l_font_number := l_rand.random_integer_in_range (1 |..| fonts_list.count)
---				l_font_name := fonts_list [l_font_number]
+				l_font_number := l_rand.random_integer_in_range (1 |..| fonts_list.count)
+				l_font_name := fonts_list [l_font_number]
 				l_font_size := l_rand.random_integer_in_range (6 |..| 20)
-				l_list.force ([l_rand.random_word, "CourierNew", l_font_size])
+				l_list.force ([l_rand.random_word, l_font_name, l_font_size])
 			end
 
 				-- Building code
@@ -90,7 +90,8 @@ feature {NONE} -- Implementation: Test Support
 		once ("OBJECT")
 			Result := <<
 						"CourierNew",
-						"Times New Roman"
+						"Times New Roman",
+						"Calibri"
 						>>
 		end
 
