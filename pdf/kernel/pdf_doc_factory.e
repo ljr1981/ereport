@@ -87,7 +87,7 @@ feature {NONE} -- Implementation: Basic Operations
 				Result.name := Font_prefix + a_index.out
 				Result.subtype := Subtype_type1
 				Result.basefont := a_basefont
-				Result.encoding := MacRomanEncoding
+				Result.encoding := StandardEncoding
 			end
 		end
 
@@ -128,8 +128,8 @@ feature {NONE} -- Implementation: Basic Operations
 feature {NONE} -- Implementation: Constants
 
 	Font_prefix: STRING = "F"
-	Subtype_type1: STRING = "Type1"
-	MacRomanEncoding: STRING = "MacRomanEncoding"
+	Subtype_type1: STRING = "TrueType"
+	StandardEncoding: STRING = "StandardEncoding"
 
 feature -- Basic Operations
 

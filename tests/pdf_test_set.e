@@ -428,8 +428,8 @@ feature -- Tests: PDF Document
 			l_file: PLAIN_TEXT_FILE
 		do
 				-- Obj 4 - FONTS
-			create l_font_4.make_with_font_info ("F1", "Type1", "Helvetica", "MacRomanEncoding")
-			create l_font_4b.make_with_font_info ("F2", "Type1", "CourierNew", "MacRomanEncoding")
+			create l_font_4.make_with_font_info ("F1", "Type1", "Helvetica", "StandardEncoding")
+			create l_font_4b.make_with_font_info ("F2", "Type1", "CourierNew", "StandardEncoding")
 
 				-- Obj 5 - TEXT (using FONT)
 			create l_stream_5.make_with_entries (<<[l_font_4.name_value, 20, 120, 120, "See {PDF_TEST_SET}.sample_pdf_generation_test"]>>)
@@ -501,7 +501,7 @@ endobj
 /Name /F1
 /Subtype /Type1
 /BaseFont /Helvetica
-/Encoding /MacRomanEncoding
+/Encoding /StandardEncoding
 >>
 endobj
 5 0 obj
@@ -510,7 +510,7 @@ endobj
 /Name /F2
 /Subtype /Type1
 /BaseFont /CourierNew
-/Encoding /MacRomanEncoding
+/Encoding /StandardEncoding
 >>
 endobj
 6 0 obj
