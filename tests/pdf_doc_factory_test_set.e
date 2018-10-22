@@ -71,7 +71,11 @@ feature -- Test routines
 				l_font_number := l_rand.random_integer_in_range (1 |..| fonts_list.count)
 				l_font_name := fonts_list [l_font_number]
 				l_font_size := l_rand.random_integer_in_range (6 |..| 20)
-				l_list.force ([l_rand.random_word, l_font_name, l_font_size])
+				if (ic.cursor_index \\ 2) = 0 then
+					l_list.force ([l_rand.random_word, "CourierNew", l_font_size])
+				else
+					l_list.force ([l_rand.random_word, "TimesNewRoman", l_font_size])
+				end
 			end
 
 				-- Building code
@@ -90,8 +94,7 @@ feature {NONE} -- Implementation: Test Support
 		once ("OBJECT")
 			Result := <<
 						"CourierNew",
-						"Times New Roman",
-						"Calibri"
+						"TimesNewRoman"
 						>>
 		end
 
