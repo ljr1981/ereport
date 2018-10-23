@@ -97,7 +97,7 @@ feature {NONE} -- Implementation: Basic Operations
 			Result := (create {EV_FONT}.make_with_values ({EV_FONT_CONSTANTS}.Family_modern, {EV_FONT_CONSTANTS}.Weight_regular, {EV_FONT_CONSTANTS}.Shape_regular, a_height)).string_size (a_text)
 		end
 
-	put_new_font (a_block_item: TUPLE [text, basefont: STRING; size: INTEGER; font: detachable like new_font_ind_obj; page: detachable like new_page_ind_obj; stream: detachable like new_stream_ind_obj];
+	put_new_font (a_block_item: attached like text_block_expanded_anchor;
 					a_font: like new_font_ind_obj)
 			-- Put `a_font' into `fonts' and set `a_block_item' "font" to `a_font'.
 		do
@@ -214,9 +214,20 @@ feature -- Basic Operations
 			check has_pdf: attached generated_pdf as al_pdf then Result := al_pdf end
 		end
 
-	build (a_text_blocks: ARRAY [TUPLE [text, basefont: STRING; size: INTEGER]])
+	build_table (a_table: FW_ARRAY2_EXT [attached like text_block_anchor];
+					a_columns_specs: ARRAY [TUPLE [starting_x: INTEGER]])
+			-- `build_table' in `a_table' using `a_column_specs' containing
+			-- 	the `starting_x' position of each column in terms of MediaBox
+			--	(i.e. 8 1/2 x 11 is 612px as 0 to 612, so starting x for each
+			--	 column falls between).
+		do
+
+		end
+
+	build (a_text_blocks: ARRAY [attached like text_block_anchor])
+			--
 		local
-			l_blocks: ARRAYED_LIST [TUPLE [text, basefont: STRING; size: INTEGER; font: detachable like new_font_ind_obj; page: detachable like new_page_ind_obj; stream: detachable like new_stream_ind_obj]]
+			l_blocks: ARRAYED_LIST [attached like text_block_expanded_anchor]
 			l_new_font: like new_font_ind_obj
 			l_new_page: attached like new_page_ind_obj
 			l_new_stream: attached like new_stream_ind_obj
@@ -224,15 +235,15 @@ feature -- Basic Operations
 			l_used_y,
 			l_top: INTEGER
 			l_is_top: BOOLEAN
-			l_media_box: TUPLE [llx, lly, urx, ury: INTEGER]
+--			l_media_box: TUPLE [llx, lly, urx, ury: INTEGER]
 			l_block_sizings: TUPLE [width: INTEGER_32; height: INTEGER_32; left_offset: INTEGER_32; right_offset: INTEGER_32]
 		do
 				-- Prep work
 			create l_blocks.make (a_text_blocks.count)
 			across a_text_blocks as ic loop
-				l_blocks.force ([ic.item.text, ic.item.basefont, ic.item.size, Void, Void, Void])
+				l_blocks.force ([ic.item.text, ic.item.basefont, ic.item.size, ic.item.starting_x, Void, Void, Void])
 			end
-			l_media_box := [Bottom_x_starting_point, Bottom_y_starting_point, Page_x_width_us_8_x_11, Page_y_height_us_8_x_11]
+			--media_box := [Bottom_x_starting_point, Bottom_y_starting_point, Page_x_width_us_8_x_11, Page_y_height_us_8_x_11]
 
 				-- O3-1
 			create catalog_ind_obj
@@ -272,9 +283,9 @@ feature -- Basic Operations
 						l_new_entry.tf_font_size := ic_blocks.item.size
 					end
 					l_new_entry.tj_text := ic_line.item
-					if is_room_for_another (l_media_box.ury, l_block_sizings.height, l_used_y) then
+					if is_room_for_another (media_box_obj.bounds.ury, l_block_sizings.height, l_used_y) then
 						if l_is_top then
-							l_new_entry.td_x := Left_margin_x
+							l_new_entry.td_x := ic_blocks.item.starting_x
 							l_new_entry.td_y := l_top
 							l_is_top := False
 						else
@@ -286,7 +297,7 @@ feature -- Basic Operations
 						l_used_y := Bottom_y_starting_point
 						l_is_top := True
 						if l_is_top then
-							l_new_entry.td_x := Left_margin_x
+							l_new_entry.td_x := ic_blocks.item.starting_x
 							l_new_entry.td_y := l_top
 							l_is_top := False
 						else
@@ -304,6 +315,34 @@ feature -- Basic Operations
 			end
 		end
 
+feature -- Basic Operations
+
+	build_from_media_box_obj (a_table: FW_ARRAY2_EXT [PDF_STREAM_ENTRY])
+			-- Build PDF Document from `media_box_obj'.
+		do
+
+		end
+
+feature -- {NONE} -- Implementation: Media Box
+
+	media_box_obj: PDF_MEDIA_BOX
+			-- `media_box_obj' of Current.
+		attribute
+			create Result
+		end
+
+feature -- {NONE} -- Implementation: Basic Operations: Type Anchors
+
+	text_block_anchor: detachable TUPLE [text, basefont: STRING; size, starting_x: INTEGER]
+			-- Type anchor for blocks of text in a basefont and point size.
+
+	text_block_expanded_anchor: detachable TUPLE [text, basefont: STRING; size, starting_x: INTEGER;
+													font: detachable like new_font_ind_obj;
+													page: detachable like new_page_ind_obj;
+													stream: detachable like new_stream_ind_obj]
+			-- Type anchor like `text_block_anchor', but with additional
+			--	font, page, and stream storage to set during `build' process.
+
 feature -- {NONE} -- Implementation: Basic Operations: Constants
 
 	Height_adjustment: INTEGER = 5
@@ -316,7 +355,74 @@ feature -- {NONE} -- Implementation: Basic Operations: Constants
 	Page_y_height_us_8_x_11: INTEGER = 792
 	Used_y_points_starting_value: INTEGER = 0
 
-;note
+feature -- Access: MediaBox & Positioning
+
+--	last_x,
+--	last_move_x,
+--	current_x: INTEGER
+--			-- The `current_x' position (default = 0)
+
+--	last_y,
+--	last_move_y,
+--	current_y: INTEGER
+--			-- The `current_y' position (default = 0)
+
+--	move_to_natural (x, y: INTEGER)
+--			-- Presumes origin (0,0) = upper-left corner (vs lower-left corner).
+--			-- Therefore, we transform the `y' coordinate, leaving `x' alone.
+--		require
+--			in_bounds: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (x) and then
+--						(media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (y)
+--		do
+--			move_to (x, media_box_obj.bounds.ury - y)
+--		end
+
+--	move_to (x, y: INTEGER)
+--			-- Move point to `x' `y' according to `media_box'.
+--		require
+--			in_bounds: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (x) and then
+--						(media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (y)
+--		local
+--			l_moves: like new_x_y_moves
+--		do
+--			l_moves := new_x_y_moves (x, y)
+--			last_x := current_x
+--			last_y := current_y
+--			last_move_x := l_moves.move_x
+--			last_move_y := l_moves.move_y
+--			current_x := current_x + last_move_x
+--			current_y := current_y + last_move_y
+--		ensure
+--			x_set: current_x = x
+--			y_set: current_y = y
+--		end
+
+--	new_x_y_moves (a_new_x, a_new_y: INTEGER): TUPLE [move_x, move_y: INTEGER]
+--			-- Compute the values by which to move x and y
+--			--	given `current_x' and `current_y'.
+--		require
+--			in_bounds: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (a_new_x) and then
+--						(media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (a_new_y)
+--		do
+--			Result := [(a_new_x - current_x), (a_new_y - current_y)]
+--		ensure
+--			in_bounds: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (Result.move_x.abs) and then
+--						(media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (Result.move_y.abs)
+--		end
+
+invariant
+--	valid_media_box: media_box_obj.bounds.llx >= 0 and then media_box_obj.bounds.lly >= 0 and then
+--						media_box_obj.bounds.urx >= 0 and then media_box_obj.bounds.ury >= 0 and then
+--						media_box_obj.bounds.llx <= media_box_obj.bounds.urx and then
+--						media_box_obj.bounds.lly <= media_box_obj.bounds.ury
+--	valid_x: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (current_x)
+--	valid_y: (media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (current_y)
+--	valid_last_x: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (last_x)
+--	valid_last_y: (media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (last_y)
+--	valid_last_move_x: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (last_move_x.abs)
+--	valid_last_move_y: (media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (last_move_y.abs)
+
+note
 	design: "[
 ORDER OF OPERATIONS
 ===================

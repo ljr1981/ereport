@@ -46,6 +46,30 @@ feature {NONE} -- Initialization
 
 feature -- Test routines
 
+	build_table_6_pdf_test
+			--
+		note
+			test: "execution/isolated"
+		local
+			l_item: PDF_DOC_FACTORY
+			l_table: FW_ARRAY2_EXT [attached like {PDF_DOC_FACTORY}.text_block_anchor]
+			l_cell: attached like {PDF_DOC_FACTORY}.text_block_anchor
+		do
+			create l_cell
+			create l_table.make_filled (l_cell, 50, 10)
+			across (1 |..| 50) as ic_x loop
+				across (1 |..| 10) as ic_y loop
+					l_cell := [ic_x.item.out + ", " + ic_y.item.out, "CourierNew", 10, 36]
+					--l_table.force (l_cell, ic_x.item, ic_y.item)
+				end
+			end
+
+			create l_item
+			l_item.build_table (l_table, <<[50], [100], [150], [200], [250], [300], [350], [400], [450], [500]>>)
+		end
+
+feature -- Test routines
+
 	build_multi_page_random_5_pdf_file_test
 			-- Build a smaple multi-page report using
 			-- random number of randomly generated words.
@@ -57,7 +81,7 @@ feature -- Test routines
 				-- Support
 			l_file: PLAIN_TEXT_FILE
 			l_rand: RANDOMIZER
-			l_list: ARRAYED_LIST [TUPLE [STRING, STRING, INTEGER]]
+			l_list: ARRAYED_LIST [TUPLE [STRING, STRING, INTEGER, INTEGER]]
 			l_font_name: STRING
 			l_font_number,
 			l_font_size: INTEGER
@@ -72,9 +96,9 @@ feature -- Test routines
 				l_font_name := fonts_list [l_font_number]
 				l_font_size := l_rand.random_integer_in_range (6 |..| 20)
 				if (ic.cursor_index \\ 2) = 0 then
-					l_list.force ([l_rand.random_word, "CourierNew", l_font_size])
+					l_list.force ([l_rand.random_word, "CourierNew", l_font_size, 36])
 				else
-					l_list.force ([l_rand.random_word, "TimesNewRoman", l_font_size])
+					l_list.force ([l_rand.random_word, "TimesNewRoman", l_font_size, 36])
 				end
 			end
 
@@ -111,45 +135,45 @@ feature -- Test routines
 		do
 			create l_item
 			l_item.build (<<
-					["01", "CourierNew", 10],
-					["02", "CourierNew", 11],
-					["03", "CourierNew", 12],
-					["04", "CourierNew", 13],
-					["05", "CourierNew", 14],
-					["06", "CourierNew", 15],
-					["07", "CourierNew", 16],
-					["08", "CourierNew", 17],
-					["09", "CourierNew", 18],
-					["10", "CourierNew", 19],
-					["11", "CourierNew", 20],
-					["12", "CourierNew", 21],
-					["13", "CourierNew", 22],
-					["14", "CourierNew", 23],
-					["15", "CourierNew", 24],
-					["16", "CourierNew", 25],
-					["17", "CourierNew", 26],
-					["18", "CourierNew", 27],
-					["19", "CourierNew", 28],
-					["20", "CourierNew", 29],
-					["21", "CourierNew", 30],
-					["22", "CourierNew", 31],
-					["23", "CourierNew", 32],
-					["24", "CourierNew", 33],
-					["25", "CourierNew", 34],
-					["26", "CourierNew", 35],
-					["27", "CourierNew", 36],
-					["28", "CourierNew", 37],
-					["29", "CourierNew", 38],
-					["30", "CourierNew", 39],
-					["31", "CourierNew", 40],
-					["32", "CourierNew", 41],
-					["33", "CourierNew", 42],
-					["34", "CourierNew", 43],
-					["35", "CourierNew", 44],
-					["36", "CourierNew", 45],
-					["37", "CourierNew", 46],
-					["38", "CourierNew", 47],
-					["39", "CourierNew", 48]
+					["01", "CourierNew", 10, 36],
+					["02", "CourierNew", 11, 36],
+					["03", "CourierNew", 12, 36],
+					["04", "CourierNew", 13, 36],
+					["05", "CourierNew", 14, 36],
+					["06", "CourierNew", 15, 36],
+					["07", "CourierNew", 16, 36],
+					["08", "CourierNew", 17, 36],
+					["09", "CourierNew", 18, 36],
+					["10", "CourierNew", 19, 36],
+					["11", "CourierNew", 20, 36],
+					["12", "CourierNew", 21, 36],
+					["13", "CourierNew", 22, 36],
+					["14", "CourierNew", 23, 36],
+					["15", "CourierNew", 24, 36],
+					["16", "CourierNew", 25, 36],
+					["17", "CourierNew", 26, 36],
+					["18", "CourierNew", 27, 36],
+					["19", "CourierNew", 28, 36],
+					["20", "CourierNew", 29, 36],
+					["21", "CourierNew", 30, 36],
+					["22", "CourierNew", 31, 36],
+					["23", "CourierNew", 32, 36],
+					["24", "CourierNew", 33, 36],
+					["25", "CourierNew", 34, 36],
+					["26", "CourierNew", 35, 36],
+					["27", "CourierNew", 36, 36],
+					["28", "CourierNew", 37, 36],
+					["29", "CourierNew", 38, 36],
+					["30", "CourierNew", 39, 36],
+					["31", "CourierNew", 40, 36],
+					["32", "CourierNew", 41, 36],
+					["33", "CourierNew", 42, 36],
+					["34", "CourierNew", 43, 36],
+					["35", "CourierNew", 44, 36],
+					["36", "CourierNew", 45, 36],
+					["37", "CourierNew", 46, 36],
+					["38", "CourierNew", 47, 36],
+					["39", "CourierNew", 48, 36]
 					>>)
 			l_item.generate_from_build
 
@@ -169,8 +193,8 @@ feature -- Test routines
 		do
 			create l_item
 			l_item.build (<<
-					["abc", "TimesNewRoman", 12],
-					["123", "CourierNew", 10]
+					["abc", "TimesNewRoman", 12, 36],
+					["123", "CourierNew", 10, 36]
 					>>)
 			l_item.generate_from_build
 			l_but_got := l_item.generated_pdf_attached.pdf_out.twin
@@ -282,8 +306,8 @@ feature -- Test routines
 				-- Builder
 			create l_item
 			l_item.build (<<
-					["abc", "TimesNewRoman", 12],
-					["123", "CourierNew", 10]
+					["abc", "TimesNewRoman", 12, 36],
+					["123", "CourierNew", 10, 36]
 					>>)
 
 				-- Tests: Relationships & References
@@ -335,6 +359,65 @@ feature -- Test routines
 					assert_strings_equal ("text", "123", al_entry.Tj_text)
 				end
 			end
+		end
+
+	x_y_moving_tests
+			--
+		local
+			l_item: PDF_DOC_FACTORY
+			l_entry: PDF_STREAM_ENTRY
+		do
+			create l_item
+			create l_entry.make_with_media_box (l_item.media_box_obj)
+			check attached {TUPLE [INTEGER, INTEGER]} l_item.media_box_obj.new_x_y_moves (l_entry, 0, 792) as al_result then
+				check attached {INTEGER} al_result [1] as al_item then
+					assert_integers_equal ("move_x", 0, al_item)
+				end
+				check attached {INTEGER} al_result [2] as al_item then
+					assert_integers_equal ("move_y", -792, al_item)
+				end
+			end
+
+				-- Move 1
+			l_item.media_box_obj.move_to (l_entry, 0, 792)
+			assert_integers_equal ("last_x_1", 0, l_entry.last_x)
+			assert_integers_equal ("last_y_1", 0, l_entry.last_y)
+			assert_integers_equal ("last_move_x_1", 0, l_entry.Td_x_move)
+			assert_integers_equal ("last_move_y_1", -792, l_entry.Td_y_move)
+			assert_integers_equal ("current_x_1", 0, l_entry.x)
+			assert_integers_equal ("current_y_1", 792, l_entry.y)
+				-- Move 2
+			l_item.media_box_obj.move_to (l_entry, 300, 300)
+			assert_integers_equal ("last_x_2", 0, l_entry.last_x)
+			assert_integers_equal ("last_y_2", 792, l_entry.last_y)
+			assert_integers_equal ("last_move_x_2", 300, l_entry.Td_x_move)
+			assert_integers_equal ("last_move_y_2", 492, l_entry.Td_y_move)
+			assert_integers_equal ("current_x_2", 300, l_entry.x)
+			assert_integers_equal ("current_y_2", 300, l_entry.y)
+				-- Move 3 natural
+			l_item.media_box_obj.move_to_natural (l_entry, 300, 300)
+			assert_integers_equal ("last_x_3", 300, l_entry.last_x)
+			assert_integers_equal ("last_y_3", 300, l_entry.last_y)
+			assert_integers_equal ("last_move_x_3", 0, l_entry.Td_x_move)
+			assert_integers_equal ("last_move_y_3", -192, l_entry.Td_y_move)
+			assert_integers_equal ("current_x_3", 300, l_entry.x)
+			assert_integers_equal ("current_y_3", 492, l_entry.y)
+				-- Move 4 natural
+			l_item.media_box_obj.move_to_natural (l_entry, 400, 400)
+			assert_integers_equal ("last_x_4", 300, l_entry.last_x)
+			assert_integers_equal ("last_y_4", 492, l_entry.last_y)
+			assert_integers_equal ("last_move_x_4", 100, l_entry.Td_x_move)
+			assert_integers_equal ("last_move_y_4", 100, l_entry.Td_y_move)
+			assert_integers_equal ("current_x_4", 400, l_entry.x)
+			assert_integers_equal ("current_y_4", 392, l_entry.y)
+				-- Move 5 natural
+			l_item.media_box_obj.move_to_natural (l_entry, 0, 0)
+			assert_integers_equal ("last_x_5", 400, l_entry.last_x)
+			assert_integers_equal ("last_y_5", 392, l_entry.last_y)
+			assert_integers_equal ("last_move_x_5", -400, l_entry.Td_x_move)
+			assert_integers_equal ("last_move_y_5", -400, l_entry.Td_y_move)
+			assert_integers_equal ("current_x_5", 0, l_entry.x)
+			assert_integers_equal ("current_y_5", 792, l_entry.y)
 		end
 
 end
