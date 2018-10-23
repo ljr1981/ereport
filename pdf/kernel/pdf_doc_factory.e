@@ -214,12 +214,8 @@ feature -- Basic Operations
 			check has_pdf: attached generated_pdf as al_pdf then Result := al_pdf end
 		end
 
-	build_table (a_table: FW_ARRAY2_EXT [attached like text_block_anchor];
-					a_columns_specs: ARRAY [TUPLE [starting_x: INTEGER]])
-			-- `build_table' in `a_table' using `a_column_specs' containing
-			-- 	the `starting_x' position of each column in terms of MediaBox
-			--	(i.e. 8 1/2 x 11 is 612px as 0 to 612, so starting x for each
-			--	 column falls between).
+	build_content (a_content: ARRAY [FW_ARRAY2_EXT [PDF_STREAM_ENTRY]])
+			-- `build_content' in `a_content'.
 		do
 
 		end
@@ -355,72 +351,7 @@ feature -- {NONE} -- Implementation: Basic Operations: Constants
 	Page_y_height_us_8_x_11: INTEGER = 792
 	Used_y_points_starting_value: INTEGER = 0
 
-feature -- Access: MediaBox & Positioning
-
---	last_x,
---	last_move_x,
---	current_x: INTEGER
---			-- The `current_x' position (default = 0)
-
---	last_y,
---	last_move_y,
---	current_y: INTEGER
---			-- The `current_y' position (default = 0)
-
---	move_to_natural (x, y: INTEGER)
---			-- Presumes origin (0,0) = upper-left corner (vs lower-left corner).
---			-- Therefore, we transform the `y' coordinate, leaving `x' alone.
---		require
---			in_bounds: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (x) and then
---						(media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (y)
---		do
---			move_to (x, media_box_obj.bounds.ury - y)
---		end
-
---	move_to (x, y: INTEGER)
---			-- Move point to `x' `y' according to `media_box'.
---		require
---			in_bounds: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (x) and then
---						(media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (y)
---		local
---			l_moves: like new_x_y_moves
---		do
---			l_moves := new_x_y_moves (x, y)
---			last_x := current_x
---			last_y := current_y
---			last_move_x := l_moves.move_x
---			last_move_y := l_moves.move_y
---			current_x := current_x + last_move_x
---			current_y := current_y + last_move_y
---		ensure
---			x_set: current_x = x
---			y_set: current_y = y
---		end
-
---	new_x_y_moves (a_new_x, a_new_y: INTEGER): TUPLE [move_x, move_y: INTEGER]
---			-- Compute the values by which to move x and y
---			--	given `current_x' and `current_y'.
---		require
---			in_bounds: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (a_new_x) and then
---						(media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (a_new_y)
---		do
---			Result := [(a_new_x - current_x), (a_new_y - current_y)]
---		ensure
---			in_bounds: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (Result.move_x.abs) and then
---						(media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (Result.move_y.abs)
---		end
-
 invariant
---	valid_media_box: media_box_obj.bounds.llx >= 0 and then media_box_obj.bounds.lly >= 0 and then
---						media_box_obj.bounds.urx >= 0 and then media_box_obj.bounds.ury >= 0 and then
---						media_box_obj.bounds.llx <= media_box_obj.bounds.urx and then
---						media_box_obj.bounds.lly <= media_box_obj.bounds.ury
---	valid_x: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (current_x)
---	valid_y: (media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (current_y)
---	valid_last_x: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (last_x)
---	valid_last_y: (media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (last_y)
---	valid_last_move_x: (media_box_obj.bounds.llx |..| media_box_obj.bounds.urx).has (last_move_x.abs)
---	valid_last_move_y: (media_box_obj.bounds.lly |..| media_box_obj.bounds.ury).has (last_move_y.abs)
 
 note
 	design: "[

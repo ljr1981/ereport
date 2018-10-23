@@ -6,25 +6,25 @@ class
 
 feature -- Access: Items
 
-	items: LINKED_LIST [PDF_STREAM_ENTRY]
-			-- A list of media box items
+	stream_entries: LINKED_LIST [PDF_STREAM_ENTRY]
+			-- A list of media box `stream_entries'.
 		attribute
 			create Result.make
 		end
 
 feature -- Setters: Items
 
-	add_item (a_item: PDF_STREAM_ENTRY; a_x, x_y: INTEGER)
-			-- Add `a_item' to `items'.
+	add_item (a_item: PDF_STREAM_ENTRY; a_x, x_y: INTEGER; a_row, a_column: INTEGER)
+			-- Add `a_item' to `stream_entries'.
 		local
 			l_last_item: PDF_STREAM_ENTRY
 		do
-			if attached items.last as al_last_item then
+			if attached stream_entries.last as al_last_item then
 				a_item.give_same_coordinates (al_last_item)
 			else
 				move_to_top_left (a_item)
 			end
-			items.force (a_item)
+			stream_entries.force (a_item)
 		end
 
 feature -- Access: MediaBox & Positioning

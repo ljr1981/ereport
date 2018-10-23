@@ -51,21 +51,12 @@ feature -- Test routines
 		note
 			test: "execution/isolated"
 		local
-			l_item: PDF_DOC_FACTORY
-			l_table: FW_ARRAY2_EXT [attached like {PDF_DOC_FACTORY}.text_block_anchor]
-			l_cell: attached like {PDF_DOC_FACTORY}.text_block_anchor
+			l_factory: PDF_DOC_FACTORY
 		do
-			create l_cell
-			create l_table.make_filled (l_cell, 50, 10)
-			across (1 |..| 50) as ic_x loop
-				across (1 |..| 10) as ic_y loop
-					l_cell := [ic_x.item.out + ", " + ic_y.item.out, "CourierNew", 10, 36]
-					--l_table.force (l_cell, ic_x.item, ic_y.item)
-				end
-			end
 
-			create l_item
-			l_item.build_table (l_table, <<[50], [100], [150], [200], [250], [300], [350], [400], [450], [500]>>)
+
+			create l_factory
+			l_factory.build_content (<<>>)
 		end
 
 feature -- Test routines
