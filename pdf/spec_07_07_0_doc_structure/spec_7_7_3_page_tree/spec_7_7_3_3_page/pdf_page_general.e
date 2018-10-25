@@ -158,12 +158,12 @@ feature {NONE} -- Implementation: Settings
 			media_box := obj
 		end
 
-	init_media_box (llx, lly, urx, ury: STRING)
+	init_media_box (llx, lly, urx, ury: INTEGER)
 			-- Initialize the media box with lower-left and upper-right x,y's.
 		local
 			l_box: PDF_RECTANGLE
 		do
-			create l_box.make (llx, lly, urx, ury)
+			create l_box.make (llx.out, lly.out, urx.out, ury.out)
 			check has: attached l_box as al_box then
 				create media_box.make_as_array ("MediaBox", l_box)
 			end
@@ -194,18 +194,18 @@ feature -- Settings: MediaBox
 
 feature {NONE} -- Implementation: Access: MediaBox
 
-	portrait_box: TUPLE [llx, lly, urx, ury: STRING]
+	portrait_box: TUPLE [llx, lly, urx, ury: INTEGER]
 			-- `portrait_box' mediabox settings.
 			-- Lower-left and Upper-right x and y.
 		once
-			Result := ["0", "0", width_pixels.out, height_pixels.out]
+			Result := [0, 0, width_pixels, height_pixels]
 		end
 
-	landscape_box: TUPLE [llx, lly, urx, ury: STRING]
+	landscape_box: TUPLE [llx, lly, urx, ury: INTEGER]
 			-- `landscape_box' mediabox settings.
 			-- Lower-left and Upper-right x and y.
 		once
-			Result := ["0", "0", height_pixels.out, width_pixels.out]
+			Result := [0, 0, height_pixels, width_pixels]
 		end
 
 feature {NONE} -- Implementation: Constants: MediaBox

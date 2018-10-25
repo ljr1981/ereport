@@ -57,7 +57,7 @@ feature -- Test routines
 			l_item: PDF_STREAM_ENTRY
 		do
 			create l_mbox
-			create l_item.make_with_media_box (l_mbox)
+			create l_item.make_with_font (create {PDF_FONT}.make ("Fx"))
 			l_mbox.move_to_top_left (l_item)
 			assert_integers_equal ("top_x", 0, l_item.x)
 			assert_integers_equal ("top_y", l_mbox.bounds.ury, l_item.y)

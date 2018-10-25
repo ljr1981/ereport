@@ -23,8 +23,11 @@ feature {NONE} -- Initialization
 feature -- Settings
 
 	add_object (obj: PDF_OBJECT [detachable ANY])
+			-- `add_object' of `obj' to `objects' list.
 		do
-			objects_attached.force (obj)
+			check has_objects: attached objects as al_objects then
+				al_objects.force (obj)
+			end
 		end
 
 feature -- Output
@@ -37,11 +40,13 @@ feature -- Output
 			Result.append_character ('%N')
 
 				-- Content
-			across
-				objects_attached as ic
-			loop
-				Result.append_string_general (ic.item.pdf_out)
-				Result.append_character (' ')
+			check has_objects: attached objects as al_objects then
+				across
+					al_objects as ic
+				loop
+					Result.append_string_general (ic.item.pdf_out)
+					Result.append_character (' ')
+				end
 			end
 			Result.adjust
 			Result.append_character ('%N')
@@ -50,14 +55,7 @@ feature -- Output
 			Result.append_character ('%N')
 		end
 
-feature {NONE} -- Implementation
-
-	objects_attached: attached like objects
-		do
-			check attached objects as al then Result := al end
-		end
-
-;note
+note
 	main_spec: ""
 	other_specs: ""
 	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"

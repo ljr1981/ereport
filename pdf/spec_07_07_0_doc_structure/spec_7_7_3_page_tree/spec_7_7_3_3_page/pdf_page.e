@@ -41,7 +41,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_contents_ref: PDF_OBJECT_REFERENCE;
-				a_media_box: TUPLE [llx, lly, urx, ury: STRING])
+				a_media_box: TUPLE [llx, lly, urx, ury: INTEGER])
 			-- `make' with `a_contents_ref' and `a_media_box'.
 		note
 			design: "[
@@ -68,7 +68,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_with_fonts (a_contents_ref: PDF_OBJECT_REFERENCE;
-				a_media_box: TUPLE [llx, lly, urx, ury: STRING];
+				a_media_box: TUPLE [llx, lly, urx, ury: INTEGER];
 				a_font_array: ARRAY [PDF_FONT])
 			-- `make_with_fonts' like `make', but with added font-info.
 		do

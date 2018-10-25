@@ -57,6 +57,7 @@ feature -- Output
 			-- <Precursor>
 		do
 			create Result.make_empty
+			check has_obj_number: object_number > 0 end
 			Result.append_string_general (object_number.out)
 			Result.append_character (' ')
 			Result.append_string_general (generation_number.out)

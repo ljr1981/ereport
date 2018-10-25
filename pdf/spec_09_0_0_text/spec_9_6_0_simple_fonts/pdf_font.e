@@ -32,17 +32,17 @@ feature {NONE} -- Initialization
 			dictionary.add_object (type)
 			add_object (dictionary)
 
-			create name.make_as_name ("Name", a_name)
+			create name.make_as_name (Name_key_kw, a_name)
 			dictionary.add_object (name)
 		end
 
-	make_with_font_info (a_name: STRING; a_subtype, a_base_font, a_encoding: STRING)
+	make_with_font_info (a_name, a_subtype, a_base_font, a_encoding: STRING)
 			-- `make_with_font_info' through `make', with added font-info.
 		do
 			make (a_name)
-			dictionary.add_object (create {PDF_KEY_VALUE}.make_as_name ("Subtype", a_subtype))
-			dictionary.add_object (create {PDF_KEY_VALUE}.make_as_name ("BaseFont", a_base_font))
-			dictionary.add_object (create {PDF_KEY_VALUE}.make_as_name ("Encoding", a_encoding))
+			create subtype.make_as_name (Subtype_key_kw, a_subtype); dictionary.add_object (subtype)
+			create basefont.make_as_name (BaseFont_key_kw, a_base_font); dictionary.add_object (basefont)
+			create encoding.make_as_name (Encoding_key_kw, a_encoding); dictionary.add_object (encoding)
 		end
 
 feature -- Access
@@ -55,7 +55,25 @@ feature {NONE} -- Implementation: Access
 	type: PDF_KEY_VALUE
 			-- /Type /Font
 		attribute
-			create Result.make_as_name ("Type", "Font")
+			create Result.make_as_name (Type_key_kw, "Font")
+		end
+
+	subtype: PDF_KEY_VALUE
+			-- /Subtype /[Value]
+		attribute
+			create Result.make_as_name (Subtype_key_kw, "TrueType")
+		end
+
+	basefont: PDF_KEY_VALUE
+			-- /BaseFont /[Value]
+		attribute
+			create Result.make_as_name (BaseFont_key_kw, "CourierNew")
+		end
+
+	encoding: PDF_KEY_VALUE
+			-- /Encoding /[Value]
+		attribute
+			create Result.make_as_name (Encoding_key_kw, "StandardEncoding")
 		end
 
 	dictionary: PDF_DICTIONARY_GENERAL
@@ -63,10 +81,34 @@ feature {NONE} -- Implementation: Access
 feature -- Queries
 
 	name_value: STRING
-			-- Value of `name' (/Name /[Value]).
+			-- Value of `name' (/Name /[Value])
 		do
-			check has_name: attached {STRING} name.value_in_value as al_text then
-				Result := al_text
+			check
+				attached {like name_value} name.value_in_value as al_value and then
+					not al_value.is_empty
+			then
+				Result := al_value
+			end
+		end
+
+	type_value: STRING
+			-- Value of `name' (/Type /[Value])
+		do
+			check
+				attached {like type_value} type.value_in_value as al_value and then
+					not al_value.is_empty
+			then
+				Result := al_value
+			end
+		end
+
+	basefont_value: STRING
+			-- Value of `name' (/BaseFont /[Value])
+		do
+			check attached {like basefont_value} type.value_in_value as al_value and then
+					not al_value.is_empty
+			then
+				Result := al_value
 			end
 		end
 
@@ -100,6 +142,26 @@ feature -- Queries
 		--32pt		42px	2.55em	255%		Sample
 		--34pt		45px	2.75em	275%		Sample
 		--36pt		48px	3em		300%		Sample
+
+feature -- Constants: Keywords
+
+	Name_key_kw: STRING = "Name"
+	Type_key_kw: STRING = "Type"
+	Subtype_key_kw: STRING = "Subtype"
+	BaseFont_key_kw: STRING = "Basefont"
+	Encoding_key_kw: STRING = "Encoding"
+
+invariant
+	name_type: attached name.key.text as al_name and then al_name.same_string (Name_key_kw) attached {PDF_NAME} name.value
+	name_type: attached Type.key.text as al_type and then al_type.same_string (Type_key_kw) attached {PDF_NAME} Type.value
+	name_type: attached Subtype.key.text as al_subtype and then al_subtype.same_string (Subtype_key_kw) attached {PDF_NAME} Subtype.value
+	name_type: attached BaseFont.key.text as al_basefont and then al_basefont.same_string (BaseFont_key_kw) attached {PDF_NAME} BaseFont.value
+	name_type: attached Encoding.key.text as al_encoding and then al_encoding.same_string (Encoding_key_kw) attached {PDF_NAME} Encoding.value
+
+	type_type: attached {PDF_NAME} type.value
+	subtype_type: attached {PDF_NAME} subtype.value
+	basefont_type: attached {PDF_NAME} basefont.value
+	encoding_type: attached {PDF_NAME} encoding.value
 
 ;note
 	main_spec: "9.6.0 Simple Fonts"

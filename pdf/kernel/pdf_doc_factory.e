@@ -173,7 +173,7 @@ feature -- Basic Operations
 						create l_stream.make_with_entries (al_stream.entries.to_array)
 						l_streams.force (l_stream)
 					end
-					create l_page.make_with_fonts (l_stream.ref, [Bottom_x_starting_point.out, Bottom_y_starting_point.out, Page_x_width_us_8_x_11.out, Page_y_height_us_8_x_11.out], l_fonts.to_array)
+					create l_page.make_with_fonts (l_stream.ref, [Bottom_x_starting_point, Bottom_y_starting_point, Page_x_width_us_8_x_11, Page_y_height_us_8_x_11], l_fonts.to_array)
 					l_pages.force (l_page)
 				end
 				check page_tree_kids_loaded: catalog_ind_obj.pages.kids.count = l_pages.count end
@@ -214,24 +214,100 @@ feature -- Basic Operations
 			check has_pdf: attached generated_pdf as al_pdf then Result := al_pdf end
 		end
 
-	build_content (a_content: ARRAY [FW_ARRAY2_EXT [PDF_STREAM_ENTRY]])
-			-- `build_content' in `a_content'.
-		do
+	build_and_generate (a_content: ARRAY [PDF_STREAM_TABLE]; a_fonts: HASH_TABLE [PDF_FONT, STRING])
+			-- `build_and_generate' in `a_content'.
+		local
+				-- COUNTERS & MISC
+			l_row_count, l_row_number: INTEGER
 
+				-- FONTS
+			l_font_objs: ARRAYED_LIST [PDF_FONT]
+
+				-- PAGE TREE & KIDS
+			l_page_tree: PDF_PAGE_TREE [PDF_PAGE_US]
+			l_kids: ARRAYED_LIST [PDF_OBJECT_REFERENCE]
+
+				-- PAGE & PAGES
+			l_page: PDF_PAGE_US
+			l_pages: ARRAYED_LIST [PDF_PAGE_US]
+
+				-- STREAM & STREAMS
+			l_stream: PDF_STREAM_PLAIN_TEXT_OBJECT
+			l_streams: ARRAYED_LIST [PDF_STREAM_PLAIN_TEXT_OBJECT]
+			l_entries: ARRAYED_LIST [TUPLE [tf_font_name: STRING_8; tf_font_size: INTEGER_32; td_x: INTEGER_32; td_y: INTEGER_32; tj_text: STRING_8]]
+
+				-- CATALOG
+			l_catalog: PDF_CATALOG
+
+				-- DOCUMENT
+			l_doc: PDF_DOCUMENT
+		do
+			create l_kids.make (10) -- prep for l_page_tree.kids
+			create l_pages.make (10)
+			create l_streams.make (10)
+
+				-- ENTRIES
+				-- STREAMS
+				-- PAGES
+			across a_content as ic_content loop
+				l_row_count := ic_content.item.table.row_count -- 	table: FW_ARRAY2_EXT [PDF_STREAM_ENTRY]
+				create l_entries.make (10)
+
+				across 1 |..| l_row_count as ic loop
+					l_row_number := ic.item
+					check has_row_number: attached ic_content.item.table.row (l_row_number) as al_row_array then
+							-- process `al_row' of {PDF_STREAM_ENTRY} items.
+						across al_row_array as ic_row_entry loop
+							l_entries.force ([ic_row_entry.item.tf_font_ref_name, ic_row_entry.item.tf_font_size, ic_row_entry.item.td_x_move, ic_row_entry.item.td_y_move, ic_row_entry.item.tj_text])
+						end
+					end
+				end
+
+					-- STREAMS
+				create l_stream.make_with_entries (l_entries.to_array)
+				l_streams.force (l_stream)
+					-- FONTS
+				create l_font_objs.make (a_fonts.count)
+				across a_fonts as ic_font loop l_font_objs.force (ic_font.item) end
+					-- PAGES
+				create l_page.make_with_contents (l_stream.ref, l_font_objs.to_array)
+				l_kids.force (l_page.ref)
+				l_pages.force (l_page)
+			end
+
+				-- PAGE TREE
+			create l_page_tree.make_with_kids (l_kids.to_array)
+
+				-- CATALOG
+			create l_catalog.make_with_pages (l_page_tree.ref)
+
+				-- DOCUMENT
+			create l_doc
+			l_doc.body.add_object (l_catalog)
+			l_doc.body.add_object (l_page_tree)
+			across l_pages as ic_page loop
+				l_doc.body.add_object (ic_page.item)
+			end
+			across a_fonts as ic_font loop
+				l_doc.body.add_object (ic_font.item)
+			end
+			across l_streams as ic_stream loop
+				l_doc.body.add_object (ic_stream.item)
+			end
+
+			generated_pdf := l_doc
 		end
 
 	build (a_text_blocks: ARRAY [attached like text_block_anchor])
 			--
 		local
 			l_blocks: ARRAYED_LIST [attached like text_block_expanded_anchor]
-			l_new_font: like new_font_ind_obj
 			l_new_page: attached like new_page_ind_obj
 			l_new_stream: attached like new_stream_ind_obj
 			l_new_entry: attached like new_stream_entry
 			l_used_y,
 			l_top: INTEGER
 			l_is_top: BOOLEAN
---			l_media_box: TUPLE [llx, lly, urx, ury: INTEGER]
 			l_block_sizings: TUPLE [width: INTEGER_32; height: INTEGER_32; left_offset: INTEGER_32; right_offset: INTEGER_32]
 		do
 				-- Prep work
@@ -239,21 +315,19 @@ feature -- Basic Operations
 			across a_text_blocks as ic loop
 				l_blocks.force ([ic.item.text, ic.item.basefont, ic.item.size, ic.item.starting_x, Void, Void, Void])
 			end
-			--media_box := [Bottom_x_starting_point, Bottom_y_starting_point, Page_x_width_us_8_x_11, Page_y_height_us_8_x_11]
 
-				-- O3-1
+				-- O3-1 CATALOG
 			create catalog_ind_obj
 
-				-- O3-2
+				-- O3-2 PAGE TREE
 			catalog_ind_obj.pages := page_tree_ind_obj
 			page_tree_ind_obj.kids := (create {ARRAYED_LIST [attached like new_page_ind_obj]}.make (10))
 
-				-- O3-3
+				-- O3-3 FONTS
 			across
 				l_blocks as ic_blocks
 			loop
-				l_new_font := new_font (ic_blocks.cursor_index, ic_blocks.item.basefont)
-				put_new_font (ic_blocks.item, l_new_font)
+				put_new_font (ic_blocks.item, new_font (ic_blocks.cursor_index, ic_blocks.item.basefont))
 			end
 
 				-- O3-4a

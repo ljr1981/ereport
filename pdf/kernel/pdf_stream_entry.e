@@ -4,10 +4,29 @@ note
 class
 	PDF_STREAM_ENTRY
 
+inherit
+	ANY
+		redefine
+			default_create
+		end
+
 create
-	make_with_media_box
+	make_with_font
 
 feature {NONE} -- Initialization
+
+	default_create
+			-- <Precursor>
+		do
+			make_with_media_box (create {PDF_MEDIA_BOX})
+		end
+
+	make_with_font (a_font: like font)
+			--
+		do
+			font := a_font
+			default_create
+		end
 
 	make_with_media_box (a_media_box: PDF_MEDIA_BOX)
 			-- Initialize Current with `a_media_box' for `media_box_tuple'.
@@ -23,8 +42,8 @@ feature -- Access
 	font_name: STRING
 			-- `font_name' as in /Name /F2 (key-value of Name=F2,
 			--		which is font-obj reference)
-		attribute
-			Result := "StandardEncoding"
+		do
+			Result := font.name_value
 		end
 
 	font_subtype: STRING
@@ -46,6 +65,8 @@ feature -- Access
 			Result := "StandardEncoding"
 		end
 
+	font: PDF_FONT
+
 	last_x: INTEGER assign set_last_x
 			-- The `last_x' coordinate held by Current.
 
@@ -60,10 +81,10 @@ feature -- Access
 
 feature -- Access: Stream Attributes
 
-	Tf_font_ref_name: STRING assign set_Tf_font_ref_name
+	Tf_font_ref_name: STRING
 			-- `Tf_font_ref_name' (i.e. /F1 10 Tf)
-		attribute
-			create Result.make_empty
+		do
+			Result := font.name_value
 		end
 
 	Tf_font_size: INTEGER assign set_Tf_font_size
@@ -91,14 +112,6 @@ feature -- Basic Operations
 		end
 
 feature -- Setters
-
-	set_text (a_text: like Tj_text)
-			--
-		do
-			Tj_text := a_text
-		ensure
-			set: Tj_text.same_string (a_text)
-		end
 
 	apply_last_move
 			-- Apply `last_x' and `last_y' to `x' and `y'.
@@ -175,14 +188,6 @@ feature -- Setters
 			set: y = i
 		end
 
-	set_Tf_font_ref_name (s: STRING)
-			--
-		do
-			Tf_font_ref_name := s
-		ensure
-			set: Tf_font_ref_name.same_string (s)
-		end
-
 	set_Tf_font_size (i: INTEGER)
 			--
 		do
@@ -197,14 +202,6 @@ feature -- Setters
 			Tj_text := s
 		ensure
 			set: Tj_text.same_string (s)
-		end
-
-	set_font_name (s: STRING)
-			--
-		do
-			font_name := s
-		ensure
-			set: font_name.same_string (s)
 		end
 
 	set_font_subtype (s: STRING)

@@ -52,11 +52,40 @@ feature -- Test routines
 			test: "execution/isolated"
 		local
 			l_factory: PDF_DOC_FACTORY
+			l_table_1_1,
+			l_table_2_2: PDF_STREAM_TABLE
+			l_entry: PDF_STREAM_ENTRY
+				-- Support
+			l_file: PLAIN_TEXT_FILE
+			l_fonts: HASH_TABLE [PDF_FONT, STRING]
+			l_font_courier: PDF_FONT
 		do
+			create l_fonts.make (1)
+			create l_font_courier.make_with_font_info ("F1", "TrueType", "CourierNew", "StandardEncoding")
+			l_fonts.force (l_font_courier, l_font_courier.basefont_value)
 
+			create l_entry.make_with_font (l_font_courier)
+			l_entry.set_Tj_text ("abc")
+			l_entry.set_tf_font_size (20)
+
+			create l_table_1_1.make (1, 1)
+			l_table_1_1.set_default_entry (l_entry)
+
+			create l_entry.make_with_font (l_font_courier)
+			l_entry.set_Tj_text ("123")
+			l_entry.set_tf_font_size (10)
+			create l_table_2_2.make (2, 2)
+			l_table_2_2.set_default_entry (l_entry)
 
 			create l_factory
-			l_factory.build_content (<<>>)
+			l_factory.build_and_generate (<<
+										l_table_1_1,
+										l_table_2_2
+									>>, l_fonts)
+
+			create l_file.make_create_read_write (".\tests\assets\generated_sample_6.pdf")
+			l_file.put_string (l_factory.generated_pdf_attached.pdf_out)
+			l_file.close
 		end
 
 feature -- Test routines
@@ -235,7 +264,7 @@ endobj
 /Type /Font
 /Name /F1
 /Subtype /TrueType
-/BaseFont /TimesNewRoman
+/Basefont /TimesNewRoman
 /Encoding /StandardEncoding
 >>
 endobj
@@ -244,7 +273,7 @@ endobj
 /Type /Font
 /Name /F2
 /Subtype /TrueType
-/BaseFont /CourierNew
+/Basefont /CourierNew
 /Encoding /StandardEncoding
 >>
 endobj
@@ -359,7 +388,7 @@ feature -- Test routines
 			l_entry: PDF_STREAM_ENTRY
 		do
 			create l_item
-			create l_entry.make_with_media_box (l_item.media_box_obj)
+			create l_entry.make_with_font (create {PDF_FONT}.make ("Fx"))
 			check attached {TUPLE [INTEGER, INTEGER]} l_item.media_box_obj.new_x_y_moves (l_entry, 0, 792) as al_result then
 				check attached {INTEGER} al_result [1] as al_item then
 					assert_integers_equal ("move_x", 0, al_item)

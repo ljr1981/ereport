@@ -149,9 +149,9 @@ feature -- Test routines
 
 --------------------------------
 	indirect_objects_text: STRING = "[
-[0 0 obj
+[1 0 obj
 endobj
- 0 0 obj
+ 2 0 obj
 endobj]
 ]"
 --------------------------------

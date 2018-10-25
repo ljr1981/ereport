@@ -17,6 +17,8 @@ feature {NONE} -- Intialization
 
 	make (s: STRING)
 			--
+		require
+			not_empty: not s.is_empty
 		do
 			text := s
 		ensure
@@ -28,8 +30,8 @@ feature -- Output
 	pdf_out: STRING
 			-- <Precursor>
 		do
+			Result := Solidus.out
 			if attached text as al_text then
-				create Result.make (al_text.count + 1)
 				across
 					al_text as ic
 				loop
@@ -49,7 +51,6 @@ feature -- Output
 			else
 				create Result.make_empty
 			end
-			Result.prepend_character (Solidus)
 			Result.adjust
 		end
 

@@ -7,21 +7,19 @@
 endobj
 2 0 obj
 <<
-/Count 1
+/Count 2
 /Type /Pages
-/Kids [3 0 R]
+/Kids [3 0 R 4 0 R]
 >>
 endobj
 3 0 obj
 <<
 /Type /Page
 /Contents 6 0 R
-/MediaBox [0 0 612 792]
 /Resources <<
 /ProcSet [/PDF /Text]
 /Font <<
-/F1 4 0 R
-/F2 5 0 R
+/F1 5 0 R
 >>
 >>
 /Parent 2 0 R
@@ -29,17 +27,21 @@ endobj
 endobj
 4 0 obj
 <<
-/Type /Font
-/Name /F1
-/Subtype /TrueType
-/Basefont /TimesNewRoman
-/Encoding /StandardEncoding
+/Type /Page
+/Contents 7 0 R
+/Resources <<
+/ProcSet [/PDF /Text]
+/Font <<
+/F1 5 0 R
+>>
+>>
+/Parent 2 0 R
 >>
 endobj
 5 0 obj
 <<
 /Type /Font
-/Name /F2
+/Name /F1
 /Subtype /TrueType
 /Basefont /CourierNew
 /Encoding /StandardEncoding
@@ -47,40 +49,54 @@ endobj
 endobj
 6 0 obj
 <<
-/Length 63
+/Length 32
 >>
 stream
 BT
-/F1 12 Tf
-36 748 Td
+/F1 20 Tf
+0 0 Td
 (abc) Tj
-/F2 10 Tf
-0 -17 Td
+ET
+
+endstream
+endobj
+7 0 obj
+<<
+/Length 110
+>>
+stream
+BT
+/F1 10 Tf
+0 0 Td
+(123) Tj
+/F1 10 Tf
+0 0 Td
+(123) Tj
+/F1 10 Tf
+0 0 Td
+(123) Tj
+/F1 10 Tf
+0 0 Td
 (123) Tj
 ET
 
 endstream
 endobj
 xref
-0 12
+0 7
 0000000000 65535 f
 0000000049 00000 n
-0000000106 00000 n
-0000000264 00000 n
-0000000379 00000 n
-0000000491 00000 n
-0000000604 00000 n
-0000000049 00000 n
-0000000106 00000 n
-0000000264 00000 n
-0000000379 00000 n
-0000000491 00000 n
-0000000604 00000 n
+0000000112 00000 n
+0000000236 00000 n
+0000000360 00000 n
+0000000472 00000 n
+0000000554 00000 n
+0000000715 00000 n
 trailer
 <<
-/Size 13
+/Size 8
 /Root 1 0 R
 >>
 startxref
-604
+715
 %%EOF

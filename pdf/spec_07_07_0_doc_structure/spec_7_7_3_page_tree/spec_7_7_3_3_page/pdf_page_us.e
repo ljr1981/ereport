@@ -34,6 +34,7 @@ feature {NONE} -- Initialization
 			end
 			init_resources
 			set_font_reference (a_font_array)
+			init_media_box (0, 0, width_pixels, height_pixels)
 		end
 
 feature {NONE} -- Implementation: Constants: MediaBox

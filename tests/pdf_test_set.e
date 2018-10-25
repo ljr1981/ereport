@@ -137,13 +137,14 @@ feature -- Tests
 			l_item: PDF_STREAM_PLAIN_TEXT_OBJECT
 		do
 			create l_item.make_with_entries (<<["", 0, 0, 0, ""]>>)
+			l_item.set_object_number (1)
 			assert_strings_equal ("stream_object_text", stream_object_text, l_item.pdf_out)
 		end
 
 ------------------------------------
 
 	stream_object_text: STRING = "[
-0 0 obj
+1 0 obj
 <<
 /Length 26
 >>
@@ -169,6 +170,7 @@ endobj
 		do
 			create l_font.make_with_font_info ("F1", "subtype", "basefontname", "encodings")
 			create l_item.make_with_entries (<<[l_font.name_value, 20, 120, 120, "Hello from Steve"]>>)
+			l_item.set_object_number (1)
 
 			assert_strings_equal ("stream_text", stream_result_text, l_item.pdf_out)
 		end
@@ -176,7 +178,7 @@ endobj
 ------------------------------------
 
 	stream_result_text: STRING = "[
-0 0 obj
+1 0 obj
 <<
 /Length 49
 >>
@@ -221,6 +223,7 @@ endobj
 			create l_item
 			create l_dict
 			l_dict.add_object (create {PDF_KEY_VALUE}.make_as_name ("Key", "Value"))
+			l_item.set_object_number (1)
 			l_item.add_object (l_dict)
 			assert_strings_equal ("indirect_object_1", indirect_object_text, l_item.pdf_out)
 			l_body.add_object (l_item)
@@ -232,7 +235,7 @@ endobj
 
 -----------------------------------------------
 	indirect_object_text: STRING = "[
-0 0 obj
+1 0 obj
 <<
 /Key /Value
 >>
@@ -274,7 +277,7 @@ xref
 
 			create l_ind_5; create l_dic_5; l_ind_5.add_object (l_dic_5)
 
-			create l_page_4.make (l_ind_5.ref, ["0", "0", "612", "792"])
+			create l_page_4.make (l_ind_5.ref, [0, 0, 612, 792])
 			create l_pages_3.make_with_kids (<<l_page_4.ref>>)
 			create l_outlines_2
 			create l_catalog_1.make (l_pages_3.ref, l_outlines_2.ref)
@@ -435,7 +438,7 @@ feature -- Tests: PDF Document
 			create l_stream_5.make_with_entries (<<[l_font_4.name_value, 20, 120, 120, "See {PDF_TEST_SET}.sample_pdf_generation_test"]>>)
 
 				-- Obj 3 - PAGE (w/TEXT.ref, RECT, FONT)
-			create l_page_3.make_with_fonts (l_stream_5.ref, ["0", "0", "612", "792"], <<l_font_4, l_font_4b>>)
+			create l_page_3.make_with_fonts (l_stream_5.ref, [0, 0, 612, 792], <<l_font_4, l_font_4b>>)
 
 				-- Obj 2 - PAGES
 			create l_pages_2.make_with_kids (<<l_page_3.ref>>)
@@ -500,7 +503,7 @@ endobj
 /Type /Font
 /Name /F1
 /Subtype /Type1
-/BaseFont /Helvetica
+/Basefont /Helvetica
 /Encoding /StandardEncoding
 >>
 endobj
@@ -509,7 +512,7 @@ endobj
 /Type /Font
 /Name /F2
 /Subtype /Type1
-/BaseFont /CourierNew
+/Basefont /CourierNew
 /Encoding /StandardEncoding
 >>
 endobj

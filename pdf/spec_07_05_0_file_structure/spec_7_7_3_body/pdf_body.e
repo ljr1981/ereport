@@ -36,12 +36,12 @@ feature -- Basic Operations
 
 feature -- Settings
 
-	add_object (o: PDF_INDIRECT_OBJECT)
+	add_object (a_obj: PDF_INDIRECT_OBJECT)
 			--
 		do
 			id := id + 1
-			o.set_object_number (id)
-			objects.force (o, id)
+			a_obj.set_object_number (id)
+			objects.force (a_obj, id)
 		ensure
 			incremented: old id = (last_id - 1)
 		end

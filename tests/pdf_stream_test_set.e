@@ -137,7 +137,7 @@ endobj
 /Type /Font
 /Name /F1
 /Subtype /Type1
-/BaseFont /Helvetica
+/Basefont /Helvetica
 /Encoding /StandardEncoding
 >>
 endobj
@@ -146,7 +146,7 @@ endobj
 /Type /Font
 /Name /F2
 /Subtype /Type1
-/BaseFont /CourierNew
+/Basefont /CourierNew
 /Encoding /StandardEncoding
 >>
 endobj
