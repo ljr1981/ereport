@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_KEY_VALUE}."
+	description: "Representation of {PDF_KEY_VALUE}."
 
 class
 	PDF_KEY_VALUE

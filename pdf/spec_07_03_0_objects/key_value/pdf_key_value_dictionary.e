@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_KEY_VALUE_DICTIONARY}."
+	description: "Representation of {PDF_KEY_VALUE_DICTIONARY}."
 
 class
 	PDF_KEY_VALUE_DICTIONARY
