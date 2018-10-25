@@ -23,35 +23,69 @@ feature {NONE} -- Initialization
 
 	make_as_name (a_key, a_value: STRING)
 			--
+		require
+			a_key_not_emty: not a_key.is_empty
 		do
 			item := [create {PDF_NAME}.make (a_key), create {PDF_NAME}.make (a_value)]
+		ensure
+			attached item as al_item and then
+				attached {like a_value} al_item.value.value as al_value and then al_value.same_string (a_value)
+			name_set: attached {like a_key} al_item.key.text as al_text and then al_text.same_string (a_key)
 		end
 
 	make_as_obj_ref (a_key: STRING; a_obj_ref: PDF_OBJECT_REFERENCE)
 			--
+		require
+			a_key_not_emty: not a_key.is_empty
 		do
 			item := [create {PDF_NAME}.make (a_key), a_obj_ref]
+		ensure
+			item_set: attached item as al_item
+			name_set: attached {like a_key} al_item.key.text as al_value and then al_value.same_string (a_key)
 		end
 
 	make_as_integer (a_key: STRING; a_value: INTEGER)
 			--
+		require
+			a_key_not_emty: not a_key.is_empty
 		do
 			item := [create {PDF_NAME}.make (a_key), create {PDF_INTEGER}.make_with_integer (a_value)]
+		ensure
+			item_set: attached item as al_item
+			name_set: attached {like a_key} al_item.key.text as al_value and then al_value.same_string (a_key)
 		end
 
 	make_as_array (a_key: STRING; a_value: PDF_ARRAY)
+			--
+		require
+			a_key_not_emty: not a_key.is_empty
 		do
 			item := [create {PDF_NAME}.make (a_key), a_value]
+		ensure
+			item_set: attached item as al_item
+			name_set: attached {like a_key} al_item.key.text as al_value and then al_value.same_string (a_key)
 		end
 
 	make_as_array_of_refs (a_key: STRING; a_value: PDF_ARRAY)
+			--
+		require
+			a_key_not_emty: not a_key.is_empty
 		do
 			item := [create {PDF_NAME}.make (a_key), a_value]
+		ensure
+			item_set: attached item as al_item
+			name_set: attached {like a_key} al_item.key.text as al_value and then al_value.same_string (a_key)
 		end
 
 	make_as_dictionary (a_key: STRING; a_value: PDF_DICTIONARY_GENERAL)
+			--
+		require
+			a_key_not_emty: not a_key.is_empty
 		do
 			item := [create {PDF_NAME}.make (a_key), a_value]
+		ensure
+			item_set: attached item as al_item
+			name_set: attached {like a_key} al_item.key.text as al_value and then al_value.same_string (a_key)
 		end
 
 feature -- Access

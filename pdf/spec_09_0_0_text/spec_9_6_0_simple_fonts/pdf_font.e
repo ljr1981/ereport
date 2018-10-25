@@ -25,6 +25,8 @@ feature {NONE} -- Initialization
 
 	make (a_name: STRING)
 			-- `make' with `a_name' /Name /Value key-value.
+		require
+			a_name_not_empty: not a_name.is_empty
 		do
 			default_create
 
@@ -38,6 +40,11 @@ feature {NONE} -- Initialization
 
 	make_with_font_info (a_name, a_subtype, a_base_font, a_encoding: STRING)
 			-- `make_with_font_info' through `make', with added font-info.
+		require
+			a_name_not_empty: not a_name.is_empty
+			a_subtype_not_empty: not a_subtype.is_empty
+			a_base_font_not_empty: not a_base_font.is_empty
+			a_encoding_not_empty: not a_encoding.is_empty
 		do
 			make (a_name)
 			create subtype.make_as_name (Subtype_key_kw, a_subtype); dictionary.add_object (subtype)
