@@ -55,10 +55,10 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	type: PDF_KEY_VALUE
+	type: PDF_KEY_VALUE_NAME
 			-- Key (Type) Value (Catalog) pair.
 		attribute
-			create Result.make_as_name ("Type", "Catalog")
+			create Result.make ("Type", "Catalog")
 		end
 
 	dictionary: PDF_DICTIONARY_GENERAL

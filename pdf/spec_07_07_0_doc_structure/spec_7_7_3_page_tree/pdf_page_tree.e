@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 			default_create
 
-			create type.make_as_name ("Type", "Pages")
+			create type.make ("Type", "Pages")
 			dictionary.add_object (type)
 
 			create kids.make_as_array ("Kids", create {PDF_ARRAY}.make_with_obj_refs (a_kids))
@@ -52,7 +52,7 @@ feature -- Access
 	dictionary: PDF_DICTIONARY_GENERAL
 			-- `dictionary' for Current.
 
-	type: PDF_KEY_VALUE
+	type: PDF_KEY_VALUE_NAME
 			-- /Type /Pages
 
 	kids: PDF_KEY_VALUE

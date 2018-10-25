@@ -57,10 +57,10 @@ feature -- Access
 
 feature {NONE} -- Implementation: Access
 
-	type: PDF_KEY_VALUE
+	type: PDF_KEY_VALUE_NAME
 			-- /Type /Page
 		attribute
-			create Result.make_as_name ("Type", "Page")
+			create Result.make ("Type", "Page")
 		end
 
 	dictionary: PDF_DICTIONARY_GENERAL

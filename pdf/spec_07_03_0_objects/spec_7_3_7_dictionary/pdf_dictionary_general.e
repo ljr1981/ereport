@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			default_create
-			create type.make_as_name ("Type", a_type_value)
+			create type.make ("Type", a_type_value)
 
 			add_object (type)
 		end
@@ -59,11 +59,11 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	type: PDF_KEY_VALUE
+	type: PDF_KEY_VALUE_NAME
 			-- The `type' of PDF object this dictionary describes.
 			-- Shall be "Catalog" for the catalog dictionary.
 		attribute
-			create Result.make_as_name ("Type", "Unknown")
+			create Result.make ("Type", "Unknown")
 		end
 
 	pages: detachable PDF_KEY_VALUE

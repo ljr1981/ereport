@@ -56,8 +56,8 @@ feature -- Test routines
 			l_item.add_item (create {PDF_DECIMAL}.make_with_string ("99.2"))
 			l_item.add_item (create {PDF_INTEGER}.make_with_integer (1))
 			l_item.add_item (create {PDF_INTEGER}.make_with_integer (2))
-			l_item.add_item (create {PDF_KEY_VALUE}.make_as_name ("Key1", "Value1"))
-			l_item.add_item (create {PDF_KEY_VALUE}.make_as_name ("Key1", "Value1"))
+			l_item.add_item (create {PDF_KEY_VALUE_NAME}.make ("Key1", "Value1"))
+			l_item.add_item (create {PDF_KEY_VALUE_NAME}.make ("Key1", "Value1"))
 			l_item.add_item (create {PDF_NAME}.make ("one"))
 			l_item.add_item (create {PDF_NAME}.make ("two"))
 			l_item.add_item (create {PDF_OBJECT_REFERENCE}.make_with_object (create {PDF_INDIRECT_OBJECT}))
@@ -183,8 +183,8 @@ endobj]
 			l_item: PDF_ARRAY_KEY_VALUES
 		do
 			create l_item
-			l_item.add_item (create {PDF_KEY_VALUE}.make_as_name ("Key1", "Value1"))
-			l_item.add_item (create {PDF_KEY_VALUE}.make_as_name ("Key1", "Value1"))
+			l_item.add_item (create {PDF_KEY_VALUE_NAME}.make ("Key1", "Value1"))
+			l_item.add_item (create {PDF_KEY_VALUE_NAME}.make ("Key1", "Value1"))
 			assert_strings_equal ("key_values_text", key_values_text, l_item.pdf_out)
 		end
 

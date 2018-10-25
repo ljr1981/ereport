@@ -120,6 +120,12 @@ feature -- Access
 			has_result: attached Result as al_result implies al_result ~ value.value
 		end
 
+	value_in_value_attached: attached like value.value
+			-- Attached version of `value_in_value'
+		do
+			check has_value: attached value_in_value as al_value then Result := al_value end
+		end
+
 feature -- Settings
 
 	set_key (a_key: STRING)

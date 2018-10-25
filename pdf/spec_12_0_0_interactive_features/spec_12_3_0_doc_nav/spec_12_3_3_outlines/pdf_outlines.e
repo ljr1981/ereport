@@ -38,10 +38,10 @@ feature -- Access
 	dictionary: PDF_DICTIONARY_GENERAL
 			-- `dictionary' for Current
 
-	type: PDF_KEY_VALUE
+	type: PDF_KEY_VALUE_NAME
 			-- /Type /Outlines
 		attribute
-			create Result.make_as_name ("Type", "Outlines")
+			create Result.make ("Type", "Outlines")
 		end
 
 	count: PDF_KEY_VALUE
