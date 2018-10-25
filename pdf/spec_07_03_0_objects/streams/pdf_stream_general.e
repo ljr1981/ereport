@@ -17,13 +17,13 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create dictionary
-			create length.make_as_integer ("Length", 0)
+			create length.make ("Length", 0)
 			dictionary.add_object (length)
 		end
 
 feature {NONE} -- Implementation: Access
 
-	length: PDF_KEY_VALUE
+	length: PDF_KEY_VALUE_INTEGER
 
 	content: G
 		deferred

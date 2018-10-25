@@ -44,10 +44,10 @@ feature -- Access
 			create Result.make ("Type", "Outlines")
 		end
 
-	count: PDF_KEY_VALUE
+	count: PDF_KEY_VALUE_INTEGER
 			-- `count' /Count /[Int_value]
 		attribute
-			create Result.make_as_integer ("Count", 0)
+			create Result.make ("Count", 0)
 		end
 
 ;note

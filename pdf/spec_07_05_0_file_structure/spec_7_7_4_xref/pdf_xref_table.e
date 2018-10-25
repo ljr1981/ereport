@@ -9,10 +9,10 @@ inherit
 
 feature -- Access
 
-	Size: PDF_KEY_VALUE
+	Size: PDF_KEY_VALUE_INTEGER
 			--
 		attribute
-			create Result.make_as_integer ("Size", 0)
+			create Result.make ("Size", 0)
 		end
 
 	Root: PDF_KEY_VALUE

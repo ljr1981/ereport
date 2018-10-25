@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 		do
 			create dictionary
 
-			create count.make_as_integer ("Count", a_kids.count)
+			create count.make ("Count", a_kids.count)
 			dictionary.add_object (count)
 
 			default_create
@@ -58,7 +58,7 @@ feature -- Access
 	kids: PDF_KEY_VALUE
 			-- `kids' (child pages). /Kids /[Array_of_kid_refs]
 
-	count: PDF_KEY_VALUE
+	count: PDF_KEY_VALUE_INTEGER
 			-- `count' /Count /[Int_value] of `kids'.
 
 ;note

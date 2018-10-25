@@ -9,11 +9,11 @@ inherit
 
 feature -- Access
 
-	size: PDF_KEY_VALUE
+	size: PDF_KEY_VALUE_INTEGER
 			-- `Size' of Current
 			-- spec 7.5.5 Table 15
 		attribute
-			create Result.make_as_integer (Size_key_name, 0)
+			create Result.make (Size_key_name, 0)
 		end
 
 	root: PDF_KEY_VALUE
