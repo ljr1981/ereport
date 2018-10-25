@@ -91,6 +91,9 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	key: PDF_NAME
+			-- `key' of Current
+		require
+			has_item: attached item
 		do
 			check attached item as al_item then
 				Result := al_item.key
@@ -98,6 +101,9 @@ feature -- Access
 		end
 
 	value: PDF_OBJECT [detachable ANY]
+			-- `value' of Current
+		require
+			has_item: attached item
 		do
 			check attached item as al_item then
 				Result := al_item.value
@@ -105,18 +111,29 @@ feature -- Access
 		end
 
 	value_in_value: detachable ANY
+			-- `value_in_value' of Current
+		require
+			has_item: attached item
 		do
 			Result := value.value
+		ensure
+			has_result: attached Result as al_result implies al_result ~ value.value
 		end
 
 feature -- Settings
 
 	set_key (a_key: STRING)
 			--
+		require
+			has_item: attached item as al_item
 		do
 			check has_item: attached item as al_item then
 				al_item.key.set_value (a_key)
 			end
+		ensure
+			key_set: attached key as al_key and then
+						attached al_key.text as al_text and then
+						al_text.same_string (a_key)
 		end
 
 feature -- Output
@@ -124,6 +141,8 @@ feature -- Output
 	pdf_out: STRING
 			-- <Precursor>
 		do
+			check has_item: attached item as al_item end
+			check has_key: attached key as al_key end
 			create Result.make_empty
 			Result.append_string_general (key.pdf_out)
 			Result.append_character (' ')
