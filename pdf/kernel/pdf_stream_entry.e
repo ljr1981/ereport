@@ -5,9 +5,10 @@ class
 	PDF_STREAM_ENTRY
 
 inherit
-	ANY
+	PDF_OBJECT [STRING]
 		redefine
-			default_create
+			default_create,
+			pdf_out
 		end
 
 create
@@ -204,6 +205,44 @@ feature -- Setters
 			set: Tj_text.same_string (s)
 		end
 
+feature -- Output
+
+	pdf_out: STRING
+			-- <Precursor>
+		local
+			l_string: STRING
+		do
+			create Result.make_empty
+
+				-- Tf
+			Result.append_character ('/')
+			Result.append_string_general (Tf_font_ref_name)
+			Result.append_character (' ')
+			Result.append_string_general (Tf_font_size.out)
+			Result.append_character (' ')
+			Result.append_string_general ("Tf")
+			Result.append_character ('%N')
+				-- Td
+			Result.append_string_general (Td_x_move.out)
+			Result.append_character (' ')
+			Result.append_string_general (Td_y_move.out)
+			Result.append_character (' ')
+			Result.append_string_general ("Td")
+			Result.append_character ('%N')
+				-- Tj
+			Result.append_character ('(')
+			Result.append_string_general (Tj_text)
+			Result.append_character (')')
+			Result.append_character (' ')
+			Result.append_string_general ("Tj")
+			Result.append_character ('%N')
+		end
+
+feature {NONE} -- Implementation: Delimiters
+
+	opening_delimiter: STRING once ("OBJECT") Result := Solidus.out end
+	closing_delimiter: STRING once ("OBJECT") Result := Space.out end
+
 invariant
 	valid_x: (media_box.llx |..| media_box.urx).has (x)
 	valid_y: (media_box.lly |..| media_box.ury).has (y)
@@ -213,5 +252,27 @@ invariant
 	valid_last_move_y: (media_box.lly |..| media_box.ury).has (Td_y_move.abs)
 
 note
+	example: "[
+BT
+/F1 20 Tf
+120 120 Td
+(Hello from Steve) Tj
+ET
+]"
+	specifications: "[
+		See the following specs:
+		/Length		-- 7.3.8.2
+		BT ... ET	-- 7.3.10 EXAMPLE 3, 9.2.2 Basics of Showing Text, 9.4.1 General
+		Tf			-- 9.3.1 General (see table 104)
+		Td			-- 9.4.2 Text-Positioning Operators (see table 108)
+		Tj			-- 9.4.3 Text-Showing Operators (see table 109)
+		]"
+	glossary: "[
+		BT - Begin Text
+		ET - End Text
+		Tf - Set font and font size (ex: /F1 20 Tf = Set font to ref@/F1 and size to 20 points)
+		Td - Set text "delta" (ex: 120 120 Td = move to next line then offset to tx,ty of 120,120 within "rectangle" as starting position)
+		Tj - Show a text string (ex: (some text) Tj = the text in parens is shown -- that is (..) = operand and Tj = operator)
+		]"
 
 end

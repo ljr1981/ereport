@@ -51,52 +51,6 @@ feature -- Access
 			create Result.make (10)
 		end
 
---feature -- Settings
-
---	set_stream_text (a_text: STRING)
---		do
---			stream.set_text (a_text)
---		end
-
---feature -- Access
-
---	Tf_font_size: INTEGER
-
---feature {NONE} -- Implementation: Access
-
---	Td_x_offset,
---	Td_y_offset: INTEGER
-
---	Tf_font_ref: detachable PDF_FONT
-
---feature -- Settings
-
---	set_Td_offsets (x,y: INTEGER)
---			--
---		do
---			Td_x_offset := x
---			Td_y_offset := y
---		end
-
---	set_Tf_font_ref_and_size (a_ref: attached like Tf_font_ref; i: INTEGER)
---			--
---		do
---			set_Tf_font_ref (a_ref)
---			set_Tf_font_size (i)
---		end
-
---	set_Tf_font_ref (a_ref: attached like Tf_font_ref)
---			--
---		do
---			Tf_font_ref := a_ref
---		end
-
---	set_Tf_font_size (i: INTEGER)
---			--
---		do
---			Tf_font_size := i
---		end
-
 feature -- Output
 
 	pdf_out: STRING

@@ -65,8 +65,9 @@ feature -- Test routines
 			l_item.generate (Last_font_number, Last_page_number, Last_stream_number)
 
 				-- action result tests
-			assert_integers_equal ("fonts_count", 1, l_item.fonts.count)
-			assert_32 ("same_font_courier", attached l_item.fonts.item (CourierNew_basefont) as al_font and then l_font ~ al_font)
+			check font_found: l_item.fonts.count = 1 and then attached l_item.fonts.item (CourierNew_basefont) as al_font then
+				assert_strings_equal ("same_font_courier_new", CourierNew_basefont, al_font.basefont_value)
+			end
 		end
 
 feature {NONE} -- Test routines: Support
