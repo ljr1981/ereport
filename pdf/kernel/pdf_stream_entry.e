@@ -48,21 +48,21 @@ feature -- Access
 
 	font_subtype: STRING
 			-- `font_subtype' as in /Subtype /TrueType (key-value)
-		attribute
-			Result := "TrueType"
+		do
+			Result := font.subtype_value
 		end
 
 	font_basefont: STRING
 			-- `font_basefont' as in /BaseFont /CourierNew (key-value of
 			--		BaseFont=CourierNew, which is actual font name)
-		attribute
-			Result := "CourierNew"
+		do
+			Result := font.basefont_value
 		end
 
 	font_encoding: STRING
 			-- `font_encoding' as in /Encoding /StandardEncoding (key-value)
-		attribute
-			Result := "StandardEncoding"
+		do
+			Result := font.encoding_value
 		end
 
 	font: PDF_FONT
@@ -203,33 +203,6 @@ feature -- Setters
 		ensure
 			set: Tj_text.same_string (s)
 		end
-
-	set_font_subtype (s: STRING)
-			--
-		do
-			font_subtype := s
-		ensure
-			set: font_subtype.same_string (s)
-		end
-
-	set_font_basefont (s: STRING)
-			--
-		do
-			font_basefont := s
-		ensure
-			set: font_basefont.same_string (s)
-		end
-
-	set_font_encoding (s: STRING)
-			--
-		require
-			valid: (<<"StandardEncoding", "MacRomanEncoding">>).has (s)
-		do
-			font_encoding := s
-		ensure
-			set: font_encoding.same_string (s)
-		end
-
 
 invariant
 	valid_x: (media_box.llx |..| media_box.urx).has (x)

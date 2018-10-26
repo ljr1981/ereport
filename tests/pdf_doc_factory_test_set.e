@@ -68,13 +68,13 @@ feature -- Test routines
 			l_entry.set_Tj_text ("abc")
 			l_entry.set_tf_font_size (20)
 
-			create l_table_1_1.make (1, 1)
+			create l_table_1_1.make (1, 1, Void)
 			l_table_1_1.set_default_entry (l_entry)
 
 			create l_entry.make_with_font (l_font_courier)
 			l_entry.set_Tj_text ("123")
 			l_entry.set_tf_font_size (10)
-			create l_table_2_2.make (2, 2)
+			create l_table_2_2.make (2, 2, Void)
 			l_table_2_2.set_default_entry (l_entry)
 
 			create l_factory
