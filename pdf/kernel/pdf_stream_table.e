@@ -10,14 +10,30 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_row_count, a_col_count: INTEGER; a_entry_basis: detachable like entry_basis)
+	make (a_column_count: INTEGER; a_contents: ARRAY [STRING];
+			a_entry_basis: detachable like entry_basis;
+			a_media_box: PDF_MEDIA_BOX)
 			--
+		local
+			l_entries: ARRAYED_LIST [PDF_STREAM_ENTRY]
+			l_entry: like entry_basis
 		do
 			if attached a_entry_basis as al_entry_basis then
-				create table.make_filled (al_entry_basis, a_row_count, a_col_count)
+				create table.make_filled (al_entry_basis, 1, a_column_count)
 			else
-				create table.make_filled (entry_basis, a_row_count, a_col_count)
+				create table.make_filled (entry_basis, 1, a_column_count)
 			end
+			media_box := a_media_box
+			across
+				a_contents as ic
+			from
+				create l_entries.make (a_contents.count)
+			loop
+				l_entry := entry_basis.twin
+				l_entry.set_tj_text (ic.item)
+				l_entries.force (l_entry)
+			end
+			table.put_by_row (l_entries.to_array)
 		end
 
 feature -- Access
@@ -59,6 +75,13 @@ feature -- Access
 	x,
 	y: INTEGER
 
+	media_box: PDF_MEDIA_BOX
+			-- `media_box' of Current.
+		attribute
+			create Result
+			Result.set_portrait
+		end
+
 	first_font_number,
 	last_font_number: INTEGER
 
@@ -95,6 +118,8 @@ feature -- Output
 				l_font_number := l_font_number + 1
 				fonts.force (ic_table.item.font, ic_table.item.font_basefont)
 			end
+				-- set upper left of table x,y
+
 		end
 
 	fonts: HASH_TABLE [PDF_FONT, STRING] -- str = font_basefont name

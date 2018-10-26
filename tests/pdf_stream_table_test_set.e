@@ -52,13 +52,15 @@ feature -- Test routines
 		local
 			l_item: PDF_STREAM_TABLE
 			l_entry: PDF_STREAM_ENTRY
+			l_box: PDF_MEDIA_BOX
 			l_font: PDF_FONT
 		do
 				-- prep
 			create l_font.make_with_font_info (Unknown_font_number, TrueType_subtype, CourierNew_basefont, StandardEncoding_encoding)
 			create l_entry.make_with_font (l_font)
-			create l_item.make (1, 4, l_entry)
-			
+			create l_box; l_box.set_portrait
+			create l_item.make (Column_count, <<"1", "2", "3", "4">>, l_entry, l_box)
+
 				-- test action
 			l_item.generate (Last_font_number, Last_page_number, Last_stream_number)
 
@@ -68,6 +70,9 @@ feature -- Test routines
 		end
 
 feature {NONE} -- Test routines: Support
+
+	Row_count: INTEGER = 1
+	Column_count: INTEGER = 4
 
 	Unknown_font_number: STRING = "Fx"
 	TrueType_subtype: STRING = "TrueType"

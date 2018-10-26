@@ -59,22 +59,25 @@ feature -- Test routines
 			l_file: PLAIN_TEXT_FILE
 			l_fonts: HASH_TABLE [PDF_FONT, STRING]
 			l_font_courier: PDF_FONT
+			l_box: PDF_MEDIA_BOX
 		do
+			create l_box
+			l_box.set_portrait
 			create l_fonts.make (1)
 			create l_font_courier.make_with_font_info ("F1", "TrueType", "CourierNew", "StandardEncoding")
 			l_fonts.force (l_font_courier, l_font_courier.basefont_value)
 
 			create l_entry.make_with_font (l_font_courier)
-			l_entry.set_Tj_text ("abc")
+			l_entry.set_Tj_text ("")
 			l_entry.set_tf_font_size (20)
 
-			create l_table_1_1.make (1, 1, Void)
+			create l_table_1_1.make (1, <<"abc">>, Void, l_box)
 			l_table_1_1.set_default_entry (l_entry)
 
 			create l_entry.make_with_font (l_font_courier)
-			l_entry.set_Tj_text ("123")
+			l_entry.set_Tj_text ("")
 			l_entry.set_tf_font_size (10)
-			create l_table_2_2.make (2, 2, Void)
+			create l_table_2_2.make (2, <<"1", "2", "3", "4">>, Void, l_box)
 			l_table_2_2.set_default_entry (l_entry)
 
 			create l_factory
