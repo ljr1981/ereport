@@ -77,18 +77,18 @@ feature -- Test routines
 			testing:  "execution/isolated"
 		do
 			assert_integers_equal ("positions_count", 4, stream_table.positions_list.count)
-			assert_32 ("posn_1_x_y", stream_table.positions_list.item (1, 1) ~ [0, 148, 20])		-- x,y
+			assert_32 ("posn_1_x_y", stream_table.positions_list.item (1, 1) ~ [0, 148, 20])		-- x, x_right, y
 			assert_32 ("posn_2_x_y", stream_table.positions_list.item (1, 2) ~ [153, 301, 20])
 			assert_32 ("posn_3_x_y", stream_table.positions_list.item (1, 3) ~ [306, 454, 20])
 			assert_32 ("posn_4_x_y", stream_table.positions_list.item (1, 4) ~ [459, 607, 20])
 
 			assert_integers_equal ("positions_count", 8, stream_table_2.positions_list.count)
-			assert_32 ("posn_1_x_y", stream_table_2.positions_list.item (1, 1) ~ [0, 148, 20])		-- x,y
+			assert_32 ("posn_1_x_y", stream_table_2.positions_list.item (1, 1) ~ [0, 148, 20])		-- x, x_right, y
 			assert_32 ("posn_2_x_y", stream_table_2.positions_list.item (1, 2) ~ [153, 301, 20])
 			assert_32 ("posn_3_x_y", stream_table_2.positions_list.item (1, 3) ~ [306, 454, 20])
 			assert_32 ("posn_4_x_y", stream_table_2.positions_list.item (1, 4) ~ [459, 607, 20])
 
-			assert_32 ("posn_5_x_y", stream_table_2.positions_list.item (2, 1) ~ [0, 148, 40])		-- x,y
+			assert_32 ("posn_5_x_y", stream_table_2.positions_list.item (2, 1) ~ [0, 148, 40])		-- x, x_right, y
 			assert_32 ("posn_6_x_y", stream_table_2.positions_list.item (2, 2) ~ [153, 301, 40])
 			assert_32 ("posn_7_x_y", stream_table_2.positions_list.item (2, 3) ~ [306, 454, 40])
 			assert_32 ("posn_8_x_y", stream_table_2.positions_list.item (2, 4) ~ [459, 607, 40])
