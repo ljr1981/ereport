@@ -81,7 +81,7 @@ feature -- Access
 			Result.set_portrait
 		end
 
-	positions_list: FW_ARRAY2_EXT [detachable TUPLE [x, y: INTEGER]]
+	positions_list: FW_ARRAY2_EXT [detachable TUPLE [x, x_right, y: INTEGER]]
 			-- Raw [x,y] positions with point-of-view of
 			--	one continuous page, with a media_box.bounds.urx width.
 			--  No margins or page borders applied (yet).
@@ -105,13 +105,13 @@ feature -- Access
 			across
 				l_y_posns as icy
 			from
-				create Result.make_filled ([0, 0], row_count, column_count)
+				create Result.make_filled ([0, 0, 0], row_count, column_count)
 			loop
 				across
 					l_x_posns as icx
 				loop
 					check has_icx_item: attached icx.item as al_icx_item then
-						Result.force ([al_icx_item.x, icy.item], icy.cursor_index, icx.cursor_index)
+						Result.force ([al_icx_item.x, al_icx_item.x_right, icy.item], icy.cursor_index, icx.cursor_index)
 					end
 				end
 			end
@@ -133,7 +133,7 @@ feature -- Access
 		end
 
 	column_x_positions: ARRAY [detachable TUPLE [x, x_right: INTEGER]]
-			-- The "x-axis" positions of columns of Current.
+			-- The "x-axis" positions of columns going across the logical page.
 		note
 			design: "[
 				VARIANTS
@@ -142,73 +142,123 @@ feature -- Access
 				Max-width - Starting far left, each column starts at end of max-width
 							of the last column (i.e. col-n starts at col-n - 1 end + gutter width)
 				]"
+			glossary: "[
+				Logical Page - the abstract notion of a page, but not physical pages
+								(either on paper or some display).
+				Physical Page - the concrete notion of a page, either on paper or some dispaly.
+				]"
 		local
-			i, i2,
+			i,
 			x, x_right: INTEGER
 		do
-			x := ((media_box.bounds.urx - media_box.bounds.llx) / column_count).truncated_to_integer
 			create Result.make_filled ([0, 0], 1, column_count)
 			if column_count > 1 then
-				across
-					1 |..| (column_count - 1) as ic
-				loop
-					Result.put ([x * ic.item, x_right], ic.item + 1)
-				end
+					-- left x positions
 				across
 					1 |..| (column_count - 1) as ic
 				from
-					i := 1; i2 := 2
+					x := ((media_box.bounds.urx - media_box.bounds.llx) / column_count).truncated_to_integer
 				loop
-					if attached Result [ic.item] as al_left_item and then attached Result [ic.item + 1] as al_right_item then
+					Result.put ([x * ic.item, x_right], ic.item + 1)
+				end
+					-- x_right gutter positions
+				across
+					1 |..| (column_count - 1) as ic
+				loop
+					i := ic.item
+					if attached Result [i] as al_left_item and then attached Result [i + 1] as al_right_item then
 						al_left_item.x_right := (al_right_item.x - Default_gutter_width)
-					elseif attached Result [ic.item] as al_left_item then
+					elseif attached Result [i] as al_left_item then
 						al_left_item.x_right := (media_box.bounds.urx - Default_gutter_width)
 					else
 						check unknown_condition: False end
 					end
+					if i + 1 = column_count and then attached Result [i + 1] as al_right_item then
+						al_right_item.x_right := media_box.bounds.urx - Default_gutter_width
+					end
 				end
 			end
 		ensure
-			Result.count = column_count
-			Result [1] = 0
-			across Result as ic all attached ic.item as al_item and then al_item.x >= 0 end
+			valid_count: Result.count = column_count
+			first_zero: attached Result [1] as al and then al.x = 0
+			positive: across Result as ic all attached ic.item as al_item and then
+						al_item.x >= 0 end
+			in_bounds_1: Result.count >= 1 implies
+						attached Result [1] as al_1 and then
+						al_1.x >= 0 and then
+						al_1.x <= al_1.x_right
+			in_bounds_2: Result.count >= 2 implies
+						across 1 |..| (Result.count - 1) as ic all
+							attached ic.item as n and then
+							attached Result [n] as al_n1 and then
+							attached Result [n + 1] as al_n2 and then
+							al_n1.x >= 0 and then
+							al_n1.x <= al_n1.x_right and then
+							al_n1.x_right <= al_n2.x and then
+							al_n2.x <= al_n2.x_right
+						end
 		end
 
 	gutter_width: detachable INTEGER
 	default_gutter_width: INTEGER = 5
 
 	row_y_positions: ARRAY [INTEGER]
-			--
+			-- The "y-axis" positions of rows going down the logical page.
+		note
+			design: "[
+				Presume the top of the page starts at 0,0 in the upper-left corner.
+				
+				This will need to be transformed to the PDF coordinate system where
+				the origin of the page is the lower-left. This library assumes a page
+				that reads from top-to-bottom and left-to-right (i.e. not Hebrew or Chinese,
+				but English or English-like).
+				]"
+			glossary: "[
+				Logical Page - the abstract notion of a page, but not physical pages
+								(either on paper or some display).
+				Physical Page - the concrete notion of a page, either on paper or some dispaly.
+				]"
 		local
 			l_row_max,
 			l_last_y: INTEGER
 		do
 			create Result.make_filled (0, 1, row_count)
-			if column_count > 1 then
-				across
-					table.rows as ic_rows
-				from
-					l_last_y := 0
-				loop
-					across
-						ic_rows.item as ic
-					from
-						l_row_max := 0
-					loop
-						check valid_font_size: ic.item.Tf_font_size > 0 end
-						if ic.item.Tf_font_size > l_row_max then
-							l_row_max := ic.item.Tf_font_size
+			across
+				table.rows as ic_rows
+			from
+				l_last_y := 0
+			loop
+				l_last_y := l_last_y + max_height (ic_rows.item)
+				Result.put (l_last_y, ic_rows.cursor_index)
+			end
+		ensure
+			valid_count: Result.count = row_count
+			positive: across Result as ic all ic.item >= 0 end
+			in_bounds: Result.count >= 2 implies
+						across 1 |..| (Result.count - 1) as ic all
+							attached ic.item as n and then
+							attached Result [n] as al_n and then
+							attached Result [n + 1] as al_n2 and then
+							al_n <= al_n2
 						end
-					end
-					l_last_y := l_last_y + l_row_max
-					Result.put (l_last_y, ic_rows.cursor_index)
+		end
+
+	max_height (a_items: ARRAY [PDF_STREAM_ENTRY]): INTEGER
+			-- What is the max "Tf_font_size" in `a_items' list?
+		do
+			across
+				a_items as ic
+			from
+				Result := 0
+			loop
+				check valid_font_size: ic.item.Tf_font_size > 0 end
+				if ic.item.Tf_font_size > Result then
+					Result := ic.item.Tf_font_size
 				end
 			end
 		ensure
-			Result.count = row_count
-			across Result as ic all ic.item >= 0 end
+			positive: Result >= 0
 		end
-
 
 	first_font_number,
 	last_font_number: INTEGER
