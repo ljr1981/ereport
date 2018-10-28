@@ -81,9 +81,47 @@ feature -- Access
 			Result.set_portrait
 		end
 
+	positions_list_with_margins (a_left, a_top, a_right, a_bottom: INTEGER): FW_ARRAY2_EXT [detachable TUPLE [x, x_right, y: INTEGER]]
+			-- Version of `positions' list with adjustments for "margins"
+			--	left, top, right, and bottom,
+			--	where a [0 + left, 0, 0 + top] = new page
+		local
+			l_x_scalar: REAL_64
+			l_x, l_x_right,
+			l_y,
+			l_y_offset,
+			l_row, l_col: INTEGER
+		do
+			across
+				positions_list as ic
+			from
+				create Result.make_filled ([0, 0, 0], row_count, column_count)
+				l_x_scalar := (media_box.bounds.urx - a_left - a_right) / media_box.bounds.urx
+				l_row := 1
+				l_col := 1
+				l_y_offset := a_top
+			loop
+				check has_item: attached ic.item as al_item then
+					l_x := (al_item.x * l_x_scalar).truncated_to_integer + a_left
+					l_x_right := (al_item.x_right * l_x_scalar).truncated_to_integer + a_left
+					l_y := al_item.y + l_y_offset
+					Result.put ([l_x, l_x_right, l_y], l_row, l_col)
+				end
+
+					-- Trace row/column
+				l_col := l_col + 1
+				if l_col > column_count then
+					l_col := 1
+					l_row := l_row + 1
+				end
+			end
+		ensure
+			valid_count: Result.count = positions_list.count
+		end
+
 	positions_list: FW_ARRAY2_EXT [detachable TUPLE [x, x_right, y: INTEGER]]
-			-- Raw [x,y] positions with point-of-view of
-			--	one continuous page, with a media_box.bounds.urx width.
+			-- Raw [x, x_right, y] positions with point-of-view of
+			--	one continuous logical page and a width of `media_box.bounds.urx'.
 			--  No margins or page borders applied (yet).
 		note
 			design: "[
@@ -97,6 +135,7 @@ feature -- Access
 		require
 			rows_and_columns: row_count > 0 and then column_count > 0
 		local
+			x, y: INTEGER
 			l_x_posns: like column_x_positions
 			l_y_posns: like row_y_positions
 		do
@@ -107,11 +146,17 @@ feature -- Access
 			from
 				create Result.make_filled ([0, 0, 0], row_count, column_count)
 			loop
+				y := icy.cursor_index
 				across
 					l_x_posns as icx
 				loop
-					check has_icx_item: attached icx.item as al_icx_item then
-						Result.force ([al_icx_item.x, al_icx_item.x_right, icy.item], icy.cursor_index, icx.cursor_index)
+					x := icx.cursor_index
+					check has_icx_item: attached icx.item as al_icx_item
+						attached al_icx_item.x as col_x_left and then
+						attached al_icx_item.x_right as col_x_right and then
+						attached icy.item as row_y
+					then
+						Result.force ([col_x_left, col_x_right, row_y], y, x)
 					end
 				end
 			end

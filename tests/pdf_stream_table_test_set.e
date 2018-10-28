@@ -95,6 +95,17 @@ feature -- Test routines
 			assert_32 ("posn_6_x_y", stream_table_2.positions_list.item (2, 2) ~ [153, 301, 40])
 			assert_32 ("posn_7_x_y", stream_table_2.positions_list.item (2, 3) ~ [306, 454, 40])
 			assert_32 ("posn_8_x_y", stream_table_2.positions_list.item (2, 4) ~ [459, 607, 40])
+
+			assert_32 ("posn_1_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (1, 1) ~ [36, 166, 56])		-- 0 + 36, (88% of 148), 20 + 36
+			assert_32 ("posn_2_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (1, 2) ~ [171, 301, 56])
+			assert_32 ("posn_3_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (1, 3) ~ [306, 436, 56])
+			assert_32 ("posn_4_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (1, 4) ~ [441, 571, 56])
+
+			assert_32 ("posn_5_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (2, 1) ~ [36, 166, 76])		-- x, x_right, y
+			assert_32 ("posn_6_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (2, 2) ~ [171, 301, 76])
+			assert_32 ("posn_7_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (2, 3) ~ [306, 436, 76])
+			assert_32 ("posn_8_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (2, 4) ~ [441, 571, 76])
+
 		end
 
 feature {NONE} -- Test routines: Support
