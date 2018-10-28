@@ -64,6 +64,9 @@ feature {NONE} -- Test routines: Support
 <<
 /Type /Font
 /Name /Fx
+/Subtype /TrueType
+/Basefont /CourierNew
+/Encoding /StandardEncoding
 >>
 endobj
 
