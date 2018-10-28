@@ -153,7 +153,6 @@ feature -- Test routines
 			testing:  "execution/isolated"
 		local
 			l_item: PDF_DOC_FACTORY
-			l_but_got: STRING
 			l_file: PLAIN_TEXT_FILE
 		do
 			create l_item

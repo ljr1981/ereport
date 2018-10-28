@@ -45,29 +45,95 @@ feature {NONE} -- Events
 
 feature -- Test routines
 
-	pdf_stream_table_tests
+	pdf_stream_table_font_tests
 			-- New test routine
 		note
 			testing:  "execution/isolated"
+		do
+				-- action result tests
+			check font_found: stream_table.fonts.count = 1 and then attached stream_table.fonts.item (CourierNew_basefont) as al_font then
+				assert_strings_equal ("same_font_courier_new", CourierNew_basefont, al_font.basefont_value)
+				assert_strings_equal ("font_pdf_out_1", font_pdf_out_1, al_font.pdf_out)
+			end
+		end
+
+feature {NONE} -- Test routines: Support
+
+	font_pdf_out_1: STRING = "[
+1 0 obj
+<<
+/Type /Font
+/Name /Fx
+>>
+endobj
+
+]"
+
+feature -- Test routines
+
+	pdf_stream_table_positions_tests
+			-- New test routine
+		note
+			testing:  "execution/isolated"
+		do
+			assert_integers_equal ("positions_count", 4, stream_table.positions_list.count)
+			assert_32 ("posn_1_x_y", stream_table.positions_list.item (1, 1) ~ [0, 20])		-- x,y
+			assert_32 ("posn_2_x_y", stream_table.positions_list.item (1, 2) ~ [153, 20])
+			assert_32 ("posn_3_x_y", stream_table.positions_list.item (1, 3) ~ [306, 20])
+			assert_32 ("posn_4_x_y", stream_table.positions_list.item (1, 4) ~ [459, 20])
+
+			assert_integers_equal ("positions_count", 8, stream_table_2.positions_list.count)
+			assert_32 ("posn_1_x_y", stream_table_2.positions_list.item (1, 1) ~ [0, 20])		-- x,y
+			assert_32 ("posn_2_x_y", stream_table_2.positions_list.item (1, 2) ~ [153, 20])
+			assert_32 ("posn_3_x_y", stream_table_2.positions_list.item (1, 3) ~ [306, 20])
+			assert_32 ("posn_4_x_y", stream_table_2.positions_list.item (1, 4) ~ [459, 20])
+
+			assert_32 ("posn_5_x_y", stream_table_2.positions_list.item (2, 1) ~ [0, 40])		-- x,y
+			assert_32 ("posn_6_x_y", stream_table_2.positions_list.item (2, 2) ~ [153, 40])
+			assert_32 ("posn_7_x_y", stream_table_2.positions_list.item (2, 3) ~ [306, 40])
+			assert_32 ("posn_8_x_y", stream_table_2.positions_list.item (2, 4) ~ [459, 40])
+		end
+
+feature {NONE} -- Test routines: Support
+
+	pages_pdf_out_1: STRING = "[
+
+]"
+
+feature {NONE} -- Test routines: Support
+
+	stream_table: PDF_STREAM_TABLE
 		local
-			l_item: PDF_STREAM_TABLE
 			l_entry: PDF_STREAM_ENTRY
 			l_box: PDF_MEDIA_BOX
 			l_font: PDF_FONT
-		do
+		once
 				-- prep
 			create l_font.make_with_font_info (Unknown_font_number, TrueType_subtype, CourierNew_basefont, StandardEncoding_encoding)
 			create l_entry.make_with_font (l_font)
+			l_entry.set_tf_font_size (20)
 			create l_box; l_box.set_portrait
-			create l_item.make (Column_count, <<"1", "2", "3", "4">>, l_entry, l_box)
+			create Result.make (Column_count, <<"1", "2", "3", "4">>, l_entry, l_box)
 
 				-- test action
-			l_item.generate (Last_font_number, Last_page_number, Last_stream_number)
+			Result.generate (Last_font_number, Last_page_number, Last_stream_number)
+		end
 
-				-- action result tests
-			check font_found: l_item.fonts.count = 1 and then attached l_item.fonts.item (CourierNew_basefont) as al_font then
-				assert_strings_equal ("same_font_courier_new", CourierNew_basefont, al_font.basefont_value)
-			end
+	stream_table_2: PDF_STREAM_TABLE
+		local
+			l_entry: PDF_STREAM_ENTRY
+			l_box: PDF_MEDIA_BOX
+			l_font: PDF_FONT
+		once
+				-- prep
+			create l_font.make_with_font_info (Unknown_font_number, TrueType_subtype, CourierNew_basefont, StandardEncoding_encoding)
+			create l_entry.make_with_font (l_font)
+			l_entry.set_tf_font_size (20)
+			create l_box; l_box.set_portrait
+			create Result.make (Column_count, <<"1", "2", "3", "4", "5", "6", "7", "8">>, l_entry, l_box)
+
+				-- test action
+			Result.generate (Last_font_number, Last_page_number, Last_stream_number)
 		end
 
 feature {NONE} -- Test routines: Support

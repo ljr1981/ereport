@@ -77,8 +77,6 @@ feature {NONE} -- Implementation: Basic Operations
 
 	new_font (a_index: INTEGER; a_basefont: STRING): like new_font_ind_obj
 			-- Create a `new_font' with `a_index', `a_basefont', for `a_point_size'.
-		local
-			l_new_font: like new_font_ind_obj
 		do
 			if fonts.has (a_basefont) then
 				check has_font: attached fonts.item (a_basefont) as al_new_font then Result := al_new_font end
