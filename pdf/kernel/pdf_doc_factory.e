@@ -112,7 +112,7 @@ feature {NONE} -- Implementation: Basic Operations
 		end
 
 	put_new_stream (a_page: like new_page_ind_obj; a_stream: like new_stream_ind_obj)
-			-- Put an initialized `a_stream' into `streams'.
+			-- Put an initialized `a_stream' into `stream_entries'.
 		do
 			a_page.stream := a_stream
 		end

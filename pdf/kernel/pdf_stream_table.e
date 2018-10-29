@@ -81,31 +81,116 @@ feature -- Access
 			Result.set_portrait
 		end
 
-	positions_list_with_margins (a_left, a_top, a_right, a_bottom: INTEGER): FW_ARRAY2_EXT [detachable TUPLE [x, x_right, y: INTEGER]]
+	generate_pages_and_streams (a_left, a_top, a_right, a_bottom: INTEGER)
+			--
+		local
+			l_positions: attached like positions_list_anchor
+			l_page: PDF_PAGE_US
+			l_stream: PDF_STREAM_PLAIN_TEXT_OBJECT
+
+			l_page_count,
+			l_last_page_no,
+			l_row, l_col: INTEGER
+
+			l_entries: ARRAYED_LIST [TUPLE [tf_font_name: STRING_8; tf_font_size: INTEGER_32; td_x: INTEGER_32; td_y: INTEGER_32; tj_text: STRING_8]]
+			l_posn_item: TUPLE [x: INTEGER_32; x_right: INTEGER_32; y: INTEGER_32; page: INTEGER_32; row: INTEGER_32]
+		do
+			l_positions := positions_list_with_margins (a_left, a_top, a_right, a_bottom)
+			l_page_count := page_count_of_positions_list (l_positions)
+			across
+				1 |..| l_positions.count as ici
+			from
+				l_row := 1
+				l_col := 1
+				l_last_page_no := 1
+				create l_entries.make (l_positions.row_count * l_positions.column_count)
+			loop
+				l_posn_item := l_positions.item (l_row, l_col)
+
+				check has_posn_item: attached l_posn_item as al_posn_item then
+					-------------------------------------------------------
+					if al_posn_item.page > l_last_page_no then 	-- we have new page
+					-------------------------------------------------------
+							-- create the new stream obj with l_list entries
+						create l_stream.make_with_entries (l_entries.to_array)
+							-- put that stream into streams hash
+						streams.force (l_stream, l_last_page_no)
+							-- create the new page obj with the stream obj
+						create l_page.make_with_contents (l_stream.ref, fonts_hash_to_array)
+							-- put that page into the pages hash
+						pages.force (l_page, l_last_page_no)
+							-- create a new list
+						create l_entries.make (l_positions.row_count * l_positions.column_count)
+
+							-- take us to the next page
+						l_last_page_no := al_posn_item.page
+						check valid_page_no: l_last_page_no <= l_page_count end
+						check has_stream_at_cursor_index: attached stream_entries [ici.item] as al_entry then
+							l_entries.force ([al_entry.tf_font_ref_name, al_entry.tf_font_size, al_entry.td_x_move, al_entry.td_y_move, al_entry.tj_text])
+						end
+					-------------------------------------------------------
+					else 	-- we are on the current page (l_last_page_no)
+					-------------------------------------------------------
+							-- get the matching stream_entries object
+							-- put it in the list
+						check has_stream_at_cursor_index: attached stream_entries [ici.item] as al_entry then
+							l_entries.force ([al_entry.tf_font_ref_name, al_entry.tf_font_size, al_entry.td_x_move, al_entry.td_y_move, al_entry.tj_text])
+						end
+					end
+				end
+
+					-- Handle row/col counts
+				l_col := l_col + 1
+				if l_col > l_positions.column_count then
+					l_col := 1
+					l_row := l_row + 1
+				end
+			end
+		end
+
+	page_count_of_positions_list (a_list: attached like positions_list_anchor): INTEGER
+			-- A `page_count_of_positions_list' in `a_list' like `positions_list_anchor'.
+		do
+			check has_item: attached a_list.item (a_list.row_count, a_list.column_count) as al_item then
+				Result := al_item.page
+			end
+		end
+
+	positions_list_with_margins (a_left, a_top, a_right, a_bottom: INTEGER): attached like positions_list_anchor
 			-- Version of `positions' list with adjustments for "margins"
 			--	left, top, right, and bottom,
 			--	where a [0 + left, 0, 0 + top] = new page
+		note
+			design: "[
+				Each result item has its [x,y] position for a continuous single "logical" page.
+				
+				Each result item also has its far-rightmost position.
+				
+				Finally, each result item has its "physical" page number and row 
+				within that "physical" page.
+				]"
 		local
 			l_x_scalar: REAL_64
 			l_x, l_x_right,
 			l_y,
-			l_y_offset,
+			l_y_offset, l_y_max,
 			l_row, l_col: INTEGER
 		do
 			across
 				positions_list as ic
 			from
-				create Result.make_filled ([0, 0, 0], row_count, column_count)
+				create Result.make_filled ([0, 0, 0, 0, 0], row_count, column_count)
 				l_x_scalar := (media_box.bounds.urx - a_left - a_right) / media_box.bounds.urx
-				l_row := 1
-				l_col := 1
-				l_y_offset := a_top
+				l_row := 1; l_col := 1
+				l_y_offset := 0
+				l_y_max := (media_box.bounds.ury - a_top - a_bottom)
 			loop
 				check has_item: attached ic.item as al_item then
 					l_x := (al_item.x * l_x_scalar).truncated_to_integer + a_left
 					l_x_right := (al_item.x_right * l_x_scalar).truncated_to_integer + a_left
-					l_y := al_item.y + l_y_offset
-					Result.put ([l_x, l_x_right, l_y], l_row, l_col)
+					l_y_offset := (al_item.y // l_y_max) * l_y_max
+					l_y := al_item.y + a_top
+					Result.put ([l_x, l_x_right, l_y, page_number (al_item.y, l_y_max), l_row], l_row, l_col)
 				end
 
 					-- Trace row/column
@@ -119,7 +204,15 @@ feature -- Access
 			valid_count: Result.count = positions_list.count
 		end
 
-	positions_list: FW_ARRAY2_EXT [detachable TUPLE [x, x_right, y: INTEGER]]
+	page_number (a_current_y, a_max_y: INTEGER): INTEGER
+			-- The `page_number', given `a_current_y' position on a logical "page"
+			--	and then `a_max_y' for a physical page (including removal of top
+			--	and bottom margins).
+		do
+			Result := (a_current_y // a_max_y) + 1
+		end
+
+	positions_list: attached like positions_list_anchor
 			-- Raw [x, x_right, y] positions with point-of-view of
 			--	one continuous logical page and a width of `media_box.bounds.urx'.
 			--  No margins or page borders applied (yet).
@@ -144,7 +237,7 @@ feature -- Access
 			across
 				l_y_posns as icy
 			from
-				create Result.make_filled ([0, 0, 0], row_count, column_count)
+				create Result.make_filled ([0, 0, 0, 0, 0], row_count, column_count)
 			loop
 				y := icy.cursor_index
 				across
@@ -156,7 +249,7 @@ feature -- Access
 						attached al_icx_item.x_right as col_x_right and then
 						attached icy.item as row_y
 					then
-						Result.force ([col_x_left, col_x_right, row_y], y, x)
+						Result.force ([col_x_left, col_x_right, row_y, 0, 0], y, x)
 					end
 				end
 			end
@@ -245,6 +338,17 @@ feature -- Access
 		end
 
 	gutter_width: detachable INTEGER
+			-- Client-settable value for `gutter_width'.
+		attribute
+			Result := default_gutter_width
+		end
+
+	gutter_width_attached: INTEGER
+			-- Attached version of `gutter_width'.
+		do
+			check has_gutter: attached gutter_width as al_width then Result := al_width end
+		end
+
 	default_gutter_width: INTEGER = 5
 
 	row_y_positions: ARRAY [INTEGER]
@@ -305,15 +409,6 @@ feature -- Access
 			positive: Result >= 0
 		end
 
-	first_font_number,
-	last_font_number: INTEGER
-
-	first_page_number,
-	last_page_number: INTEGER
-
-	first_stream_number,
-	last_stream_number: INTEGER
-
 feature -- Settings
 
 	set_default_entry (a_entry: like entry_basis)
@@ -327,7 +422,7 @@ feature -- Settings
 feature -- Output
 
 	generate (a_last_font_number, a_last_page_number, a_last_stream_number: INTEGER)
-			-- `generate' Current to `fonts', `pages', and `streams'.
+			-- `generate' Current to `fonts', `pages', and `stream_entries'.
 		local
 			l_font_number: INTEGER
 		do
@@ -345,34 +440,45 @@ feature -- Output
 			across
 				table as ic
 			loop
-				streams.force (ic.item, ic.cursor_index)
+				stream_entries.force (ic.item, ic.cursor_index)
 			end
 		end
 
 feature {TEST_SET_BRIDGE} -- Implementation: Fonts, Pages, and Streams
 
 	fonts: HASH_TABLE [PDF_FONT, STRING] -- str = font_basefont name
-			-- `fonts' generated by `generate'.
+			-- Hash of `fonts' generated by `generate'.
 		attribute
-			create Result.make (10)
+			create Result.make (1000)
 		end
 
-	pages: HASH_TABLE [PDF_PAGE, INTEGER] -- int = page#
-			-- `pages' generated by `generate'.
+	pages: HASH_TABLE [PDF_PAGE_US, INTEGER] -- int = page#
+			-- Hash of `pages' generated by `generate'.
 		attribute
-			create Result.make (10)
+			create Result.make (1000)
 		end
 
-	streams: HASH_TABLE [PDF_STREAM_ENTRY, INTEGER] -- int = stream#
-			-- `streams' generated by `generate'.
+	streams: HASH_TABLE [PDF_STREAM_PLAIN_TEXT_OBJECT, INTEGER] -- int = related page#
+			-- Hash of `streams' generated by ... ?
 		attribute
-			create Result.make (10)
+			create Result.make (1000)
 		end
+
+	stream_entries: HASH_TABLE [PDF_STREAM_ENTRY, INTEGER] -- int = stream#
+			-- Hash of `stream_entries' generated by `generate'.
+		attribute
+			create Result.make (1000)
+		end
+
+feature {NONE} -- Implementation: Type Anchors
+
+	positions_list_anchor: detachable FW_ARRAY2_EXT [detachable TUPLE [x, x_right, y, page, row: INTEGER]]
+			-- Type anchor for Result's like `positions_list'
 
 feature {NONE} -- Implementation: Fonts, Streams, and Pages: Support
 
-	fonts_array: ARRAY [PDF_FONT]
-			--
+	fonts_hash_to_array: ARRAY [PDF_FONT]
+			-- An ARRAY version of `fonts' hash.
 		local
 			l_result: ARRAYED_LIST [PDF_FONT]
 		do
@@ -386,17 +492,19 @@ feature {NONE} -- Implementation: Fonts, Streams, and Pages: Support
 		end
 
 	stream_obj: PDF_STREAM_PLAIN_TEXT_OBJECT
+			-- A single `stream_obj' consisting of all `stream_entry_tuples'.
 		do
-			create Result.make_with_entries (stream_entries)
+			create Result.make_with_entries (stream_entry_tuples)
 		end
 
-	stream_entries: ARRAY [TUPLE [STRING_8, INTEGER_32, INTEGER_32, INTEGER_32, STRING_8]]
+	stream_entry_tuples: ARRAY [TUPLE [font_obj_number: STRING_8; Td_x_move, Td_y_move: INTEGER_32; Tf_font_size: INTEGER_32; Tj_text: STRING_8]]
+			-- A TUPLE of Stream Entries (font#, x,y-move, font-size, text).
 		local
 			l_entries: ARRAYED_LIST [TUPLE [STRING_8, INTEGER_32, INTEGER_32, INTEGER_32, STRING_8]]
 		do
-			create l_entries.make (streams.count)
+			create l_entries.make (stream_entries.count)
 			across
-				streams as ic
+				stream_entries as ic
 			loop
 				l_entries.force ([ic.item.tf_font_ref_name, ic.item.tf_font_size, ic.item.td_x_move, ic.item.td_y_move, ic.item.tj_text])
 			end
@@ -404,8 +512,9 @@ feature {NONE} -- Implementation: Fonts, Streams, and Pages: Support
 		end
 
 	stream_item (i: INTEGER): PDF_STREAM_ENTRY
+			-- A particular `stream_item' of `stream_entries', entry item number `i'.
 		do
-			check has_i: attached streams [i] as al_result then Result := al_result end
+			check has_i: attached stream_entries [i] as al_result then Result := al_result end
 		end
 
 note

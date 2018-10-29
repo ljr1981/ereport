@@ -108,6 +108,33 @@ feature -- Test routines
 
 		end
 
+	pdf_stream_table_multipage_positions_tests
+			-- New test routine
+		note
+			testing:  "execution/isolated"
+		local
+			l_rows_count,
+			l_item_count: INTEGER
+		do
+				-- Prep work
+			l_item_count := Page_count_4 * Lines_count_30 * Columns_count_4
+			l_rows_count := (l_item_count / Columns_count_4).truncated_to_integer
+
+				-- Application
+			stream_table_3.generate_pages_and_streams (Left_margin_36, Top_margin_36, Right_margin_36, Bottom_margin_36)
+
+				-- Tests: `stream_table_3.stream_entries' (entries)
+			assert_integers_equal ("stream_table_3_stream_entries_count", l_item_count, stream_table_3.stream_entries.count)
+
+				-- Tests: `stream_table_3.fonts'
+			assert_integers_equal ("stream_table_3_fonts_count", 1, stream_table_3.fonts.count)
+
+				-- CONCLUSION: We have Results = 480, Entries = 480, and Fonts = 1
+				-- SO: We can now ...
+				--		1. Isolate the 480 Entries by page, which is in the `l_result' (Results).
+				--			Once we have isolated
+		end
+
 feature {NONE} -- Test routines: Support
 
 	pages_pdf_out_1: STRING = "[
@@ -150,7 +177,36 @@ feature {NONE} -- Test routines: Support
 			Result.generate (Last_font_number, Last_page_number, Last_stream_number)
 		end
 
+	stream_table_3: PDF_STREAM_TABLE
+		local
+			l_entry: PDF_STREAM_ENTRY
+			l_box: PDF_MEDIA_BOX
+			l_font: PDF_FONT
+			l_rand: RANDOMIZER
+			l_values: ARRAY [STRING]
+		once
+				-- prep
+			create l_font.make_with_font_info (Unknown_font_number, TrueType_subtype, CourierNew_basefont, StandardEncoding_encoding)
+			create l_entry.make_with_font (l_font)
+			l_entry.set_tf_font_size (20)
+			create l_box; l_box.set_portrait
+			create l_rand
+			create Result.make (Column_count, l_rand.random_array_strings (Page_count_4 * Lines_count_30 * Columns_count_4), l_entry, l_box)
+
+				-- test action
+			Result.generate (Last_font_number, Last_page_number, Last_stream_number)
+		end
+
 feature {NONE} -- Test routines: Support
+
+	Left_margin_36: INTEGER = 36
+	Top_margin_36: INTEGER = 36
+	Right_margin_36: INTEGER = 36
+	Bottom_margin_36: INTEGER = 36
+
+	Page_count_4: INTEGER = 4
+	Lines_count_30: INTEGER = 30
+	Columns_count_4: INTEGER = 4
 
 	Row_count: INTEGER = 1
 	Column_count: INTEGER = 4
