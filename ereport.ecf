@@ -14,9 +14,9 @@
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="decimal" location="iron:decimal:decimal\decimal.ecf"/>
 		<library name="encoder" location="$ISE_LIBRARY\contrib\library\web\framework\ewf\text\encoder\encoder.ecf"/>
-		<library name="framework" location="..\framework\framework.ecf"/>
+		<library name="framework" location="iron:framework:framework.ecf"/>
 		<library name="json_ext" location="iron:json_ext:json_ext.ecf"/>
-		<library name="test_extension" location="..\test_extension\test_extension.ecf"/>
+		<library name="test_extension" location="iron:test_extension:test_extension.ecf"/>
 		<library name="time" location="iron:time:time.ecf"/>
 		<library name="vision2" location="iron:vision2:vision2.ecf"/>
 		<cluster name="ereport" location=".\" recursive="true">

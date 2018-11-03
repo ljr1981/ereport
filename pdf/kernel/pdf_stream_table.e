@@ -94,6 +94,8 @@ feature -- Access
 
 			l_entries: ARRAYED_LIST [TUPLE [tf_font_name: STRING_8; tf_font_size: INTEGER_32; td_x: INTEGER_32; td_y: INTEGER_32; tj_text: STRING_8]]
 			l_posn_item: TUPLE [x: INTEGER_32; x_right: INTEGER_32; y: INTEGER_32; page: INTEGER_32; row: INTEGER_32]
+			l_move: TUPLE [x, y: INTEGER]
+			l_last_move: detachable TUPLE [x, y: INTEGER]
 		do
 			l_positions := positions_list_with_margins (a_left, a_top, a_right, a_bottom)
 			l_page_count := page_count_of_positions_list (l_positions)
@@ -126,7 +128,9 @@ feature -- Access
 						l_last_page_no := al_posn_item.page
 						check valid_page_no: l_last_page_no <= l_page_count end
 						check has_stream_at_cursor_index: attached stream_entries [ici.item] as al_entry then
-							l_entries.force ([al_entry.tf_font_ref_name, al_entry.tf_font_size, al_entry.td_x_move, al_entry.td_y_move, al_entry.tj_text])
+							l_move := entry_moves (Void, [l_posn_item.x, l_posn_item.y], True)
+							l_entries.force ([al_entry.tf_font_ref_name, al_entry.tf_font_size, l_move.x, l_move.y, al_entry.tj_text])
+							l_last_move := l_move.twin
 						end
 					-------------------------------------------------------
 					else 	-- we are on the current page (l_last_page_no)
@@ -134,7 +138,9 @@ feature -- Access
 							-- get the matching stream_entries object
 							-- put it in the list
 						check has_stream_at_cursor_index: attached stream_entries [ici.item] as al_entry then
-							l_entries.force ([al_entry.tf_font_ref_name, al_entry.tf_font_size, al_entry.td_x_move, al_entry.td_y_move, al_entry.tj_text])
+							l_move := entry_moves (l_last_move, [l_posn_item.x, l_posn_item.y], l_col = 1)
+							l_entries.force ([al_entry.tf_font_ref_name, al_entry.tf_font_size, l_move.x, l_move.y, al_entry.tj_text])
+							l_last_move := l_move.twin
 						end
 					end
 				end
@@ -145,6 +151,22 @@ feature -- Access
 					l_col := 1
 					l_row := l_row + 1
 				end
+			end
+		end
+
+	entry_moves (a_last: detachable TUPLE [x, y: INTEGER]; a_this: TUPLE [x, y: INTEGER]; a_is_BOL: BOOLEAN): TUPLE [x_move, y_move: INTEGER]
+			-- What is the move to get from entry-A to entry-B?
+			-- BOL = Beginning of Line
+		do
+			if a_last = Void then
+				Result := [0, 0]
+			elseif attached a_last as al_last then
+				Result := [a_this.x - al_last.x, 0]
+			elseif attached a_last as al_last and then a_is_BOL then
+				Result := [0, al_last.y - a_this.y]
+			else
+				Result := [0, 0]
+				check unknown_case: False end
 			end
 		end
 

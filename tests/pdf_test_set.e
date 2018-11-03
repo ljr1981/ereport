@@ -422,7 +422,6 @@ feature -- Tests: PDF Document
 			l_stream_5: PDF_STREAM_PLAIN_TEXT_OBJECT
 			l_font_4,
 			l_font_4b: PDF_FONT
-			l_font_4_ref_key_value: PDF_KEY_VALUE
 			l_page_3: PDF_PAGE
 			l_pages_2: PDF_PAGE_TREE [PDF_PAGE]
 			l_catalog_1: PDF_CATALOG
