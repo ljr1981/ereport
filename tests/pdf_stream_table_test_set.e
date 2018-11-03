@@ -80,33 +80,42 @@ feature -- Test routines
 			testing:  "execution/isolated"
 		do
 			assert_integers_equal ("positions_count", 4, stream_table.positions_list.count)
-			assert_32 ("posn_1_x_y", stream_table.positions_list.item (1, 1) ~ [0, 148, 20])		-- x, x_right, y
-			assert_32 ("posn_2_x_y", stream_table.positions_list.item (1, 2) ~ [153, 301, 20])
-			assert_32 ("posn_3_x_y", stream_table.positions_list.item (1, 3) ~ [306, 454, 20])
-			assert_32 ("posn_4_x_y", stream_table.positions_list.item (1, 4) ~ [459, 607, 20])
+			assert_32 ("posn_1_x_y", stream_table.positions_list.item (1, 1) ~ [0, 148, 20, 0, 0])		-- x, x_right, y
+			assert_32 ("posn_2_x_y", stream_table.positions_list.item (1, 2) ~ [153, 301, 20, 0, 0])
+			assert_32 ("posn_3_x_y", stream_table.positions_list.item (1, 3) ~ [306, 454, 20, 0, 0])
+			assert_32 ("posn_4_x_y", stream_table.positions_list.item (1, 4) ~ [459, 607, 20, 0, 0])
 
 			assert_integers_equal ("positions_count", 8, stream_table_2.positions_list.count)
-			assert_32 ("posn_1_x_y", stream_table_2.positions_list.item (1, 1) ~ [0, 148, 20])		-- x, x_right, y
-			assert_32 ("posn_2_x_y", stream_table_2.positions_list.item (1, 2) ~ [153, 301, 20])
-			assert_32 ("posn_3_x_y", stream_table_2.positions_list.item (1, 3) ~ [306, 454, 20])
-			assert_32 ("posn_4_x_y", stream_table_2.positions_list.item (1, 4) ~ [459, 607, 20])
+			assert_32 ("posn_1_x_y", stream_table_2.positions_list.item (1, 1) ~ [0, 148, 20, 0, 0])		-- x, x_right, y
+			assert_32 ("posn_2_x_y", stream_table_2.positions_list.item (1, 2) ~ [153, 301, 20, 0, 0])
+			assert_32 ("posn_3_x_y", stream_table_2.positions_list.item (1, 3) ~ [306, 454, 20, 0, 0])
+			assert_32 ("posn_4_x_y", stream_table_2.positions_list.item (1, 4) ~ [459, 607, 20, 0, 0])
 
-			assert_32 ("posn_5_x_y", stream_table_2.positions_list.item (2, 1) ~ [0, 148, 40])		-- x, x_right, y
-			assert_32 ("posn_6_x_y", stream_table_2.positions_list.item (2, 2) ~ [153, 301, 40])
-			assert_32 ("posn_7_x_y", stream_table_2.positions_list.item (2, 3) ~ [306, 454, 40])
-			assert_32 ("posn_8_x_y", stream_table_2.positions_list.item (2, 4) ~ [459, 607, 40])
+			assert_32 ("posn_5_x_y", stream_table_2.positions_list.item (2, 1) ~ [0, 148, 40, 0, 0])		-- x, x_right, y
+			assert_32 ("posn_6_x_y", stream_table_2.positions_list.item (2, 2) ~ [153, 301, 40, 0, 0])
+			assert_32 ("posn_7_x_y", stream_table_2.positions_list.item (2, 3) ~ [306, 454, 40, 0, 0])
+			assert_32 ("posn_8_x_y", stream_table_2.positions_list.item (2, 4) ~ [459, 607, 40, 0, 0])
 
-			assert_32 ("posn_1_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (1, 1) ~ [36, 166, 56])		-- 0 + 36, (88% of 148), 20 + 36
-			assert_32 ("posn_2_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (1, 2) ~ [171, 301, 56])
-			assert_32 ("posn_3_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (1, 3) ~ [306, 436, 56])
-			assert_32 ("posn_4_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (1, 4) ~ [441, 571, 56])
+			assert_32 ("posn_1_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (1, 1) ~ [x_36, x_right_166, y_56, page_1, row_1])		-- 0 + 36, (88% of 148), 20 + 36
+			assert_32 ("posn_2_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (1, 2) ~ [171, 301, 56, 1, 1])
+			assert_32 ("posn_3_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (1, 3) ~ [306, 436, 56, 1, 1])
+			assert_32 ("posn_4_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (1, 4) ~ [441, 571, 56, 1, 1])
 
-			assert_32 ("posn_5_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (2, 1) ~ [36, 166, 76])		-- x, x_right, y
-			assert_32 ("posn_6_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (2, 2) ~ [171, 301, 76])
-			assert_32 ("posn_7_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (2, 3) ~ [306, 436, 76])
-			assert_32 ("posn_8_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (2, 4) ~ [441, 571, 76])
+			assert_32 ("posn_5_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (2, 1) ~ [36, 166, 76, 1, 2])		-- x, x_right, y
+			assert_32 ("posn_6_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (2, 2) ~ [171, 301, 76, 1, 2])
+			assert_32 ("posn_7_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (2, 3) ~ [306, 436, 76, 1, 2])
+			assert_32 ("posn_8_x_y_scaled", stream_table_2.positions_list_with_margins (36, 36, 36, 36).item (2, 4) ~ [441, 571, 76, 1, 2])
 
 		end
+
+feature {NONE} -- Testing: Support
+
+	x_36: INTEGER = 36
+	x_right_166: INTEGER = 166
+	y_56: INTEGER = 56
+	page_1: INTEGER = 1
+	row_1: INTEGER = 1
+
 
 	pdf_stream_table_multipage_positions_tests
 			-- New test routine
