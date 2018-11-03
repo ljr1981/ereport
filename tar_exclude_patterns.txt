@@ -3,6 +3,7 @@
 ./EIFGENs*
 ./*EIFGENs*
 ./*.bz2
+./*.pdf
 iron_archive.bat
 iron_share_create.bat
 iron_share_update.bat
