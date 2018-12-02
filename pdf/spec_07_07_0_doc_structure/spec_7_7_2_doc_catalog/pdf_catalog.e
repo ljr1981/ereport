@@ -18,12 +18,16 @@ feature {NONE} -- Initialization
 
 	default_create
 			-- <Precursor>
+			-- `dictionary' creation and basic /Type /Catalog setting.
+		local
+			l_value: TUPLE [PDF_NAME, PDF_OBJECT [detachable ANY]]
 		do
 			Precursor
 			create dictionary
 			dictionary.add_object (type)
 			add_object (dictionary)
-
+			l_value := [create {PDF_NAME}.make ("Type"), create {PDF_NAME}.make ("Catalog")]
+			type.set_value (l_value)
 		end
 
 	make (a_pages_ref, a_outlines_ref: PDF_OBJECT_REFERENCE)
@@ -31,14 +35,14 @@ feature {NONE} -- Initialization
 		do
 			default_create
 
-			create pages.make_as_obj_ref ("Pages", a_pages_ref)
-			check has_pages: attached pages as al_pages then
-				dictionary.add_object (al_pages)
-			end
-
 			create outlines.make_as_obj_ref ("Outlines", a_outlines_ref)
 			check has_pages: attached outlines as al_outlines then
 				dictionary.add_object (al_outlines)
+			end
+
+			create pages.make_as_obj_ref ("Pages", a_pages_ref)
+			check has_pages: attached pages as al_pages then
+				dictionary.add_object (al_pages)
 			end
 		end
 
