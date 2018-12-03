@@ -36,7 +36,8 @@ inherit
 
 create
 	make,
-	make_with_fonts
+	make_with_fonts,
+	make_with_fonts_and_parent
 
 feature {NONE} -- Initialization
 
@@ -73,6 +74,37 @@ feature {NONE} -- Initialization
 			-- `make_with_fonts' like `make', but with added font-info.
 		do
 			make (a_contents_ref, a_media_box)
+			init_resources
+			set_font_reference (a_font_array)
+		end
+
+	make_with_fonts_and_parent (a_contents_ref: PDF_OBJECT_REFERENCE;
+				a_media_box: TUPLE [llx, lly, urx, ury: INTEGER];
+				a_font_array: ARRAY [PDF_FONT];
+				a_parent_obj: PDF_INDIRECT_OBJECT)
+			-- `make_with_fonts_and_parent' like `make', but with added font-info.
+		do
+			default_create
+
+			create dictionary
+			dictionary.add_object (type)
+			add_object (dictionary)
+
+			create parent_ref.make_with_object (a_parent_obj)
+			check has_parent_ref: attached parent_ref as al_parent_ref then
+				dictionary.add_object (create {PDF_KEY_VALUE}.make_as_obj_ref ("Parent", al_parent_ref))
+			end
+
+			create contents.make_as_obj_ref ("Contents", a_contents_ref)
+			check has_contents: attached contents as al_contents then
+				dictionary.add_object (al_contents)
+			end
+
+			init_media_box (a_media_box.llx, a_media_box.lly, a_media_box.urx, a_media_box.ury)
+			check has_box: attached media_box as al_box then
+				dictionary.add_object (al_box)
+			end
+
 			init_resources
 			set_font_reference (a_font_array)
 		end

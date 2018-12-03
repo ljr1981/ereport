@@ -133,6 +133,17 @@ feature -- Settings
 			set_font (l_dict)
 		end
 
+feature -- Settings
+
+	set_parent_ref (a_ref: attached like parent_ref)
+			-- <Precursor>
+		do
+			Precursor (a_ref)
+			check has_ref: attached parent_ref as al_ref then
+				dictionary.add_object (create {PDF_KEY_VALUE}.make_as_obj_ref ("Parent", al_ref))
+			end
+		end
+
 feature {NONE} -- Implementation: Settings
 
 	set_font (a_dict: PDF_DICTIONARY_GENERAL)
@@ -166,15 +177,6 @@ feature {NONE} -- Implementation: Settings
 			create l_box.make (llx.out, lly.out, urx.out, ury.out)
 			check has: attached l_box as al_box then
 				create media_box.make_as_array ("MediaBox", l_box)
-			end
-		end
-
-	set_parent_ref (a_ref: attached like parent_ref)
-			-- <Precursor>
-		do
-			Precursor (a_ref)
-			check has_ref: attached parent_ref as al_ref then
-				dictionary.add_object (create {PDF_KEY_VALUE}.make_as_obj_ref ("Parent", al_ref))
 			end
 		end
 
