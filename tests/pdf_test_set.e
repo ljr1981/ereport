@@ -168,7 +168,7 @@ endobj
 			l_item: PDF_STREAM_PLAIN_TEXT_OBJECT
 			l_font: PDF_FONT
 		do
-			create l_font.make_with_font_info ("F1", "subtype", "basefontname", "encodings")
+			create l_font.make_with_font_info ("F1", {PDF_FONT}.Subtype_type_1, "basefontname", {PDF_FONT}.Encoding_standard)
 			create l_item.make_with_entries (<<[l_font.name_value, 20, 120, 120, "Hello from Steve"]>>)
 			l_item.set_object_number (1)
 

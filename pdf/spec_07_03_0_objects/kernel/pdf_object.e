@@ -24,6 +24,9 @@ feature -- Access
 		deferred
 		end
 
+	comment: detachable PDF_COMMENT
+			-- A `comment' for Current (if any).
+
 feature -- Settings
 
 	set_value (a_value: attached like value)

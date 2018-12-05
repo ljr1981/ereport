@@ -52,6 +52,9 @@ feature -- Output
 			Result.append_character ('%N')
 
 			Result.append_string_general (closing_delimiter)
+			if attached comment as al_comment then
+				Result.append_string_general (al_comment.pdf_out)
+			end
 			Result.append_character ('%N')
 		end
 
