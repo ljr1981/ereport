@@ -37,6 +37,14 @@ feature -- Settings
 			set: value ~ a_value
 		end
 
+	set_comment (a_comment: STRING)
+			-- `set_comment' of `a_comment' into `comment'.
+		do
+			create comment.make_with_text (a_comment)
+		ensure
+			set: attached comment as al_comment
+		end
+
 feature -- Queries
 
 	pdf_out_count: INTEGER
