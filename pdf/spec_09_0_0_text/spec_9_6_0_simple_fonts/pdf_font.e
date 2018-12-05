@@ -42,9 +42,13 @@ feature {NONE} -- Initialization
 			-- `make_with_font_info' through `make', with added font-info.
 		require
 			a_name_not_empty: not a_name.is_empty
-			a_subtype_not_empty: not a_subtype.is_empty
 			a_base_font_not_empty: not a_base_font.is_empty
+				-- Subtype
+			a_subtype_not_empty: not a_subtype.is_empty
+			valid_subtype: across (<<Subtype_type_1, Subtype_type_3, Subtype_truetype>>) as ic some ic.item.same_string (a_subtype) end
+				-- Encoding
 			a_encoding_not_empty: not a_encoding.is_empty
+			valid_encoding: across (<<Encoding_standard, Encoding_mac_roman, Encoding_win_ansi>>) as ic some ic.item.same_string (a_encoding) end
 		do
 			make (a_name)
 			create subtype.make (Subtype_key_kw, a_subtype); dictionary.add_object (subtype)
@@ -180,6 +184,16 @@ feature -- Constants: Keywords
 	Subtype_key_kw: STRING = "Subtype"
 	BaseFont_key_kw: STRING = "Basefont"
 	Encoding_key_kw: STRING = "Encoding"
+
+feature -- Constants: Values
+
+	Subtype_type_1: STRING = "Type1"
+	Subtype_type_3: STRING = "Type3"
+	Subtype_truetype: STRING = "TrueType"
+
+	Encoding_standard: STRING = "StandardEncoding"
+	Encoding_mac_roman: STRING = "MacRomanEncoding"
+	Encoding_win_ansi: STRING = "WinAnsiEncoding"
 
 invariant
 	name_type: attached name.key.text as al_name and then al_name.same_string (Name_key_kw) attached {PDF_NAME} name.value
