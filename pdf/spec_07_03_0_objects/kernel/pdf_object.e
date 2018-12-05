@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_OBJECT}."
+	description: "Abstract notion of a {PDF_OBJECT}."
 	specification: "ISO 32000-1, section 7.3"
 	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
