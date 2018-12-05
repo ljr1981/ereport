@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_PAGE}."
+	description: "Representation of a {PDF_PAGE}."
 	example: "[
 3 0 obj
 <</Type /Page

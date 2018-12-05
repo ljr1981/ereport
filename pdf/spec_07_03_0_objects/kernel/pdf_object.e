@@ -30,6 +30,8 @@ feature -- Settings
 			--
 		do
 			value := a_value
+		ensure
+			set: value ~ a_value
 		end
 
 feature -- Queries
