@@ -119,9 +119,9 @@ feature -- Test routines
 				l_font_name := fonts_list [l_font_number]
 				l_font_size := 20 --l_rand.random_integer_in_range (6 |..| 20)
 				if (ic.cursor_index \\ 2) = 0 then
-					l_list.force ([l_rand.random_word, "CourierNew", l_font_size, 36])
+					l_list.force (["blah_courier", "CourierNew", l_font_size, 36])
 				else
-					l_list.force ([l_rand.random_word, "TimesNewRoman", l_font_size, 36])
+					l_list.force (["blah_times", "TimesNewRoman", l_font_size, 36])
 				end
 			end
 
