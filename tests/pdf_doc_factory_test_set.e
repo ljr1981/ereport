@@ -115,9 +115,9 @@ feature -- Test routines
 			across
 				1 |..| 100 as ic
 			loop
-				l_font_number := l_rand.random_integer_in_range (1 |..| fonts_list.count)
+				l_font_number := 1 --l_rand.random_integer_in_range (1 |..| fonts_list.count)
 				l_font_name := fonts_list [l_font_number]
-				l_font_size := l_rand.random_integer_in_range (6 |..| 20)
+				l_font_size := 20 --l_rand.random_integer_in_range (6 |..| 20)
 				if (ic.cursor_index \\ 2) = 0 then
 					l_list.force ([l_rand.random_word, "CourierNew", l_font_size, 36])
 				else
