@@ -98,7 +98,6 @@ feature {NONE} -- Implementation: Constants
 ;note
 	main_spec: "7.5.5 File Trailer"
 	other_specs: ""
-	EIS: "name=pdf_spec", "protocol=pdf", "src=PDF32000_2008.pdf"
 
 	basic_layout: "[
 trailer

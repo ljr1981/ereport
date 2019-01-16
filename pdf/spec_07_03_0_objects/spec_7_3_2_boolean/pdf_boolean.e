@@ -1,5 +1,6 @@
 note
 	description: "Summary description for {PDF_BOOLEAN}."
+	main_spec: "ISO 32000-1, section 7.3.2 Boolean Objects"
 
 class
 	PDF_BOOLEAN
@@ -60,8 +61,6 @@ feature {NONE} -- Implementation: Delimiters
 	closing_delimiter: STRING once ("OBJECT") Result := Space.out end
 
 ;note
-	main_spec: "ISO 32000-1, section 7.3.2 Boolean Objects"
 	other_specs: ""
-	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
 end

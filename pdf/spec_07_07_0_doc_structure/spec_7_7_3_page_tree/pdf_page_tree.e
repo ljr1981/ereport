@@ -64,6 +64,5 @@ feature -- Access
 ;note
 	main_spec: "7.7.3.2 Page Tree Nodes"
 	other_specs: ""
-	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
 end

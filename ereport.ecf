@@ -2,13 +2,17 @@
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-19-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-19-0 http://www.eiffel.com/developers/xml/configuration-1-19-0.xsd" name="ereport" uuid="27C3380D-F1E0-A9EF-B7DA-00005215815C" readonly="false" library_target="ereport">
 	<description>ereport implementation</description>
 	<target name="ereport">
+		<note>
+			<EIS auto="true" src="$(system_path)/docs/specs/PDF32000_2008.pdf"/>
+		</note>
 		<root all_classes="true"/>
 		<option warning="true" syntax="provisional" manifest_array_type="mismatch_warning">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<setting name="console_application" value="true"/>
 		<capability>
-			<concurrency support="none" use="thread"/>
+			<catcall_detection support="none"/>
+			<concurrency support="thread" use="thread"/>
 			<void_safety support="transitional" use="transitional"/>
 		</capability>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
@@ -20,6 +24,7 @@
 		<library name="time" location="iron:time:time.ecf"/>
 		<library name="vision2" location="iron:vision2:vision2.ecf"/>
 		<cluster name="ereport" location=".\" recursive="true">
+			<note/>
 			<file_rule>
 				<exclude>/.git$</exclude>
 				<exclude>/.svn$</exclude>
@@ -30,6 +35,9 @@
 		</cluster>
 	</target>
 	<target name="test" extends="ereport">
+		<note>
+			<EIS auto="true" src="$(system_path)/docs/specs/PDF32000_2008.pdf"/>
+		</note>
 		<description>ereport Tests</description>
 		<root class="ANY" feature="default_create"/>
 		<file_rule>
@@ -43,7 +51,9 @@
 		</option>
 		<setting name="console_application" value="false"/>
 		<capability>
-			<concurrency support="none" use="thread"/>
+			<catcall_detection support="none"/>
+			<concurrency support="thread" use="thread"/>
+			<void_safety support="transitional"/>
 		</capability>
 		<library name="randomizer" location="iron:randomizer:randomizer.ecf"/>
 		<library name="testing" location="$ISE_LIBRARY\library\testing\testing-safe.ecf"/>

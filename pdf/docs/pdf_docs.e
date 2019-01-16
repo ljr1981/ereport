@@ -1,6 +1,5 @@
 note
 	description: "Summary description for {PDF_DOCS}."
-	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
 	high_level_documentation: "[
 		PROJECT STRUCTURE

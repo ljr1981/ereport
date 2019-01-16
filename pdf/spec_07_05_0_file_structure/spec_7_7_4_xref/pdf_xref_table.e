@@ -59,7 +59,6 @@ feature -- Output
 ;note
 	main_spec: "7.5.4 Cross-Reference Table"
 	other_specs: "EXAMPLEs 1, 2, and 3"
-	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
 	example: "[
 xref

@@ -1,7 +1,6 @@
 note
 	description: "Root class {PDF_ANY}."
 	specification: "ISO 32000-1, section 7.2"
-	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
 deferred class
 	PDF_ANY

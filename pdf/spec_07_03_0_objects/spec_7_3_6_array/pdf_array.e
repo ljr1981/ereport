@@ -83,6 +83,5 @@ feature {NONE} -- Implementation: Delimiters
 ;note
 	main_spec: "ISO 32000-1, section 7.3.6 Array Objects"
 	other_specs: ""
-	EIS: "name=pdf_spec", "protocol=pdf", "src=.\docs\spec\PDF32000_2008.pdf"
 
 end
