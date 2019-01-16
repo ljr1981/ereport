@@ -38,4 +38,22 @@ feature -- Operations
 			create Result.make (100)
 		end
 
+feature -- Output
+
+	pdf_out: STRING
+			-- <Precursor>
+		do
+			create Result.make_empty
+			if not operations.is_empty then
+				across
+					operations as ic_ops
+				loop
+					Result.append_string_general (ic_ops.item)
+					Result.append_character ('%N')
+				end
+			else
+				Result.append_character ('%N')
+			end
+		end
+
 end

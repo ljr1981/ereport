@@ -5,6 +5,20 @@ note
 class
 	PDF_DOC_FACTORY
 
+inherit
+	ANY
+		redefine
+			default_create
+		end
+
+feature {NONE} -- Initialization
+
+	default_create
+			-- <Precursor>
+		do
+			Precursor
+		end
+
 feature -- Access: Catalog
 
 	catalog_ind_obj: TUPLE [pages: attached like page_tree_ind_obj]

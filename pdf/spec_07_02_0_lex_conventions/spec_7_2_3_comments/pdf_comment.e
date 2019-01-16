@@ -33,9 +33,14 @@ feature -- Output
 	pdf_out: STRING
 			-- <Precursor>
 		do
-			create Result.make (text.count + 1)
+			create Result.make (text.count + 2)
 			Result.append_character (Percent)
+			Result.append_character (Space)
 			Result.append_string_general (text)
+		ensure then
+			size: Result.count = text.count + 2
+			prefixed: Result.substring (1, 2).same_string (Percent.out + Space.out)
+			has_text: Result.has_substring (text)
 		end
 
 feature {NONE} -- Implementation: Access

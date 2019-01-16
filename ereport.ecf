@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-18-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-18-0 http://www.eiffel.com/developers/xml/configuration-1-18-0.xsd" name="ereport" uuid="27C3380D-F1E0-A9EF-B7DA-00005215815C" readonly="false" library_target="ereport">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-19-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-19-0 http://www.eiffel.com/developers/xml/configuration-1-19-0.xsd" name="ereport" uuid="27C3380D-F1E0-A9EF-B7DA-00005215815C" readonly="false" library_target="ereport">
 	<description>ereport implementation</description>
 	<target name="ereport">
 		<root all_classes="true"/>
@@ -14,7 +14,7 @@
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="decimal" location="iron:decimal:decimal\decimal.ecf"/>
 		<library name="encoder" location="iron:ewf:text\encoder\encoder.ecf"/>
-		<library name="framework" location="iron:framework:framework.ecf"/>
+		<library name="framework" location="C:\Users\LJR19\OneDrive\Documents\GitHub\Framework\framework.ecf"/>
 		<library name="json_ext" location="iron:json_ext:json_ext.ecf"/>
 		<library name="test_extension" location="iron:test_extension:test_extension.ecf"/>
 		<library name="time" location="iron:time:time.ecf"/>

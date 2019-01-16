@@ -10,6 +10,9 @@ note
 deferred class
 	PDF_STREAM_OBJECT_ITEM
 
+inherit
+	PDF_ANY
+
 feature -- Access
 
 	current_x, current_y: INTEGER
