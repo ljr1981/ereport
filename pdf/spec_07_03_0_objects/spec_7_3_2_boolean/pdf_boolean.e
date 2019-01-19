@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PDF_BOOLEAN}."
+	description: "Representation of a {PDF_BOOLEAN}."
 	EIS: "name=7.3.2 Boolean Objects", "protocol=URI", "src=https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=22&view=FitH", "override=true"
 
 class
@@ -26,13 +26,13 @@ feature {NONE} -- Initialization
 		end
 
 	make_true
-			--
+			-- `make_true' where Current is "true"
 		do
 			set_true
 		end
 
 	make_false
-			--
+			-- `make_false' where Current is "true"
 		do
 			set_false
 		end
@@ -45,6 +45,7 @@ feature -- Settings
 feature -- Output
 
 	pdf_out: STRING
+			-- <Precursor>
 		do
 			create Result.make_empty
 			if value then
@@ -59,8 +60,5 @@ feature {NONE} -- Implementation: Delimiters
 
 	opening_delimiter: STRING once ("OBJECT") Result := Space.out end
 	closing_delimiter: STRING once ("OBJECT") Result := Space.out end
-
-;note
-	other_specs: ""
 
 end
