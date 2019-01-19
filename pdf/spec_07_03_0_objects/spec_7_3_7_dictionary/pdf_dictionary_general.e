@@ -24,11 +24,25 @@ inherit
 
 create
 	default_create,
+	make,
 	make_with_pages,
 	make_with_type,
 	make_with_outlines
 
 feature {NONE} -- Initialization
+
+	default_create
+			-- <Precursor>
+		do
+			Precursor
+			create objects.make (10)
+		end
+
+	make
+			--
+		do
+			default_create
+		end
 
 	make_with_pages (a_type_value: STRING; a_pages_ref: PDF_OBJECT_REFERENCE)
 			--
@@ -60,12 +74,6 @@ feature {NONE} -- Initialization
 			check has_outlines: attached outlines as al_outlines then
 				add_object (al_outlines)
 			end
-		end
-
-	default_create
-			-- <Precursor>
-		do
-			create objects.make (10)
 		end
 
 feature -- Access
@@ -148,22 +156,19 @@ feature -- Output
 feature {NONE} -- Implementation
 
 	objects_attached: attached like objects
+			-- Attached version of `objects'.
 		do
 			check attached objects as al then Result := al end
 		end
 
 feature {NONE} -- Implementation: Delimiters
 
-	opening_delimiter: STRING = "<<"
-	closing_delimiter: STRING = ">>"
+	opening_delimiter: STRING once ("OBJECT") Result := Double_opening_angle_brackets end -- "<<"
+	closing_delimiter: STRING once ("OBJECT") Result := Double_closing_angle_brackets end -- ">>"
 
 invariant
 	type_set: type.key.pdf_out.same_string_general ("/Type")
 	pages_set: attached pages as al_pages implies al_pages.key.pdf_out.same_string_general ("/Pages")
 	outlines_set: attached outlines as al_outlines implies al_outlines.key.pdf_out.same_string_general ("/Outlines")
-
-;note
-	main_spec: ""
-	other_specs: ""
 
 end

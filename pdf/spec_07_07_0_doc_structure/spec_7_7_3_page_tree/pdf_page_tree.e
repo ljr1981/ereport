@@ -16,7 +16,7 @@ feature {NONE} -- Initialization
 	make
 			-- `make' Current with no `kids'.
 		do
-			make_with_kids (<<>>)
+			make_with_kids ({ARRAY [PDF_OBJECT_REFERENCE]} <<>>)
 		end
 
 	make_with_kids (a_kids: ARRAY [PDF_OBJECT_REFERENCE])
