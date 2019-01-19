@@ -75,7 +75,7 @@ feature -- Access
 feature -- Queries
 
 	literal_from_hex: attached like literal_text
-			--
+			-- Convert `hex_data' to `literal_text'.
 		do
 			create Result.make (hex_data.count)
 			across
@@ -83,16 +83,24 @@ feature -- Queries
 			loop
 				Result.append_string_general (ic.item.out)
 			end
+			hex_data.wipe_out
+		ensure
+			wiped: hex_data.is_empty
+			converted: attached literal_text as al_text and then al_text.count = old hex_data.count
 		end
 
 	hex_from_literal: like hex_data
-			-- `hex_from_literal'
+			-- Convert `literal_text' to `hex_data'
 		do
 			if attached literal_text as al then
 				create Result.make (al.count)
 			else
 				create Result.make (0)
 			end
+			literal_text := Void
+		ensure
+			converted: attached old literal_text as al_text implies al_text.count = hex_data.count
+			detached: not attached literal_text
 		end
 
 feature -- Output
@@ -109,7 +117,7 @@ feature -- Output
 		end
 
 	literal_text_out: STRING
-			--
+			-- Output of `literal_text' as a simple string.
 		do
 			Result := opening_delimiter.twin
 			if attached literal_text as al then
@@ -149,10 +157,11 @@ feature -- Output
 		end
 
 	hex_out: STRING
+			-- Output of `hex_data' as a simple string.
 		local
 			l_hex: STRING
 		do
-			Result := "<"
+			Result := opening_delimiter.twin
 			across
 				hex_data as ic
 			loop
@@ -160,14 +169,14 @@ feature -- Output
 				l_hex.remove_head (ic.item // 16)
 				Result.append_string_general (l_hex)
 			end
-			Result.append_character ('>')
+			Result.append_string_general (closing_delimiter.out)
 		end
 
 feature {NONE} -- Implementation: Delimiters
 
 	opening_delimiter: STRING
 			-- <Precursor>
-		once ("OBJECT")
+		do
 			if attached literal_text and hex_data.is_empty then
 				Result := left_parenthesis.out
 			else
@@ -177,7 +186,7 @@ feature {NONE} -- Implementation: Delimiters
 
 	closing_delimiter: STRING
 			-- <Precursor>
-		once ("OBJECT")
+		do
 			if attached literal_text and hex_data.is_empty then
 				Result := right_parenthesis.out
 			else
