@@ -24,12 +24,13 @@ inherit
 
 create
 	default_create,
-	make,
+	make_with_pages,
+	make_with_type,
 	make_with_outlines
 
 feature {NONE} -- Initialization
 
-	make (a_type_value: STRING; a_pages_ref: PDF_OBJECT_REFERENCE)
+	make_with_pages (a_type_value: STRING; a_pages_ref: PDF_OBJECT_REFERENCE)
 			--
 		do
 			default_create
@@ -53,7 +54,7 @@ feature {NONE} -- Initialization
 	make_with_outlines (a_type_value: STRING; a_pages_ref, a_outlines_ref: PDF_OBJECT_REFERENCE)
 			--
 		do
-			make (a_type_value, a_pages_ref)
+			make_with_pages (a_type_value, a_pages_ref)
 			create outlines.make_as_obj_ref ("Outlines", a_outlines_ref)
 
 			check has_outlines: attached outlines as al_outlines then
