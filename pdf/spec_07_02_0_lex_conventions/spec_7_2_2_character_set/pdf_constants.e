@@ -89,4 +89,10 @@ feature {NONE} -- Implementation: Delimiter Characters
 	percent: CHARACTER once create Result; Result.code.set_item ({ASCII}.percent) end
 			-- Percent, or "%".
 
+feature -- Names
+
+	type_name: STRING = "/Type"
+	pages_name: STRING = "/Pages"
+	outlines_name: STRING = "/Outlines"
+
 end
