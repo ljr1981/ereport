@@ -9,24 +9,52 @@ inherit
 	PDF_OBJECT [STRING]
 		rename
 			value as literal_text
+		redefine
+			default_create
 		end
 
 create
+	default_create,
 	make_as_literal,
+	make_as_hex_from_literal,
 	make_as_hex
 
 feature {NONE} -- Intialization
 
+	default_create
+			-- <Precursor>
+			-- `default_create' with empty `literal_text' and no `hex_data'
+		do
+			Precursor
+			create literal_text.make_empty
+		ensure then
+			set: attached literal_text as al_literal_text and then al_literal_text.is_empty and then not attached hex_data
+		end
+
 	make_as_literal (s: STRING)
-			--
+			-- `make_as_literal' of `s'
 		do
 			literal_text := s
 		ensure
 			attached literal_text as al and then al.same_string (s)
 		end
 
+	make_as_hex_from_literal (s: STRING)
+			-- `make_as_hex_from_literal' in `s'.
+		local
+			l_list: ARRAY [INTEGER]
+		do
+			create l_list.make_filled (0, 1, s.count)
+			across
+				s as ic
+			loop
+				l_list.put (ic.item.code, ic.cursor_index)
+			end
+			make_as_hex (l_list)
+		end
+
 	make_as_hex (a_list: ARRAY [INTEGER])
-			--
+			-- `make_as_hex' from `a_list'
 		do
 			create hex_data.make (a_list.count)
 			across
@@ -58,7 +86,7 @@ feature -- Queries
 		end
 
 	hex_from_literal: like hex_data
-			--
+			-- `hex_from_literal'
 		do
 			if attached literal_text as al then
 				create Result.make (al.count)
@@ -137,11 +165,24 @@ feature -- Output
 
 feature {NONE} -- Implementation: Delimiters
 
-	opening_delimiter: STRING once ("OBJECT") Result := left_parenthesis.out end
-	closing_delimiter: STRING once ("OBJECT") Result := right_parenthesis.out end
+	opening_delimiter: STRING
+			-- <Precursor>
+		once ("OBJECT")
+			if attached literal_text and hex_data.is_empty then
+				Result := left_parenthesis.out
+			else
+				Result := left_angle_bracket.out
+			end
+		end
 
-;note
-	main_spec: "ISO 32000-1, section 7.3.4.2 Literal Strings"
-	other_specs: ""
+	closing_delimiter: STRING
+			-- <Precursor>
+		once ("OBJECT")
+			if attached literal_text and hex_data.is_empty then
+				Result := right_parenthesis.out
+			else
+				Result := right_angle_bracket.out
+			end
+		end
 
 end

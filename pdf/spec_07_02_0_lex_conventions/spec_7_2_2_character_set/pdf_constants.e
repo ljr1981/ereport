@@ -68,6 +68,12 @@ feature {NONE} -- Implementation: Delimiter Characters
 	right_curly_bracket, closing_brace: CHARACTER once Result := '}' end
 			-- Right Curly Bracket or Closing Brace, or "}".
 
+	left_angle_bracket, opening_angle_bracket: CHARACTER once Result := '<' end
+			-- Left Angle Bracket or Opening Brace, or "<".
+
+	right_angle_bracket, closing_angle_bracket: CHARACTER once Result := '>' end
+			-- Right Angle Bracket or Closing Brace, or ">".
+
 	solidus, slash: CHARACTER once Result := '/' end
 			-- Solidus or Slash, or "/". (not back-slash, but forward)
 
