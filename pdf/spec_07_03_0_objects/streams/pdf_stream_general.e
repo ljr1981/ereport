@@ -1,5 +1,17 @@
 note
-	description: "Summary description for {PDF_STREAM_GENERAL}."
+	title: "Representation of a {PDF_STREAM_GENERAL}."
+	EIS: "name=7.3.8 Stream Objects", "protocol=URI", "src=https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=27&view=FitH", "override=true"
+	description: "[
+		A stream object, like a string object, is a sequence of bytes. Furthermore, a stream may be of unlimited length,
+		whereas a string shall be subject to an implementation limit. For this reason, objects with potentially large
+		amounts of data, such as images and page descriptions, shall be represented as streams.
+		
+		NOTE 1 This sub-clause describes only the syntax for writing a stream as a sequence of bytes. The context in which a
+		stream is referenced determines what the sequence of bytes represent.
+		
+		A stream shall consist of a dictionary followed by zero or more bytes bracketed between the keywords stream
+		(followed by newline) and endstream.
+		]"
 
 deferred class
 	PDF_STREAM_GENERAL [G -> detachable ANY]
