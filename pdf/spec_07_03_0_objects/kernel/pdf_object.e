@@ -21,20 +21,6 @@ inherit
 			pdf_out
 		end
 
-feature -- Output
-
-	pdf_out: STRING
-			-- <Precursor>
-		do
-			create Result.make_empty
-			if object_number > 0 then
-				Result.append_string_general (object_number.out)
-				Result.append_character (' ')
-				Result.append_string_general (generation_number.out)
-				Result.append_character (' ')
-			end
-		end
-
 feature -- Access
 
 	opening_delimiter: STRING
@@ -140,6 +126,20 @@ feature -- Queries
 				l_codes.force (ic.item.code)
 			end
 			Result := l_codes.to_array
+		end
+
+feature -- Output
+
+	pdf_out: STRING
+			-- <Precursor>
+		do
+			create Result.make_empty
+			if object_number > 0 then
+				Result.append_string_general (object_number.out)
+				Result.append_character (' ')
+				Result.append_string_general (generation_number.out)
+				Result.append_character (' ')
+			end
 		end
 
 invariant
