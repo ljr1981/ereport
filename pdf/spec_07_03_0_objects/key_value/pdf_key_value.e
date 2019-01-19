@@ -8,6 +8,8 @@ inherit
 	PDF_OBJECT [TUPLE [key: PDF_NAME; value: PDF_OBJECT [detachable ANY]]]
 		rename
 			value as item
+		redefine
+			pdf_out
 		end
 
 create

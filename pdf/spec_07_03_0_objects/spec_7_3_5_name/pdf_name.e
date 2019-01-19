@@ -32,6 +32,8 @@ inherit
 	PDF_OBJECT [STRING]
 		rename
 			value as text
+		redefine
+			pdf_out
 		end
 
 create

@@ -140,10 +140,15 @@ feature -- Test routines
 			testing:  "execution/isolated"
 		local
 			l_item: PDF_ARRAY_INDIRECT_OBJECTS
+			l_obj: PDF_INDIRECT_OBJECT
 		do
 			create l_item
-			l_item.add_item (create {PDF_INDIRECT_OBJECT})
-			l_item.add_item (create {PDF_INDIRECT_OBJECT})
+			create l_obj
+			l_obj.set_object_number (1)
+			l_item.add_item (l_obj)
+			create l_obj
+			l_obj.set_object_number (2)
+			l_item.add_item (l_obj)
 			assert_strings_equal ("indirect_objects_text", indirect_objects_text, l_item.pdf_out)
 		end
 

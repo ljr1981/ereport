@@ -7,6 +7,10 @@ class
 
 inherit
 	PDF_OBJECT [detachable ANY]
+		redefine
+			set_parent_ref,
+			pdf_out
+		end
 
 create
 	make_with_object
@@ -21,13 +25,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	object: PDF_INDIRECT_OBJECT
-
-	parent_ref: detachable like object.parent_ref
-			--
-		do
-			Result := object.parent_ref
-		end
+	object: PDF_OBJECT [detachable ANY]
 
 feature -- Settings
 

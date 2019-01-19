@@ -12,6 +12,15 @@ note
 		A stream shall consist of a dictionary followed by zero or more bytes bracketed between the keywords stream
 		(followed by newline) and endstream.
 		]"
+	example: "[
+		<< dictionary >>
+		stream
+		...
+		endstream
+		]"
+	eBNF: "[
+
+		]"
 
 deferred class
 	PDF_STREAM_GENERAL [G -> detachable ANY]
@@ -19,7 +28,8 @@ deferred class
 inherit
 	PDF_OBJECT [G]
 		redefine
-			default_create
+			default_create,
+			pdf_out
 		end
 
 feature {NONE} -- Initialization
@@ -81,14 +91,5 @@ feature {NONE} -- Implementation: Delimiters
 
 	opening_delimiter: STRING once ("OBJECT") Result := "stream" end
 	closing_delimiter: STRING once ("OBJECT") Result := "endstream" end
-
-;note
-	ref: "7.3.8 Stream Objects"
-	structure: "[
-		<< dictionary >>
-		stream
-		...
-		endstream
-		]"
 
 end

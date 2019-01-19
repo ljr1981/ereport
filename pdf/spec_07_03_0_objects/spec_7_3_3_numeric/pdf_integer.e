@@ -16,6 +16,9 @@ class
 
 inherit
 	PDF_NUMERIC [INTEGER]
+		redefine
+			pdf_out
+		end
 
 create
 	default_create,

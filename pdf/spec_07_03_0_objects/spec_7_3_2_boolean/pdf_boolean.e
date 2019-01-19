@@ -8,7 +8,8 @@ class
 inherit
 	PDF_OBJECT [BOOLEAN]
 		redefine
-			default_create
+			default_create,
+			pdf_out
 		end
 
 create

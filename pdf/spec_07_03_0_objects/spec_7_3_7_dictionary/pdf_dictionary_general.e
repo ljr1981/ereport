@@ -19,7 +19,8 @@ inherit
 		rename
 			value as objects
 		redefine
-			default_create
+			default_create,
+			pdf_out
 		end
 
 create

@@ -11,7 +11,8 @@ inherit
 		rename
 			value as items
 		redefine
-			default_create
+			default_create,
+			pdf_out
 		end
 
 feature {NONE} -- Initialization

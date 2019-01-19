@@ -10,7 +10,8 @@ inherit
 		rename
 			value as literal_text
 		redefine
-			default_create
+			default_create,
+			pdf_out
 		end
 
 create

@@ -10,7 +10,8 @@ inherit
 		rename
 			value as objects
 		redefine
-			default_create
+			default_create,
+			pdf_out
 		end
 
 feature {NONE} -- Initialization
@@ -36,7 +37,7 @@ feature -- Output
 	pdf_out: STRING
 			-- <Precursor>
 		do
-			create Result.make_empty
+			Result := Precursor
 			Result.append_string_general (opening_delimiter)
 			Result.append_character ('%N')
 

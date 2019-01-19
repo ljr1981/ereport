@@ -13,7 +13,8 @@ class
 inherit
 	PDF_NUMERIC [DECIMAL]
 		redefine
-			default_create
+			default_create,
+			pdf_out
 		end
 
 create
