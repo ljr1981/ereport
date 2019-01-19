@@ -80,14 +80,16 @@ feature -- Access
 
 	type: PDF_KEY_VALUE_NAME
 			-- The `type' of PDF object this dictionary describes.
-			-- Shall be "Catalog" for the catalog dictionary.
+			-- Defaulted to "Catalog" for the catalog dictionary.
 		attribute
 			create Result.make ("Type", "Unknown")
 		end
 
 	pages: detachable PDF_KEY_VALUE
+			-- The `pages' key-value pair of Current.
 
 	outlines: detachable PDF_KEY_VALUE
+			-- The `outlines' key-value pair of Current.
 
 feature -- Settings
 
