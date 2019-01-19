@@ -3,7 +3,7 @@
 	<description>ereport implementation</description>
 	<target name="ereport">
 		<note>
-			<EIS auto="true" src="$(system_path)/docs/specs/PDF32000_2008.pdf"/>
+			<eis auto="true" src="https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=1" protocol="pdf" type="file" nameddest="7.3.2" name="PDF Specification"/>
 		</note>
 		<root all_classes="true"/>
 		<option warning="true" syntax="provisional" manifest_array_type="mismatch_warning">
@@ -36,7 +36,7 @@
 	</target>
 	<target name="test" extends="ereport">
 		<note>
-			<EIS auto="true" src="$(system_path)/docs/specs/PDF32000_2008.pdf"/>
+			<eis auto="true" src="$(system_path)/docs/specs/PDF32000_2008.pdf"/>
 		</note>
 		<description>ereport Tests</description>
 		<root class="ANY" feature="default_create"/>

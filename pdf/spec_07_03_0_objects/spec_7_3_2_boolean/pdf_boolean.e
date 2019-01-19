@@ -1,6 +1,6 @@
 note
 	description: "Summary description for {PDF_BOOLEAN}."
-	main_spec: "ISO 32000-1, section 7.3.2 Boolean Objects"
+	EIS: "name=7.3.2 Boolean Objects", "protocol=URI", "src=https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=22&view=FitH", "override=true"
 
 class
 	PDF_BOOLEAN

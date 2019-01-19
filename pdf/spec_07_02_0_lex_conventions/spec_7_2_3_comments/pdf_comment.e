@@ -1,5 +1,6 @@
 note
 	description: "Representation of a {PDF_COMMENT}."
+	EIS: "name=7.2.3 Comments", "protocol=URI", "src=https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=21&view=FitH", "override=true"
 
 class
 	PDF_COMMENT

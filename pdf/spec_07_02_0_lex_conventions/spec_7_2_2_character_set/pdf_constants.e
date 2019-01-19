@@ -1,5 +1,6 @@
 note
 	description: "Representation of {PDF_CONSTANTS}."
+	EIS: "name=7.2.2 Character Set", "protocol=URI", "src=https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=20&view=FitH", "override=true"
 
 class
 	PDF_CONSTANTS

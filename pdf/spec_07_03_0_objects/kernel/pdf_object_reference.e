@@ -1,5 +1,6 @@
 note
 	description: "Summary description for {PDF_OBJECT_REFERENCE}."
+	EIS: "name=7.3 Objects", "protocol=URI", "src=https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=21&view=FitH", "override=true"
 
 class
 	PDF_OBJECT_REFERENCE

@@ -1,5 +1,6 @@
 note
 	description: "Representation of a {PDF_STREAM_ENTRY}."
+	EIS: "name=7.3.8", "protocol=URI", "src=https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=27&zoom=150", "override=true"
 
 class
 	PDF_STREAM_ENTRY

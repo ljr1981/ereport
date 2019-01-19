@@ -1,5 +1,7 @@
 note
 	description: "General array of {PDF_OBJECT} items"
+	EIS: "name=7.3.6 Array Objects", "protocol=URI", "src=https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=26", "override=true"
+
 
 deferred class
 	PDF_ARRAY_GENERAL [G -> PDF_OBJECT [detachable ANY]]

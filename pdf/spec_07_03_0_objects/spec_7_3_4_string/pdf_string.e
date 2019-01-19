@@ -1,5 +1,6 @@
 note
 	description: "Summary description for {PDF_STRING}."
+	EIS: "name=7.3.4 String Objects", "protocol=URI", "src=https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=22&view=FitH", "override=true"
 
 class
 	PDF_STRING
