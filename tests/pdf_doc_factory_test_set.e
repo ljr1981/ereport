@@ -150,7 +150,8 @@ feature -- Test routines
 	build_multi_page_4_pdf_file_test
 			-- New test routine
 		note
-			testing:  "execution/isolated"
+			testing:  "execution/isolated",
+						"execution/serial"
 		local
 			l_item: PDF_DOC_FACTORY
 			l_file: PLAIN_TEXT_FILE

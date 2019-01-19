@@ -1,6 +1,15 @@
-note
-	description: "Summary description for {PDF_DICTIONARY_GENERAL}."
+﻿note
+	title: "Representation of a {PDF_DICTIONARY_GENERAL}."
 	EIS: "name=7.3.7 Dictionary Objects", "protocol=URI", "src=https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=26&view=FitH", "override=true"
+	description: "[
+		A dictionary object is an associative table containing pairs of objects, known as the dictionary’s entries. The first
+		element of each entry is the key and the second element is the value. The key shall be a name (unlike
+		dictionary keys in PostScript, which may be objects of any type). The value may be any kind of object, including
+		another dictionary. A dictionary entry whose value is null (see 7.3.9, "Null Object") shall be treated the same as
+		if the entry does not exist. (This differs from PostScript, where null behaves like any other object as the value
+		of a dictionary entry.) The number of entries in a dictionary shall be subject to an implementation limit; see
+		Annex C. A dictionary may have zero entries.
+		]"
 
 class
 	PDF_DICTIONARY_GENERAL
