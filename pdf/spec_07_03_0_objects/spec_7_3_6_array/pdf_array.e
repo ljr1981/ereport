@@ -1,6 +1,12 @@
-note
-	description: "Summary description for {PDF_ARRAY}."
+﻿note
+	title: "Representation of a {PDF_ARRAY}."
 	EIS: "name=7.3.6 Array Objects", "protocol=URI", "src=https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=26&view=FitH", "override=true"
+	description: "[
+		An array object is a one-dimensional collection of objects arranged sequentially. Unlike arrays in many other
+		computer languages, PDF arrays may be heterogeneous; that is, an array’s elements may be any combination
+		of numbers, strings, dictionaries, or any other objects, including other arrays. An array may have zero
+		elements.
+		]"
 
 class
 	PDF_ARRAY
@@ -23,7 +29,9 @@ feature {NONE} -- Initialization
 
 	default_create
 			-- <Precursor>
+			-- `make_with_objects' of empty-set.
 		do
+			Precursor
 			make_with_objects (<<>>)
 		end
 
@@ -40,7 +48,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_with_obj_refs (a_refs: ARRAY [PDF_OBJECT_REFERENCE])
-			--
+			-- `make_with_obj_refs' in `a_refs' array into `items' of Current.
 		do
 			create items.make_from_array (a_refs)
 		end
@@ -48,7 +56,7 @@ feature {NONE} -- Initialization
 feature -- Settings
 
 	add_item (a_item: PDF_OBJECT [detachable ANY])
-			--
+			-- `add_item' of `a_item' to `items' of Current.
 		do
 			check has_items: attached items as al_items then
 				al_items.force (a_item)
@@ -58,6 +66,7 @@ feature -- Settings
 feature -- Output
 
 	pdf_out: STRING
+			-- <Precursor>
 		do
 			create Result.make_empty
 			Result.append_character ('[')
@@ -80,9 +89,5 @@ feature {NONE} -- Implementation: Delimiters
 
 	opening_delimiter: STRING once ("OBJECT") Result := left_square_bracket.out end
 	closing_delimiter: STRING once ("OBJECT") Result := right_square_bracket.out end
-
-;note
-	main_spec: "ISO 32000-1, section 7.3.6 Array Objects"
-	other_specs: ""
 
 end
