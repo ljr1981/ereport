@@ -76,7 +76,7 @@ feature {NONE} -- Test Support: Basic Page
 			l_content_object.set_object_number (5)
 			create a_contents_ref.make_with_object (l_content_object)
 			a_media_box := [0, 0, 612, 792]
-			a_font_array := <<>>
+			a_font_array := {ARRAY [PDF_FONT]} <<>>
 			create a_parent_object
 			a_parent_object.set_object_number (3)
 

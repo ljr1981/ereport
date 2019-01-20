@@ -268,14 +268,13 @@ xref
 			l_outlines_2: PDF_OUTLINES
 			l_catalog_1: PDF_CATALOG
 
-			l_dic_5: PDF_DICTIONARY_GENERAL
-
 			l_but_got: STRING
 		do
 			create l_doc
 			l_doc.header.set_version (4)
 
-			create l_ind_5; create l_dic_5; l_ind_5.add_object (l_dic_5)
+			create l_ind_5
+			l_ind_5.add_object (create {PDF_DICTIONARY_GENERAL})
 
 			create l_page_4.make (l_ind_5.ref, [0, 0, 612, 792])
 			create l_pages_3.make_with_kids (<<l_page_4.ref>>)

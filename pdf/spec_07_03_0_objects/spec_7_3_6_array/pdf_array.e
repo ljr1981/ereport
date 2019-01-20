@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			-- `make_with_objects' of empty-set.
 		do
 			Precursor
-			make_with_objects (<<>>)
+			make_with_objects ({ARRAY [PDF_OBJECT [detachable ANY]]} <<>>)
 		end
 
 	make_with_objects (a_objects: ARRAY [PDF_OBJECT [detachable ANY]])

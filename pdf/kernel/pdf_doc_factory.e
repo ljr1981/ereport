@@ -333,7 +333,7 @@ feature -- Basic Operations
 
 				-- O3-2 PAGE TREE
 			catalog_ind_obj.pages := page_tree_ind_obj
-			page_tree_ind_obj.kids := (create {ARRAYED_LIST [attached like new_page_ind_obj]}.make (10))
+			page_tree_ind_obj.kids := create {ARRAYED_LIST [attached like new_page_ind_obj]}.make (10)
 
 				-- O3-3 FONTS
 			across

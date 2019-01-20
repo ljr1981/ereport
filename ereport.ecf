@@ -13,7 +13,7 @@
 		<setting name="console_application" value="true"/>
 		<capability>
 			<catcall_detection support="none"/>
-			<concurrency support="thread" use="thread"/>
+			<concurrency support="scoop" use="thread"/>
 			<void_safety support="transitional" use="transitional"/>
 		</capability>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
@@ -31,7 +31,7 @@
 				<exclude>/.svn$</exclude>
 				<exclude>/CVS$</exclude>
 				<exclude>/EIFGENs$</exclude>
-				<exclude>tests</exclude>
+				<exclude>/tests$</exclude>
 			</file_rule>
 		</cluster>
 	</target>
@@ -46,14 +46,14 @@
 			<exclude>/.svn$</exclude>
 			<exclude>/CVS$</exclude>
 			<exclude>/EIFGENs$</exclude>
-			<include>tests</include>
+			<include>/tests$</include>
 		</file_rule>
 		<option profile="false">
 		</option>
 		<setting name="console_application" value="false"/>
 		<capability>
 			<catcall_detection support="none"/>
-			<concurrency support="thread" use="thread"/>
+			<concurrency support="scoop" use="thread"/>
 			<void_safety support="transitional"/>
 		</capability>
 		<library name="randomizer" location="iron:randomizer:randomizer.ecf"/>

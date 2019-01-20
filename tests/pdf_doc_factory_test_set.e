@@ -103,20 +103,14 @@ feature -- Test routines
 
 				-- Support
 			l_file: PLAIN_TEXT_FILE
-			l_rand: RANDOMIZER
 			l_list: ARRAYED_LIST [TUPLE [STRING, STRING, INTEGER, INTEGER]]
-			l_font_name: STRING
-			l_font_number,
 			l_font_size: INTEGER
 		do
 				-- Supporting code
-			create l_rand
 			create l_list.make (200)
 			across
 				1 |..| 100 as ic
 			loop
-				l_font_number := 1 --l_rand.random_integer_in_range (1 |..| fonts_list.count)
-				l_font_name := fonts_list [l_font_number]
 				l_font_size := 20 --l_rand.random_integer_in_range (6 |..| 20)
 				if (ic.cursor_index \\ 2) = 0 then
 					l_list.force (["blah_courier", "CourierNew", l_font_size, 36])

@@ -327,9 +327,9 @@ feature -- Access
 				loop
 					i := ic.item
 					if attached Result [i] as al_left_item and then attached Result [i + 1] as al_right_item then
-						al_left_item.x_right := (al_right_item.x - Default_gutter_width)
+						al_left_item.x_right := al_right_item.x - Default_gutter_width
 					elseif attached Result [i] as al_left_item then
-						al_left_item.x_right := (media_box.bounds.urx - Default_gutter_width)
+						al_left_item.x_right := media_box.bounds.urx - Default_gutter_width
 					else
 						check unknown_condition: False end
 					end

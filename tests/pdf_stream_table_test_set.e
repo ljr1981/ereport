@@ -122,12 +122,10 @@ feature {NONE} -- Testing: Support
 		note
 			testing:  "execution/isolated"
 		local
-			l_rows_count,
 			l_item_count: INTEGER
 		do
 				-- Prep work
 			l_item_count := Page_count_4 * Lines_count_30 * Columns_count_4
-			l_rows_count := (l_item_count / Columns_count_4).truncated_to_integer
 
 				-- Application
 			stream_table_3.generate_pages_and_streams (Left_margin_36, Top_margin_36, Right_margin_36, Bottom_margin_36)
