@@ -39,7 +39,7 @@ feature -- Access
 	comment: detachable PDF_COMMENT
 			-- A `comment' for Current (if any).
 
-feature -- Access
+feature -- Access: Indirect
 
 	object_number: INTEGER
 
@@ -60,8 +60,6 @@ feature -- Settings
 			parent_ref := a_ref
 		end
 
-feature -- Settings
-
 	set_object_number (n: like object_number)
 			--
 		do
@@ -81,8 +79,6 @@ feature -- Settings
 		ensure
 			set: old generation_number = 0 implies generation_number = n
 		end
-
-feature -- Settings
 
 	set_value (a_value: attached like value)
 			-- `set_value' of `a_value' into `value'.
