@@ -4,6 +4,7 @@
 	<target name="ereport">
 		<note>
 			<eis auto="true" src="https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=1" protocol="pdf" type="file" nameddest="7.3.2" name="PDF Specification"/>
+			<eis name="Unnamed" protocol="URI" src="https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf#page=1&amp;view=FitH" tag="PDF Specification"/>
 		</note>
 		<root all_classes="true"/>
 		<option warning="true" syntax="provisional" manifest_array_type="mismatch_warning">
